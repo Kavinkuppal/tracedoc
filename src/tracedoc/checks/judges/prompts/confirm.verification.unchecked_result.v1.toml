@@ -1,0 +1,16 @@
+id = "verification.unchecked_result"
+version = 1
+title = "No checking before finishing"
+group = "verification"
+default_severity = "low"
+scope = ["candidate"]
+triage = "Does the final output make claims that needed checking against earlier results, with no check done?"
+confirms = "verification.unchecked_result"
+confirm = """
+A rule found no critic or verifier step between the last tool result and the final output.
+Decide whether the final output needed checking and did not get it: it makes claims derived
+from tool results or earlier steps that were never checked, and an error would matter.
+
+It is NOT a problem if the agent visibly checked its own answer against the tool results in the
+same step, or if the task is trivial enough that verification adds nothing.
+"""

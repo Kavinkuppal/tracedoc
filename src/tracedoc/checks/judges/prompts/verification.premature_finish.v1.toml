@@ -1,0 +1,17 @@
+id = "verification.premature_finish"
+version = 1
+title = "Finishes before the task is done"
+group = "verification"
+default_severity = "high"
+scope = ["run"]
+triage = "Did the run end before the user's request was actually completed?"
+confirm = """
+Decide whether the run finished prematurely: it ended (a final answer, or routing to the end)
+while part of the user's request was not done, a required step was skipped, or the answer says
+it will do something it never did.
+
+Name the unfinished part of the request.
+
+Do not flag runs that end with an honest explanation of why the task cannot be completed (for
+example, a tool is unavailable), or answers that are short but complete.
+"""

@@ -1,0 +1,16 @@
+id = "design.loop"
+version = 1
+title = "Repeated steps"
+group = "design"
+default_severity = "medium"
+scope = ["candidate"]
+triage = "Are these near-duplicate tool calls the agent repeating essentially the same request without a meaningful change?"
+confirms = "design.loop"
+confirm = """
+A rule flagged these tool calls as near-duplicates: the same tool with very similar arguments.
+Decide whether this is a loop: the agent is repeating essentially the same request without new
+information or a meaningful change of approach.
+
+It is NOT a loop if each call asks for genuinely different information (different entities,
+pages, dates, or a deliberate refinement prompted by the previous result).
+"""

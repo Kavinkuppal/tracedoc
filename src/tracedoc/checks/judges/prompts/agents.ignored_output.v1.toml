@@ -1,0 +1,18 @@
+id = "agents.ignored_output"
+version = 1
+title = "Ignores another agent's output"
+group = "agents"
+default_severity = "high"
+scope = ["handoff", "run"]
+triage = "Did an agent receive another agent's output but drop or contradict an important part of it?"
+confirm = """
+Decide whether an agent ignored another agent's output: the receiving agent had the other
+agent's output in its input, and its own output drops, contradicts, or overrides an important
+part of it (a finding, a caveat, a constraint, a correction) without explanation.
+
+Flag only when the dropped or contradicted content is clearly important to the result: for
+example a caveat that changes how a conclusion should be read, a correction, or a requirement.
+Quote the content from the other agent and show its absence or contradiction in the output.
+
+Do not flag summarization that keeps the substance, or omissions of minor detail.
+"""

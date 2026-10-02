@@ -1,0 +1,20 @@
+id = "design.ignored_instructions"
+version = 1
+title = "Ignores task or role instructions"
+group = "design"
+default_severity = "medium"
+scope = ["run"]
+triage = "Does an agent clearly disobey an explicit instruction in its system prompt or in the user's task?"
+confirm = """
+Decide whether an agent ignored an explicit instruction from its system prompt (its role
+instructions) or from the user's task.
+
+Flag only when:
+- the instruction is explicit and visible in the steps shown (quote it), and
+- the agent's output or action clearly contradicts it (quote that too).
+
+Do not flag:
+- vague or implicit expectations, style preferences, or instructions you are inferring;
+- instructions that conflict with each other, where the agent followed one of them;
+- cases where you cannot see the instruction itself.
+"""

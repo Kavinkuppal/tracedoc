@@ -41,7 +41,7 @@ def test_network_is_blocked() -> None:
 def test_every_agent_declares_its_bug() -> None:
     assert {m.BUG for m in AGENTS.values()} == {
         "design.loop",
-        "agents.incomplete_handoff",
+        "agents.ignored_output",
         "design.no_stop",
         "tools.errors_retries",
         "tools.unused_output",

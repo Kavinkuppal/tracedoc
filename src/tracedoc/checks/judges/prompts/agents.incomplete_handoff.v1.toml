@@ -1,0 +1,18 @@
+id = "agents.incomplete_handoff"
+version = 1
+title = "Handoff missing information the next agent needed"
+group = "agents"
+default_severity = "high"
+scope = ["handoff"]
+triage = "Did the receiving agent lack information it needed because the handoff did not pass it along?"
+confirm = """
+A handoff passes control from a sending agent to a receiving agent. Decide whether the handoff
+was incomplete: information the receiver needed (produced by the sender or earlier in the run)
+was NOT included in what the receiver actually received, and the receiver's work suffered.
+
+Look at what the sender produced and at the receiver's first model input. Flag only when you can
+name the missing information and show it was absent from the receiver's input.
+
+Do not flag cases where the information WAS in the receiver's input but the receiver did not use
+it; that is "ignores another agent's output", a different check.
+"""

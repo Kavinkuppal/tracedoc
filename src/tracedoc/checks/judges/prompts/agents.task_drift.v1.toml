@@ -1,0 +1,17 @@
+id = "agents.task_drift"
+version = 1
+title = "Drifts off the assigned task"
+group = "agents"
+default_severity = "medium"
+scope = ["run"]
+triage = "Does the agent's work or final answer drift away from what the user actually asked for?"
+confirm = """
+Decide whether the run drifted off task: the agent spent its effort on, or answered, something
+other than what the user asked (a different question, a tangent, a broader or narrower scope
+than requested) so that the request is not addressed.
+
+Quote the user's request and the part of the work or answer that drifted.
+
+Do not flag reasonable supporting steps (gathering context needed for the task), or answers that
+address the request and add brief related information.
+"""

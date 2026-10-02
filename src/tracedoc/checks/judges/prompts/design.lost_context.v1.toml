@@ -1,0 +1,18 @@
+id = "design.lost_context"
+version = 1
+title = "Loses earlier context or decisions"
+group = "design"
+default_severity = "medium"
+scope = ["run"]
+triage = "Does an agent contradict, forget, or redo something established earlier in the same run?"
+confirm = """
+Decide whether the agent lost context: it contradicts a fact or decision established earlier in
+the run, asks for information it was already given, or redoes work already completed, because
+that earlier context did not carry forward.
+
+Flag only when both the earlier context and the later contradiction or repetition appear in the
+steps shown; cite both.
+
+Do not flag deliberate revisions (the agent explains why it changed its mind), or repetition
+caused by a tool failure (that is a different check).
+"""

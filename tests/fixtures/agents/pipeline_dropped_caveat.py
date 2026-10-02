@@ -10,7 +10,7 @@ from langgraph.graph.state import CompiledStateGraph
 
 from ._fake import ScriptedChatModel, ai
 
-BUG = "agents.incomplete_handoff"
+BUG = "agents.ignored_output"
 INPUT = {"question": "Did the new onboarding flow improve 30-day retention?"}
 CAVEAT = "CAVEAT: the sample is only 12 customers, so this result is not statistically reliable."
 

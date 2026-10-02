@@ -1,0 +1,16 @@
+id = "agents.no_clarification"
+version = 1
+title = "Guesses instead of asking on ambiguous input"
+group = "agents"
+default_severity = "low"
+scope = ["run"]
+triage = "Was the user's request genuinely ambiguous, and did the agent guess instead of asking or stating its assumption?"
+confirm = """
+Decide whether the user's input was genuinely ambiguous in a way that changes the answer
+(missing a required detail, two reasonable readings that lead to different results), and the
+agent silently picked one interpretation instead of asking or stating its assumption.
+
+Flag only when you can name the ambiguity and the alternative reading. Do not flag requests that
+are merely brief, or where any reasonable reading gives the same result, or where the agent
+stated its assumption.
+"""
