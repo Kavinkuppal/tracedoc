@@ -164,6 +164,8 @@ def main(argv: list[str] | None = None) -> int:
         status = "enabled" if ok else "disabled by default"
         if key.startswith("confirm."):
             status = "confirmation (always on)"
+        if args.mock:
+            status = "mock: harness check only, not a measurement"
         print(
             f"{key:45} {score.n:>3} {_pct(score.precision)} {_pct(score.recall):>6}  {status}"
             + (f"  ({score.errors} errors)" if score.errors else "")

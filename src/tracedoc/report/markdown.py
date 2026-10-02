@@ -11,7 +11,9 @@ def _money(x: float | None) -> str:
 
 
 def _secs(x: float | None) -> str:
-    return "n/a" if x is None else f"{x:.1f}s"
+    if x is None:
+        return "n/a"
+    return f"{x * 1000:.2g} ms" if x < 1 else f"{x:.3g} s"
 
 
 def render_markdown(report: Report, html_name: str = "report.html") -> str:

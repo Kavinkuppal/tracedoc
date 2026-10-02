@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from markdown_it import MarkdownIt
 
 from tests.fixtures.agents import AGENTS
 from tests.helpers import load_fixture
@@ -247,11 +248,26 @@ def test_write_reports_outputs_validate(analyzed, tmp_path: Path) -> None:
     assert parsed.distributions["flow"]["nodes"]
     assert parsed.node_stats["writer"]["visits"] == 5  # pipeline 1, healthy 1, supervisor 3
     md = (tmp_path / "report.md").read_text()
-    assert md.startswith("# Agent trace diagnosis\n")
-    assert "[report.html](report.html)" in md
-    assert md.count("\n### ") == 3
-    table = [ln for ln in md.splitlines() if ln.startswith("|")]
-    assert len(table) == 7 and all(ln.count("|") == 3 for ln in table)
+    tokens = MarkdownIt("commonmark").enable("table").parse(md)
+    headings = [
+        (t.tag, tokens[i + 1].content) for i, t in enumerate(tokens) if t.type == "heading_open"
+    ]
+    assert headings[:3] == [
+        ("h1", "Agent trace diagnosis"),
+        ("h2", "Scorecard"),
+        ("h2", "Top three fixes"),
+    ]
+    assert [tag for tag, _ in headings].count("h3") == 3
+    assert sum(t.type == "table_open" for t in tokens) == 1
+    assert sum(t.type == "tr_open" for t in tokens) == 6  # header + 5 metrics
+    links = [
+        c.attrs.get("href")
+        for t in tokens
+        if t.children
+        for c in t.children
+        if c.type == "link_open"
+    ]
+    assert links == ["report.html"]
 
 
 def test_markdown_without_findings() -> None:
