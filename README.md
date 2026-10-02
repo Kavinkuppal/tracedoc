@@ -4,6 +4,20 @@ tracedoc reads traces from your LangGraph agents and writes a diagnosis report: 
 
 > Status: pre-release. `tracedoc` is a working name.
 
+## Quickstart
+
+From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing:
+
+```bash
+git clone https://github.com/Kavinkuppal/tracedoc.git && cd tracedoc
+python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\Activate.ps1
+pip install .
+tracedoc analyze tests/fixtures/traces/capture --no-judge
+open tracedoc-report/report.html                      # Linux: xdg-open · Windows: start
+```
+
+To analyze your own agent, [capture its runs](#capture-runs), [set up your API key](#set-up-your-api-key), then run `tracedoc estimate ./runs` and `tracedoc analyze ./runs`.
+
 ## Requirements
 
 - Python 3.10 or newer
