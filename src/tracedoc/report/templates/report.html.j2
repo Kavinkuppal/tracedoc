@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ name }} report</title>
+<style>{{ css }}</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Agent trace diagnosis</h1>
+    <div class="meta">{{ runs }} runs · generated {{ generated_at }} · {{ name }} {{ version }}{% if models %} · judged with {{ models }}{% endif %}{% if analysis_cost is not none %} · analysis cost ${{ "%.2f"|format(analysis_cost) }}{% endif %}</div>
+  </div>
+  <button id="theme" type="button" aria-label="Toggle light or dark theme">◐ Theme</button>
+</header>
+<nav class="filters" aria-label="Filters">
+  <div class="inner">
+    <select id="f-task" aria-label="Task type"></select>
+    <select id="f-node" aria-label="Node"></select>
+    <select id="f-sev" aria-label="Severity"></select>
+    <button id="f-reset" type="button">Reset</button>
+    <span id="filter-note"></span>
+  </div>
+</nav>
+<main>
+  <section class="wide" id="sec-scorecard"><h2>Scorecard</h2><div id="scorecard"></div></section>
+
+  <section class="wide" id="sec-fixes"><h2>Top three fixes</h2>
+    <p class="desc">Ranked by severity, then how many runs are affected, then wasted tokens, cost and time. These reflect the whole analysis, not the filters.</p>
+    <div id="top-fixes"></div></section>
+
+  <section id="sec-frequency"><h2>Failure frequency</h2><p class="desc">Runs affected per check, colored by the worst severity seen. Click a bar to list its findings.</p>
+    <div class="chart" id="c-frequency"></div><details class="table-view"><summary>Table</summary><div id="t-frequency"></div></details></section>
+
+  <section id="sec-bytask"><h2>Failures by task type</h2><p class="desc">Share of each task type's runs affected by each check.</p>
+    <div class="chart" id="c-bytask"></div><details class="table-view"><summary>Table</summary><div id="t-bytask"></div></details></section>
+
+  <section id="sec-status"><h2>How runs end</h2><p class="desc">Run status per task type.</p>
+    <div class="chart" id="c-status"></div><details class="table-view"><summary>Table</summary><div id="t-status"></div></details></section>
+
+  <section id="sec-flow"><h2>Agent flow map</h2><p class="desc">Edge width shows how often control moved between nodes; darker nodes had findings in a larger share of the runs that visited them.</p>
+    <div class="chart" id="c-flow"></div><details class="table-view"><summary>Table</summary><div id="t-flow-nodes"></div><div id="t-flow"></div></details></section>
+
+  <section id="sec-handoffs"><h2>Handoffs</h2><p class="desc">Sending agent by receiving agent: handoff counts, and the share of runs with a finding on that handoff (darker is worse).</p>
+    <div class="chart" id="c-handoffs"></div><details class="table-view"><summary>Table</summary><div id="t-handoffs"></div></details></section>
+
+  <section id="sec-cost"><h2>Cost by node</h2><p class="desc">Each node's share of model tokens and cost.</p>
+    <div class="chart" id="c-cost"></div><details class="table-view"><summary>Table</summary><div id="t-cost"></div></details></section>
+
+  <section id="sec-context"><h2>Context growth</h2><p class="desc">Input tokens per model call through a run: the median run and the worst run.</p>
+    <div class="chart" id="c-context"></div><details class="table-view"><summary>Table</summary><div id="t-context"></div></details></section>
+
+  <section id="sec-steps"><h2>Steps per run</h2><p class="desc">How many graph steps runs took.</p>
+    <div class="chart" id="c-steps"></div><details class="table-view"><summary>Table</summary><div id="t-steps"></div></details></section>
+
+  <section id="sec-latency"><h2>Latency by node</h2><p class="desc">Duration of each node's steps: median, middle half, and range.</p>
+    <div class="chart" id="c-latency"></div><details class="table-view"><summary>Table</summary><div id="t-latency"></div></details></section>
+
+  <section class="wide" id="replay"><h2>Run replay</h2><p class="desc">Every model call, tool call and handoff in one run. Flagged steps carry a severity marker; click a step to see its input and output.</p>
+    <div class="replay-controls"><label for="replay-run" class="muted small">Run</label><select id="replay-run"></select></div>
+    <div id="replay-body"></div></section>
+
+  <section class="wide" id="sec-signals"><h2>What went well</h2><div id="signals-body"></div></section>
+
+  <section class="wide" id="findings"><h2>All findings</h2>
+    <div class="findings-controls"><input id="search" type="search" placeholder="Search checks, nodes, explanations" aria-label="Search findings"><span id="findings-count" class="muted small"></span></div>
+    <div id="vote-panel" hidden><span>Record this vote: <code id="vote-cmd"></code></span><button id="vote-copy" type="button">Copy</button><span class="muted" id="vote-count"></span><button id="vote-export" type="button">Export all votes</button><span class="muted">then <code>{{ name }} feedback --import tracedoc-feedback.json</code></span></div>
+    <table id="findings-table"><thead><tr><th>Severity</th><th>Check</th><th>Node</th><th>Explanation</th><th>Run</th><th>Useful?</th></tr></thead><tbody id="findings-body"></tbody></table>
+  </section>
+</main>
+<footer>Generated locally by {{ name }}. Charts by Apache ECharts {{ echarts_version }} (Apache License 2.0).</footer>
+<script id="report-data" type="application/json">{{ data_json }}</script>
+<script>{{ echarts_js }}</script>
+<script>{{ app_js }}</script>
+</body>
+</html>
