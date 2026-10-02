@@ -13,6 +13,11 @@ from .cost import Spend, estimate_tokens
 _SYSTEM = "You classify LLM agent runs. Answer with the single best category."
 
 
+def _resolve(client: LLMClient, model: str) -> str:
+    resolve = getattr(client, "resolve", None)
+    return resolve(model) if resolve else model
+
+
 class _TaskAnswer(BaseModel):
     task_type: TaskType
 
@@ -25,11 +30,11 @@ def task_classifier(client: LLMClient, model: str, spend: Spend):  # noqa: ANN20
     def classify(preview: str) -> TaskType | None:
         prompt = f"What kind of task is this user request?\n\nREQUEST: {preview}"
         try:
-            spend.check(model, estimate_tokens(prompt) + 50, 20)
+            spend.check(_resolve(client, model), estimate_tokens(prompt) + 50, 20)
             result = client.complete_json(_SYSTEM, prompt, _TaskAnswer, model=model, max_tokens=100)
         except LLMError:
             return None
-        spend.record(model, result.tokens_in, result.tokens_out)
+        spend.record(result.model, result.tokens_in, result.tokens_out)
         return result.value.task_type
 
     return classify
@@ -43,11 +48,11 @@ def role_classifier(client: LLMClient, model: str, spend: Spend):  # noqa: ANN20
             f"for nodes that run tools, and other if unclear.\n\nNODE NAME: {node_name}"
         )
         try:
-            spend.check(model, estimate_tokens(prompt) + 50, 20)
+            spend.check(_resolve(client, model), estimate_tokens(prompt) + 50, 20)
             result = client.complete_json(_SYSTEM, prompt, _RoleAnswer, model=model, max_tokens=100)
         except LLMError:
             return None
-        spend.record(model, result.tokens_in, result.tokens_out)
+        spend.record(result.model, result.tokens_in, result.tokens_out)
         return result.value.role
 
     return classify

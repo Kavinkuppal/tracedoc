@@ -226,6 +226,10 @@ disabled = ["cost.latency_outlier"]
 
 **`Error: The provider rejected ANTHROPIC_API_KEY (HTTP 401).`** The key is wrong, expired, or lacks access. Analysis stops as soon as a call is rejected, without writing a report.
 
+**`Notice: triage model ... is unavailable ...; used ... instead.`** The provider says the triage model does not exist or was retired. The analysis still finished, using the confirmation model for triage, which costs more per call. Set a current model under `[llm] triage_model` in your config file.
+
+**`Error: confirmation model ... is unavailable ...`** The confirmation model does not exist or was retired, so the analysis stopped before writing a report. Set a current model under `[llm] confirm_model` in your config file, or pass `--model`.
+
 **`Error: LANGSMITH_API_KEY is not set.`** Importing with `--project` needs a LangSmith key. Alternatively, export the runs from LangSmith and pass the file.
 
 **`Error: ... [llm] api_key is not supported`** Remove the key from the config file and set the environment variable instead.

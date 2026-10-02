@@ -14,7 +14,15 @@ from .config import Config, ConfigError, config_dir, load_config, user_config_pa
 from .feedback import check_for, feedback_path, import_file, record
 from .feedback import load as load_votes
 from .ingest.jsonl import CaptureFormatError
-from .llm.client import KeyRejectedError, MissingKeyError, make_client, require_key
+from .llm.client import (
+    ConfirmModelUnavailableError,
+    KeyRejectedError,
+    MissingKeyError,
+    ModelUnavailableError,
+    make_client,
+    require_key,
+    with_model_fallback,
+)
 from .llm.cost import Spend, price_of
 from .report import write_reports
 from .schema import Report
@@ -195,20 +203,32 @@ def analyze(
         if not yes and not typer.confirm("Proceed?", default=False):
             raise typer.Exit(1)
 
+    progress_open = [False]  # a "Judging n/m" line is on screen without its newline
+
     def progress(done: int, total: int) -> None:
+        progress_open[0] = done != total
         typer.echo(f"\rJudging {done}/{total}", nl=done == total)
+
+    def fail(error: BaseException) -> typer.Exit:
+        if progress_open[0]:
+            typer.echo("")  # end the progress line so the error starts on its own line
+        return _fail(error)
 
     try:
         if use_model:
-            client = make_client(config.llm)
+            client = with_model_fallback(make_client(config.llm), config.llm)
             spend = Spend(prices=config.prices, max_cost=max_cost)
             if classifier_calls(runs):
                 runs = normalize_all(traces, config, client=client, spend=spend)
         report = run_analysis(runs, config, client=client, spend=spend, progress=progress)
-    except (MissingKeyError, KeyRejectedError) as e:
-        raise _fail(e) from None
+    except (MissingKeyError, KeyRejectedError, ConfirmModelUnavailableError) as e:
+        raise fail(e) from None
+    except ModelUnavailableError as e:  # a model that is neither triage nor confirmation
+        raise fail(ValueError(f"{e}. Check the model names under [llm] in your config.")) from None
     html_path = write_reports(report, runs, out)
     _print_summary(report, out, html_path)
+    if client is not None and client.fallback is not None:
+        typer.echo(client.fallback.notice())
     _share_after_report(config, report, runs)
 
 

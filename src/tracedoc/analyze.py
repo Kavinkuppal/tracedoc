@@ -167,4 +167,16 @@ def analyze(
         if spend is not None:
             prepared.judge.spend = spend
         outcome = prepared.judge.run(prepared.plan, prepared.rule_findings, progress)
-    return build_report(prepared, config, outcome, prepared.judge.spend if client else spend)
+    report = build_report(prepared, config, outcome, prepared.judge.spend if client else spend)
+    fallback = getattr(client, "fallback", None)
+    if fallback is not None:
+        report.metadata["model_fallback"] = {
+            "unavailable": fallback.unavailable,
+            "used_instead": fallback.replacement,
+            "reason": fallback.detail,
+        }
+        report.metadata["analysis_models"] = {
+            "triage": fallback.replacement,
+            "confirm": config.llm.confirm_model,
+        }
+    return report

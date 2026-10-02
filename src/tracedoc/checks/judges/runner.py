@@ -21,7 +21,13 @@ from dataclasses import dataclass, field
 from pydantic import BaseModel
 
 from ...config import Config
-from ...llm.client import KeyRejectedError, LLMClient, LLMError
+from ...llm.client import (
+    ConfirmModelUnavailableError,
+    KeyRejectedError,
+    LLMClient,
+    LLMError,
+    ModelUnavailableError,
+)
 from ...llm.cost import BudgetExceededError, Spend, estimate_tokens, price_of
 from ...schema import Finding, Run
 from ..util import excerpt
@@ -256,9 +262,11 @@ class Judge:
             if schema is TriageResult
             else self.config.judge.estimate_confirm_output_tokens
         )
+        resolve = getattr(self.client, "resolve", None)
+        priced_as = resolve(model) if resolve else model  # a fallback model costs its own price
         with self._lock:
-            self.spend.check(model, projected_in, projected_out, reserved=self._reserved)
-            reserve = price_of(self.config.prices, model, projected_in, projected_out) or 0.0
+            self.spend.check(priced_as, projected_in, projected_out, reserved=self._reserved)
+            reserve = price_of(self.config.prices, priced_as, projected_in, projected_out) or 0.0
             self._reserved += reserve
         try:
             result = self.client.complete_json(
@@ -268,7 +276,7 @@ class Judge:
             with self._lock:
                 self._reserved -= reserve
         with self._lock:
-            self.spend.record(model, result.tokens_in, result.tokens_out)
+            self.spend.record(result.model, result.tokens_in, result.tokens_out)
         return result.value
 
     def judge_text(
@@ -320,7 +328,7 @@ class Judge:
         verdicts: dict[str, Verdict | None] = {}  # candidate finding id -> verdict
         judged: list[Finding] = []
         stop = threading.Event()
-        fatal: list[KeyRejectedError] = []
+        fatal: list[Exception] = []
         done = [0]
 
         def guarded(fn: Callable[[], None]) -> None:
@@ -331,7 +339,7 @@ class Judge:
             except BudgetExceededError as e:
                 outcome.stopped_for_budget = str(e)
                 stop.set()
-            except KeyRejectedError as e:
+            except (KeyRejectedError, ConfirmModelUnavailableError, ModelUnavailableError) as e:
                 fatal.append(e)
                 stop.set()
             except LLMError as e:
