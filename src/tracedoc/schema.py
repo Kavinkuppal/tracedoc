@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 
 Source = Literal["capture", "langsmith", "otel"]
 RunStatus = Literal["completed", "error", "recursion_limit", "interrupted"]
@@ -97,12 +98,22 @@ class Run(BaseModel):
         return [s for s in self.steps if s.kind == kind]
 
 
+class Impact(BaseModel):
+    """Tokens, cost, and latency attributable to a finding (the waste it caused)."""
+
+    tokens: int = 0
+    cost: float = 0.0
+    latency_s: float = 0.0
+
+
 class Finding(BaseModel):
     check_id: str
     group: Group
     method: Method
     severity: Severity
     run_id: str
+    key: str = ""
+    """Short signature key, e.g. the tool name; groups findings across runs."""
     evidence_step_ids: list[str] = Field(default_factory=list)
     evidence_excerpts: list[str] = Field(default_factory=list)
     explanation: str
@@ -110,12 +121,17 @@ class Finding(BaseModel):
     confidence: float = Field(default=1.0, ge=0, le=1)
     node: str | None = None
     role: Role | None = None
+    needs_confirmation: bool = False
+    """A rule candidate that a judge should confirm before it is trusted."""
+    impact: Impact = Field(default_factory=Impact)
 
-
-class Impact(BaseModel):
-    tokens: int = 0
-    cost: float = 0.0
-    latency_s: float = 0.0
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def id(self) -> str:
+        """Stable ID, so feedback on a finding survives re-running the analysis."""
+        anchor = self.evidence_step_ids[0] if self.evidence_step_ids else ""
+        raw = "|".join([self.check_id, self.run_id, self.key, self.node or "", anchor])
+        return hashlib.sha256(raw.encode()).hexdigest()[:12]
 
 
 class FindingGroup(BaseModel):

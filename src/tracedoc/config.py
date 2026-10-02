@@ -14,6 +14,7 @@ from platformdirs import user_config_dir
 from pydantic import BaseModel, Field
 
 from .__about__ import NAME
+from .schema import Severity
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -54,11 +55,51 @@ class CaptureConfig(BaseModel):
     """Longest string kept per value in captured traces; longer strings are truncated."""
 
 
+class Thresholds(BaseModel):
+    """Every rule-check threshold, with defaults. Override any of them in config.toml."""
+
+    # design.loop
+    loop_min_repeats: int = 3
+    loop_near_duplicate_similarity: float = 0.9
+    loop_max_cycle_length: int = 4
+    # design.no_stop
+    step_limit: int = 25
+    """LangGraph's default recursion limit."""
+    # tools.unused_output
+    unused_output_max_overlap: float = 0.2
+    unused_output_min_tokens: int = 4
+    # cost.token_hotspot
+    token_hotspot_share: float = 0.6
+    """Also must be at least 1.5x an even split between the run's nodes."""
+    token_hotspot_min_tokens: int = 5_000
+    context_growth_factor: float = 4.0
+    context_growth_min_steps: int = 4
+    context_growth_min_tokens: int = 2_000
+    """Ignore growth unless the last call's input reaches this many tokens."""
+    # cost.latency_outlier
+    latency_p95_multiplier: float = 2.0
+    latency_absolute_s: float = 60.0
+    latency_min_s: float = 1.0
+    """Relative outliers shorter than this are ignored as noise."""
+    latency_min_samples: int = 5
+    # signals
+    efficient_path_ratio: float = 0.5
+    efficient_path_min_runs: int = 5
+    clean_handoff_min_overlap: float = 0.5
+
+
+class ChecksConfig(BaseModel):
+    disabled: list[str] = Field(default_factory=list)
+    severity: dict[str, Severity] = Field(default_factory=dict)
+    """Per-check severity overrides, e.g. {"cost.latency_outlier": "medium"}."""
+
+
 class Config(BaseModel):
     redact: RedactConfig = Field(default_factory=RedactConfig)
     capture: CaptureConfig = Field(default_factory=CaptureConfig)
     preview_chars: int = 500
-    thresholds: dict[str, Any] = Field(default_factory=dict)
+    thresholds: Thresholds = Field(default_factory=Thresholds)
+    checks: ChecksConfig = Field(default_factory=ChecksConfig)
 
 
 def config_dir() -> Path:
