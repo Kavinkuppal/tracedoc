@@ -1,0 +1,686 @@
+{
+ "01_scorecard": {
+  "completion_rate": 0.8333,
+  "findings_by_severity": {
+   "high": 2,
+   "low": 4,
+   "medium": 3
+  },
+  "median_cost": null,
+  "median_latency_s": 0.0057,
+  "median_steps": 6.0,
+  "runs": 6,
+  "tokens": 2414,
+  "total_cost": null
+ },
+ "02_top_fixes": [
+  [
+   "design.no_stop",
+   "high",
+   1,
+   "supervisor",
+   "supervisor"
+  ],
+  [
+   "tools.errors_retries",
+   "high",
+   1,
+   "tools",
+   "fetch_url"
+  ],
+  [
+   "design.loop",
+   "medium",
+   1,
+   "supervisor",
+   "supervisor -> researcher -> supervisor -> writer"
+  ]
+ ],
+ "03_failure_frequency": [
+  {
+   "check": "verification.unchecked_result",
+   "runs": 4,
+   "severity": "low"
+  },
+  {
+   "check": "design.loop",
+   "runs": 2,
+   "severity": "medium"
+  },
+  {
+   "check": "design.no_stop",
+   "runs": 1,
+   "severity": "high"
+  },
+  {
+   "check": "tools.errors_retries",
+   "runs": 1,
+   "severity": "high"
+  },
+  {
+   "check": "tools.unused_output",
+   "runs": 1,
+   "severity": "medium"
+  }
+ ],
+ "04_failures_by_task": {
+  "cells": [
+   [
+    "customer_support",
+    "tools.unused_output",
+    1,
+    1.0
+   ],
+   [
+    "customer_support",
+    "verification.unchecked_result",
+    1,
+    1.0
+   ],
+   [
+    "research",
+    "design.loop",
+    1,
+    0.3333
+   ],
+   [
+    "research",
+    "verification.unchecked_result",
+    2,
+    0.6667
+   ],
+   [
+    "writing",
+    "design.loop",
+    1,
+    0.5
+   ],
+   [
+    "writing",
+    "design.no_stop",
+    1,
+    0.5
+   ],
+   [
+    "writing",
+    "tools.errors_retries",
+    1,
+    0.5
+   ],
+   [
+    "writing",
+    "verification.unchecked_result",
+    1,
+    0.5
+   ]
+  ],
+  "checks": [
+   "verification.unchecked_result",
+   "design.loop",
+   "design.no_stop",
+   "tools.errors_retries",
+   "tools.unused_output"
+  ],
+  "tasks": [
+   "customer_support",
+   "research",
+   "writing"
+  ]
+ },
+ "05_status_by_task": {
+  "customer_support": {
+   "completed": 1,
+   "error": 0,
+   "interrupted": 0,
+   "recursion_limit": 0
+  },
+  "research": {
+   "completed": 3,
+   "error": 0,
+   "interrupted": 0,
+   "recursion_limit": 0
+  },
+  "writing": {
+   "completed": 1,
+   "error": 0,
+   "interrupted": 0,
+   "recursion_limit": 1
+  }
+ },
+ "06_flow": {
+  "edges": [
+   [
+    "__start__",
+    "agent",
+    1
+   ],
+   [
+    "__start__",
+    "analyst",
+    1
+   ],
+   [
+    "__start__",
+    "researcher",
+    2
+   ],
+   [
+    "__start__",
+    "supervisor",
+    1
+   ],
+   [
+    "__start__",
+    "support_agent",
+    1
+   ],
+   [
+    "agent",
+    "__end__",
+    1
+   ],
+   [
+    "agent",
+    "tools",
+    3
+   ],
+   [
+    "analyst",
+    "writer",
+    1
+   ],
+   [
+    "critic",
+    "__end__",
+    1
+   ],
+   [
+    "researcher",
+    "__end__",
+    1
+   ],
+   [
+    "researcher",
+    "supervisor",
+    3
+   ],
+   [
+    "researcher",
+    "tools",
+    4
+   ],
+   [
+    "researcher",
+    "writer",
+    1
+   ],
+   [
+    "supervisor",
+    "researcher",
+    3
+   ],
+   [
+    "supervisor",
+    "writer",
+    3
+   ],
+   [
+    "support_agent",
+    "__end__",
+    1
+   ],
+   [
+    "support_agent",
+    "tools",
+    1
+   ],
+   [
+    "tools",
+    "agent",
+    3
+   ],
+   [
+    "tools",
+    "researcher",
+    4
+   ],
+   [
+    "tools",
+    "support_agent",
+    1
+   ],
+   [
+    "writer",
+    "__end__",
+    1
+   ],
+   [
+    "writer",
+    "critic",
+    1
+   ],
+   [
+    "writer",
+    "supervisor",
+    2
+   ]
+  ],
+  "nodes": [
+   [
+    "agent",
+    4,
+    1.0
+   ],
+   [
+    "analyst",
+    1,
+    0.0
+   ],
+   [
+    "critic",
+    1,
+    0.0
+   ],
+   [
+    "researcher",
+    9,
+    0.3333
+   ],
+   [
+    "supervisor",
+    6,
+    1.0
+   ],
+   [
+    "support_agent",
+    2,
+    1.0
+   ],
+   [
+    "tools",
+    8,
+    0.75
+   ],
+   [
+    "writer",
+    5,
+    0.3333
+   ]
+  ]
+ },
+ "07_handoffs": [
+  [
+   "analyst",
+   "writer",
+   1,
+   0.0
+  ],
+  [
+   "researcher",
+   "supervisor",
+   3,
+   0.0
+  ],
+  [
+   "researcher",
+   "writer",
+   1,
+   0.0
+  ],
+  [
+   "supervisor",
+   "researcher",
+   3,
+   0.0
+  ],
+  [
+   "supervisor",
+   "writer",
+   3,
+   0.0
+  ],
+  [
+   "writer",
+   "critic",
+   1,
+   0.0
+  ],
+  [
+   "writer",
+   "supervisor",
+   2,
+   0.0
+  ]
+ ],
+ "08_cost_by_node": [
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "researcher",
+   "token_share": 0.3567,
+   "tokens": 861
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "supervisor",
+   "token_share": 0.2001,
+   "tokens": 483
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "writer",
+   "token_share": 0.1835,
+   "tokens": 443
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "agent",
+   "token_share": 0.1466,
+   "tokens": 354
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "critic",
+   "token_share": 0.0497,
+   "tokens": 120
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "support_agent",
+   "token_share": 0.0352,
+   "tokens": 85
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "analyst",
+   "token_share": 0.0282,
+   "tokens": 68
+  }
+ ],
+ "09_context_growth": {
+  "median": [
+   25.0,
+   55.0,
+   83.5,
+   118.5,
+   71.0,
+   47.0,
+   87.0,
+   64.0,
+   102.0,
+   78.0,
+   118.0,
+   95.0
+  ],
+  "worst": [
+   35,
+   93,
+   151,
+   209
+  ],
+  "worst_run": 0
+ },
+ "10_steps_per_run": [
+  [
+   2,
+   1
+  ],
+  [
+   3,
+   1
+  ],
+  [
+   5,
+   1
+  ],
+  [
+   7,
+   2
+  ],
+  [
+   12,
+   1
+  ]
+ ],
+ "11_latency_by_node": [
+  [
+   "agent",
+   5,
+   4
+  ],
+  [
+   "analyst",
+   5,
+   1
+  ],
+  [
+   "critic",
+   5,
+   1
+  ],
+  [
+   "researcher",
+   5,
+   9
+  ],
+  [
+   "supervisor",
+   5,
+   6
+  ],
+  [
+   "support_agent",
+   5,
+   2
+  ],
+  [
+   "tools",
+   5,
+   8
+  ],
+  [
+   "writer",
+   5,
+   5
+  ]
+ ],
+ "12_replay": [
+  [
+   "llm",
+   "ScriptedChatModel",
+   "researcher",
+   35,
+   15,
+   false,
+   "What are the main approaches to long-term memory in LangGrap",
+   "[tool_call web_search({\"query\": \"langgraph long-term memory "
+  ],
+  [
+   "tool",
+   "web_search",
+   "tools",
+   null,
+   null,
+   false,
+   "{\"query\": \"langgraph long-term memory approaches\"}",
+   "1. LangGraph Store: namespaced key-value store for cross-thr"
+  ],
+  [
+   "llm",
+   "ScriptedChatModel",
+   "researcher",
+   93,
+   15,
+   false,
+   "1. LangGraph Store: namespaced key-value store for cross-thr",
+   "[tool_call web_search({\"query\": \"langgraph long-term memory "
+  ],
+  [
+   "tool",
+   "web_search",
+   "tools",
+   null,
+   null,
+   false,
+   "{\"query\": \"langgraph long-term memory approaches\"}",
+   "1. LangGraph Store: namespaced key-value store for cross-thr"
+  ],
+  [
+   "llm",
+   "ScriptedChatModel",
+   "researcher",
+   151,
+   15,
+   false,
+   "1. LangGraph Store: namespaced key-value store for cross-thr",
+   "[tool_call web_search({\"query\": \"langgraph long-term memory "
+  ],
+  [
+   "tool",
+   "web_search",
+   "tools",
+   null,
+   null,
+   false,
+   "{\"query\": \"langgraph long-term memory approaches\"}",
+   "1. LangGraph Store: namespaced key-value store for cross-thr"
+  ],
+  [
+   "llm",
+   "ScriptedChatModel",
+   "researcher",
+   209,
+   36,
+   false,
+   "1. LangGraph Store: namespaced key-value store for cross-thr",
+   "LangGraph offers three main approaches: the Store for cross-"
+  ]
+ ],
+ "13_signals": [
+  [
+   "good.clean_handoff",
+   1,
+   "analyst->writer"
+  ],
+  [
+   "good.clean_handoff",
+   2,
+   "researcher->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   2,
+   "researcher->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   2,
+   "researcher->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   2,
+   "writer->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   2,
+   "writer->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   5,
+   "researcher->writer"
+  ],
+  [
+   "good.clean_handoff",
+   5,
+   "writer->critic"
+  ],
+  [
+   "good.verified",
+   5,
+   "critic"
+  ]
+ ],
+ "14_findings": [
+  [
+   "design.loop",
+   "medium",
+   0,
+   "tools",
+   "web_search",
+   false
+  ],
+  [
+   "design.loop",
+   "medium",
+   2,
+   "supervisor",
+   "supervisor -> researcher -> supervisor -> writer",
+   false
+  ],
+  [
+   "design.no_stop",
+   "high",
+   2,
+   "supervisor",
+   "supervisor",
+   false
+  ],
+  [
+   "tools.errors_retries",
+   "high",
+   3,
+   "tools",
+   "fetch_url",
+   false
+  ],
+  [
+   "tools.unused_output",
+   "medium",
+   4,
+   "tools",
+   "lookup_order",
+   true
+  ],
+  [
+   "verification.unchecked_result",
+   "low",
+   0,
+   "researcher",
+   "researcher",
+   true
+  ],
+  [
+   "verification.unchecked_result",
+   "low",
+   1,
+   "writer",
+   "writer",
+   true
+  ],
+  [
+   "verification.unchecked_result",
+   "low",
+   3,
+   "agent",
+   "agent",
+   true
+  ],
+  [
+   "verification.unchecked_result",
+   "low",
+   4,
+   "support_agent",
+   "support_agent",
+   true
+  ]
+ ]
+}
