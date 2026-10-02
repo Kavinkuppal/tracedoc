@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import logging
+import secrets
 import socket
 import threading
 import time
@@ -41,10 +43,19 @@ def store(dsn: str) -> Store:
     return s
 
 
-def _payload(**overrides: Any) -> dict[str, Any]:
+def _token() -> str:
+    return secrets.token_urlsafe(32)
+
+
+def _hash(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
+
+
+def _payload(token: str | None = None, **overrides: Any) -> dict[str, Any]:
     data: dict[str, Any] = {
         "schema_version": 1,
         "install_id": str(uuid.uuid4()),
+        "deletion_key_hash": _hash(token or _token()),
         "tool_version": "0.0.1",
         "runs": [
             {
@@ -112,15 +123,60 @@ def test_rate_limited_per_install(store: Store) -> None:
     assert other.status_code == 201  # limits are per install ID, not per address
 
 
-def test_delete_removes_only_that_install(store: Store) -> None:
+def _bearer(token: str) -> dict[str, str]:
+    return {**HTTPS, "authorization": f"Bearer {token}"}
+
+
+def test_delete_requires_the_deletion_token(store: Store) -> None:
     client = TestClient(create_app(store))
-    a, b = _payload(), _payload()
+    token = _token()
+    a, b = _payload(token), _payload()
     for body in (a, a, b):
-        client.post("/v1/contributions", json=body, headers=HTTPS)
-    r = client.delete(f"/v1/installs/{a['install_id']}", headers=HTTPS)
-    assert r.status_code == 200 and r.json()["rows"] == 2
+        assert client.post("/v1/contributions", json=body, headers=HTTPS).status_code == 201
+    url = f"/v1/installs/{a['install_id']}"
+
+    no_token = client.delete(url, headers=HTTPS)
+    assert no_token.status_code == 401 and no_token.headers["www-authenticate"] == "Bearer"
+    assert client.delete(url, headers={**HTTPS, "authorization": "Basic x"}).status_code == 401
+    assert client.delete(url, headers=_bearer(_token())).status_code == 403  # wrong token
+    assert client.delete(url, headers=_bearer(a["deletion_key_hash"])).status_code == 403  # hash
+    assert store.count(uuid.UUID(a["install_id"])) == 2  # nothing deleted yet
+
+    ok = client.delete(url, headers=_bearer(token))
+    assert ok.status_code == 200 and ok.json()["rows"] == 2
     assert store.count(uuid.UUID(a["install_id"])) == 0
-    assert store.count(uuid.UUID(b["install_id"])) == 1
+    assert store.deletion_key_hash(uuid.UUID(a["install_id"])) is None
+    assert store.count(uuid.UUID(b["install_id"])) == 1  # other installs untouched
+    assert client.delete(url, headers=_bearer(token)).status_code == 404
+
+
+def test_hash_cannot_be_replaced_by_a_later_contribution(store: Store) -> None:
+    client = TestClient(create_app(store))
+    first = _payload()
+    assert client.post("/v1/contributions", json=first, headers=HTTPS).status_code == 201
+    attacker_token = _token()
+    hijack = {**first, "deletion_key_hash": _hash(attacker_token)}
+    assert client.post("/v1/contributions", json=hijack, headers=HTTPS).status_code == 403
+    url = f"/v1/installs/{first['install_id']}"
+    assert client.delete(url, headers=_bearer(attacker_token)).status_code == 403
+    assert store.count(uuid.UUID(first["install_id"])) == 1
+
+
+def test_server_stores_only_the_hash(store: Store, dsn: str) -> None:
+    client = TestClient(create_app(store))
+    token = _token()
+    body = _payload(token)
+    client.post("/v1/contributions", json=body, headers=HTTPS)
+    with psycopg.connect(dsn) as conn:
+        dump = json.dumps(
+            [
+                conn.execute("SELECT * FROM installs").fetchall(),
+                conn.execute("SELECT payload::text FROM contributions").fetchall(),
+            ],
+            default=str,
+        )
+    assert token not in dump
+    assert dump.count(body["deletion_key_hash"]) == 1  # once, in installs; not in payloads
 
 
 def test_no_ip_address_stored(store: Store, dsn: str) -> None:
@@ -255,8 +311,22 @@ def test_end_to_end_opt_in_preview_revoke_delete(
     )
     assert runner.invoke(cli.app, analyze).exit_code == 0
     assert store.count(install_id) == 2
+    # The install ID alone cannot delete anything.
+    import urllib.error
+    import urllib.request
+
+    bare = urllib.request.Request(f"{live.url}/v1/installs/{install_id}", method="DELETE")
+    with pytest.raises(urllib.error.HTTPError) as denied:
+        urllib.request.urlopen(bare)
+    assert denied.value.code == 401
+    assert store.count(install_id) == 2
+
+    token = consent.load_state().deletion_token
     result = runner.invoke(cli.app, ["share", "--delete", "--config", str(config)])
     assert result.exit_code == 0, result.output
     assert store.count(install_id) == 0
+    assert store.deletion_key_hash(install_id) is None
     new_state = consent.load_state()
     assert new_state.install_id != install_id and new_state.choice == "no"
+    assert new_state.deletion_token != token
+    assert token not in upload_log_path().read_text()  # the credential is never logged

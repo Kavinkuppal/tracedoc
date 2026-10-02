@@ -38,6 +38,7 @@ from tracedoc.share.payload import (
 from tracedoc.share.upload import ShareError, check_endpoint, last_payload_path
 
 runner = CliRunner()
+HASH = "a" * 64  # a well-formed deletion-key hash for payloads built directly
 
 # A unique marker in every content field a trace can carry.
 M = {
@@ -146,7 +147,7 @@ def test_no_marker_reaches_the_serialized_payload(tmp_path: Path) -> None:
     assert {f.check_id for f in findings} >= {"design.loop", "tools.errors_retries"}
     assert any(f.key == M["tool_name"] for f in findings)  # names exist in findings...
     votes = [("design.loop", "up"), (M["user"], "down")]
-    payload = serialize(build_contribution(uuid.uuid4(), runs, findings, votes))
+    payload = serialize(build_contribution(uuid.uuid4(), HASH, runs, findings, votes))
 
     text = payload.decode()
     for name, marker in M.items():
@@ -160,7 +161,7 @@ def test_no_marker_reaches_the_serialized_payload(tmp_path: Path) -> None:
 
 
 ALLOWED_KEYS = {
-    "schema_version", "install_id", "tool_version", "runs", "feedback",
+    "schema_version", "install_id", "deletion_key_hash", "tool_version", "runs", "feedback",
     "task_type", "framework", "framework_version", "models_by_role", "role", "models",
     "graph", "agent_count", "tool_count", "max_depth", "status", "step_count", "tokens_in",
     "tokens_out", "cost", "duration_s", "findings", "check_id", "severity", "vote",
@@ -178,7 +179,7 @@ def _keys(value: Any) -> set[str]:
 def test_payload_has_only_allow_listed_fields() -> None:
     runs = [load_fixture(n) for n in AGENTS]
     report = analyze(runs, Config())
-    data = json.loads(serialize(build_contribution(uuid.uuid4(), runs, all_findings(report))))
+    data = json.loads(serialize(build_contribution(uuid.uuid4(), HASH, runs, all_findings(report))))
     assert _keys(data) <= ALLOWED_KEYS
     assert len(data["runs"]) == 6
     shapes = {(r["graph"]["agent_count"], r["graph"]["tool_count"]) for r in data["runs"]}
@@ -201,13 +202,15 @@ def test_payload_has_only_allow_listed_fields() -> None:
             {"role": "writer", "models": ["ft:gpt-4o:acme:x"]}
         ),
         lambda d: d.update(install_id=str(uuid.uuid1())),
+        lambda d: d.update(deletion_key_hash="the-token-itself"),
+        lambda d: d.update(deletion_token="abc"),
         lambda d: d["runs"][0].update(framework_version="/Users/someone/venv"),
     ],
 )
 def test_schema_rejects_anything_outside_the_allow_list(mutate: Any) -> None:
     runs = [load_fixture("researcher_repeat_search")]
     report = analyze(runs, Config())
-    data = json.loads(serialize(build_contribution(uuid.uuid4(), runs, all_findings(report))))
+    data = json.loads(serialize(build_contribution(uuid.uuid4(), HASH, runs, all_findings(report))))
     Contribution.model_validate(data)
     mutate(data)
     with pytest.raises(ValidationError):
@@ -366,3 +369,61 @@ def test_endpoint_rules(enabled: bool, endpoint: str, ok: bool) -> None:
     else:
         with pytest.raises(ShareError):
             check_endpoint(config)
+
+
+# ---- the deletion token -----------------------------------------------------------------------
+
+
+def test_deletion_token_created_at_install_and_stored_owner_only() -> None:
+    import os
+    import stat
+
+    state = consent.load_state()
+    assert len(state.deletion_token) >= 43  # 32 random bytes, url-safe base64
+    assert state.deletion_key_hash == consent.deletion_key_hash(state.deletion_token)
+    saved = json.loads(consent.state_path().read_text())
+    assert saved["deletion_token"] == state.deletion_token
+    assert saved["install_id"] == str(state.install_id)
+    if os.name == "posix":
+        assert stat.S_IMODE(consent.state_path().stat().st_mode) == 0o600
+    assert consent.load_state().deletion_token == state.deletion_token  # persistent
+    other = consent.load_state(consent.state_path().parent / "other.json")
+    assert other.deletion_token != state.deletion_token
+
+
+def test_state_from_before_tokens_gets_one() -> None:
+    path = consent.state_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"install_id": str(uuid.uuid4()), "choice": "no"}))
+    state = consent.load_state()
+    assert state.deletion_token
+    assert json.loads(path.read_text())["deletion_token"] == state.deletion_token
+
+
+def test_rotation_replaces_both_id_and_token() -> None:
+    state = consent.load_state()
+    old_id, old_token = state.install_id, state.deletion_token
+    consent.rotate_install_id(state)
+    fresh = consent.load_state()
+    assert fresh.install_id != old_id and fresh.deletion_token != old_token
+
+
+def test_token_never_leaves_in_payload_preview_or_log(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from tracedoc.share.upload import upload_log_path
+
+    monkeypatch.setattr(cli, "_interactive", lambda: True)
+    sent: list[bytes] = []
+    monkeypatch.setattr(cli, "upload", lambda payload, config: sent.append(payload))
+    config = _write_config(tmp_path, True, "https://stats.example.invalid")
+    args = ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path), "--config", str(config)]
+    assert runner.invoke(cli.app, args, input="y\n").exit_code == 0
+    state = consent.load_state()
+    preview = runner.invoke(cli.app, ["share", "--preview"]).stdout_bytes
+    assert state.deletion_token.encode() not in preview
+    assert json.loads(preview)["deletion_key_hash"] == state.deletion_key_hash
+    assert sent == [preview]
+    assert (
+        not upload_log_path().exists() or state.deletion_token not in upload_log_path().read_text()
+    )

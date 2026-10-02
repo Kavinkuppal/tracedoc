@@ -5,7 +5,11 @@ behind a feature flag that stays off until the data terms are approved.
 
 - `POST /v1/contributions`: validates the body against `tracedoc.share.payload.Contribution`
   (the same strict allow-list the client builds) and stores it.
-- `DELETE /v1/installs/{install_id}`: removes every contribution from that install.
+- `DELETE /v1/installs/{install_id}`: removes every contribution from that install. Requires
+  `Authorization: Bearer <deletion token>`. Each client generates a random deletion token at
+  install and sends only its SHA-256 (`deletion_key_hash`) with contributions; the server
+  stores only that hash (registered by the install's first contribution, which later
+  contributions must match) and compares in constant time. The install ID alone cannot delete.
 
 Privacy: no access log, no proxy-header parsing (`X-Forwarded-For` is ignored), no IP column,
 and validation errors never echo submitted values. Rate limits are keyed by install ID.

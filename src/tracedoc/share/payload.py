@@ -194,6 +194,9 @@ class SharedVote(_Strict):
 class Contribution(_Strict):
     schema_version: Literal[1]
     install_id: UUID
+    deletion_key_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    """SHA-256 of this install's random deletion token. The server stores it and requires the
+    token (never sent here) to delete the install's data."""
     tool_version: str
     runs: list[SharedRun] = Field(max_length=10_000)
     feedback: list[SharedVote] = Field(default_factory=list, max_length=10_000)
@@ -267,6 +270,7 @@ def shared_run(run: Run, findings: list[Finding]) -> SharedRun:
 
 def build_contribution(
     install_id: UUID,
+    deletion_key_hash: str,
     runs: list[Run],
     findings: list[Finding],
     votes: list[tuple[str, str]] | None = None,
@@ -275,6 +279,7 @@ def build_contribution(
     return Contribution(
         schema_version=SCHEMA_VERSION,
         install_id=install_id,
+        deletion_key_hash=deletion_key_hash,
         tool_version=__version__,
         runs=[shared_run(r, findings) for r in runs],
         feedback=[

@@ -228,7 +228,13 @@ def _share_after_report(config, report: Report, runs: list) -> None:  # noqa: AN
     ]
     findings = [f for g in report.groups for f in g.findings]
     payload = serialize(
-        build_contribution(state.install_id, runs, findings, [(c, v) for c, v, _ in votes])
+        build_contribution(
+            state.install_id,
+            state.deletion_key_hash,
+            runs,
+            findings,
+            [(c, v) for c, v, _ in votes],
+        )
     )
     save_pending(payload)
     if not config.share.enabled:
@@ -291,7 +297,7 @@ def share(
             typer.echo("Sharing stays off.")
         return
     try:
-        request_deletion(state.install_id, config.share)
+        request_deletion(state.install_id, state.deletion_token, config.share)
     except ShareError as e:
         raise _fail(e) from None
     record_choice(state, "no")

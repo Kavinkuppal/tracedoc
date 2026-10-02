@@ -73,16 +73,16 @@ def _log(action: str, endpoint: str, payload: bytes | None, outcome: str) -> Non
         f.write(json.dumps(row) + "\n")
 
 
-def _request(method: str, url: str, body: bytes | None, timeout: float) -> int:
-    request = urllib.request.Request(
-        url,
-        data=body,
-        method=method,
-        headers={
-            "Content-Type": "application/json",
-            "User-Agent": f"{NAME}/{__version__}",  # no platform or host details
-        },
-    )
+def _request(
+    method: str, url: str, body: bytes | None, timeout: float, token: str | None = None
+) -> int:
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": f"{NAME}/{__version__}",  # no platform or host details
+    }
+    if token is not None:
+        headers["Authorization"] = f"Bearer {token}"
+    request = urllib.request.Request(url, data=body, method=method, headers=headers)
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             return response.status
@@ -103,10 +103,12 @@ def upload(payload: bytes, config: ShareConfig) -> None:
     _log("upload", endpoint, payload, f"HTTP {status}")
 
 
-def request_deletion(install_id: UUID, config: ShareConfig) -> None:
+def request_deletion(install_id: UUID, deletion_token: str, config: ShareConfig) -> None:
+    """DELETE with the deletion token as the credential. The token is never logged."""
     endpoint = check_endpoint(config)
+    url = f"{endpoint}/v1/installs/{install_id}"
     try:
-        status = _request("DELETE", f"{endpoint}/v1/installs/{install_id}", None, config.timeout_s)
+        status = _request("DELETE", url, None, config.timeout_s, token=deletion_token)
     except ShareError as e:
         _log("delete", endpoint, None, f"failed: {e}")
         raise

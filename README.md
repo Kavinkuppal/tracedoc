@@ -153,7 +153,7 @@ tracedoc has an opt-in way to share anonymized statistics that would help improv
 When it is enabled, it works like this:
 
 - **Nothing is sent without your consent.** After your first report, tracedoc shows a plain-language summary of the terms and asks once. Pressing Enter means no. It asks again only if the terms change.
-- **What would be sent:** for each run, the task type, the framework and its version, the public model names used per role (custom or fine-tuned model names become `custom`), counts describing the agent graph, the run's status, step count, tokens, cost and duration, and the IDs, severities and roles of the checks that fired. Your thumbs up/down votes are sent as check IDs only. All of this is tied to a random install ID, not to you.
+- **What would be sent:** for each run, the task type, the framework and its version, the public model names used per role (custom or fine-tuned model names become `custom`), counts describing the agent graph, the run's status, step count, tokens, cost and duration, and the IDs, severities and roles of the checks that fired. Your thumbs up/down votes are sent as check IDs only. All of this is tied to a random install ID, not to you. Each install also has a random deletion token that stays on your machine (in tracedoc's config folder); only a one-way hash of it is sent, and the server requires the token itself before deleting anything.
 - **What is never sent:** prompts, inputs, outputs, tool arguments or results, code, node or tool names, file paths, API keys, or anything identifying you or your users. A test feeds traces with unique markers in every one of those fields and checks that none of them reaches the payload.
 - **You stay in control:**
 

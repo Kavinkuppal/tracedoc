@@ -7,6 +7,8 @@ header parsing (see __main__.py).
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import logging
 from uuid import UUID
 
@@ -59,11 +61,15 @@ def create_app(
             )
         if not limiter.allow(str(contribution.install_id)):
             return JSONResponse({"error": "rate limited"}, status_code=429)
-        store.add(
+        stored = store.add(
             contribution.install_id,
+            contribution.deletion_key_hash,
             contribution.schema_version,
-            contribution.model_dump(mode="json"),
+            # The hash lives once, in the installs table; not repeated in every row.
+            contribution.model_dump(mode="json", exclude={"deletion_key_hash"}),
         )
+        if not stored:
+            return JSONResponse({"error": "install key mismatch"}, status_code=403)
         log.info(
             "stored contribution schema=%s runs=%d",
             contribution.schema_version,
@@ -72,9 +78,24 @@ def create_app(
         return JSONResponse({"status": "stored"}, status_code=201)
 
     @app.delete("/v1/installs/{install_id}")
-    async def delete_install(install_id: UUID) -> Response:
+    async def delete_install(install_id: UUID, request: Request) -> Response:
+        """Requires `Authorization: Bearer <deletion token>`; the install ID alone is not enough."""
         if not limiter.allow(f"delete:{install_id}"):
             return JSONResponse({"error": "rate limited"}, status_code=429)
+        auth = request.headers.get("authorization", "")
+        scheme, _, token = auth.partition(" ")
+        if scheme.lower() != "bearer" or not token.strip():
+            return JSONResponse(
+                {"error": "deletion token required"},
+                status_code=401,
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        stored_hash = store.deletion_key_hash(install_id)
+        if stored_hash is None:
+            return JSONResponse({"error": "nothing stored for this install"}, status_code=404)
+        offered = hashlib.sha256(token.strip().encode("utf-8")).hexdigest()
+        if not hmac.compare_digest(offered, stored_hash):
+            return JSONResponse({"error": "invalid deletion token"}, status_code=403)
         removed = store.delete_install(install_id)
         log.info("deleted install data rows=%d", removed)
         return JSONResponse({"status": "deleted", "rows": removed})
