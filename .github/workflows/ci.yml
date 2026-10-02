@@ -24,3 +24,5 @@ jobs:
           ruff format --check .
       - name: Test
         run: pytest
+      - name: Eval harness (mocked responses)
+        run: python evals/run_evals.py --mock
