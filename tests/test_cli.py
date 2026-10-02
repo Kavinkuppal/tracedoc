@@ -49,6 +49,7 @@ def test_analyze_without_key_runs_rules_only(tmp_path: Path) -> None:
     assert result.exit_code == 0, result.output
     assert "running rule checks only" in result.output
     report = json.loads((tmp_path / "report.json").read_text())
+    assert (tmp_path / "report.html").is_file() and (tmp_path / "report.md").is_file()
     assert report["metadata"]["judged"] is False
     assert report["groups"][0]["representative"]["severity"] == "high"
     assert report["scorecard"]["runs"] == 6

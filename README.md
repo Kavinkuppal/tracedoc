@@ -18,9 +18,11 @@ Or import from LangSmith: an export file (`--source langsmith PATH`) or a projec
 
 ```
 tracedoc estimate ./runs              # what judging would cost; no model calls
-tracedoc analyze ./runs --max-cost 2  # asks before spending; writes tracedoc-report/report.json
+tracedoc analyze ./runs --max-cost 2  # asks before spending; writes tracedoc-report/report.{html,md,json}
 tracedoc analyze ./runs --no-judge    # rule checks only, no model calls
 ```
+
+`report.html` is one self-contained file that works offline: filter by task type, node and severity, open any finding's evidence in the run replay, and vote on findings (`tracedoc feedback <id> up|down`, or export votes from the page and `tracedoc feedback --import FILE`).
 
 Rule checks run without a model. Judge checks use your key (`ANTHROPIC_API_KEY` by default) in two stages: a cheap triage model, then a stronger confirmation model on what triage flags.
 
@@ -65,4 +67,6 @@ pip install -e ".[dev]"
 ruff check . && ruff format --check . && pytest
 python -m tests.fixtures.generate_traces   # regenerate fixture traces
 pytest -m live --live -s                   # real-model acceptance test (spends money)
+pytest -m browser --browser                # report in Chromium/Firefox/WebKit (needs .[browser-tests])
+UPDATE_SNAPSHOTS=1 pytest tests/test_report.py   # accept report-data snapshot changes
 ```

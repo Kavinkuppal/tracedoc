@@ -26,3 +26,17 @@ jobs:
         run: pytest
       - name: Eval harness (mocked responses)
         run: python evals/run_evals.py --mock
+
+  browsers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          pip install -e ".[dev,browser-tests]"
+          python -m playwright install --with-deps chromium firefox webkit
+      - name: Report renders offline in Chromium, Firefox, WebKit
+        run: pytest -m browser --browser tests/test_browser.py
