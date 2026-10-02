@@ -10,8 +10,10 @@ from .__about__ import NAME, __version__
 from .analyze import SourceName, classifier_calls, load_traces, normalize_all, prepare
 from .analyze import analyze as run_analysis
 from .config import Config, load_config
+from .feedback import check_for, import_file, record
 from .llm.client import has_credentials, make_client
 from .llm.cost import Spend, price_of
+from .report import write_reports
 from .schema import Report
 
 app = typer.Typer(name=NAME, help="Diagnose LangGraph agent traces.", no_args_is_help=True)
@@ -150,12 +152,11 @@ def analyze(
         typer.echo(f"\rJudging {done}/{total}", nl=done == total)
 
     report = run_analysis(runs, config, client=client, spend=spend, progress=progress)
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "report.json").write_text(report.model_dump_json(indent=2))
-    _print_summary(report, out)
+    html_path = write_reports(report, runs, out)
+    _print_summary(report, out, html_path)
 
 
-def _print_summary(report: Report, out: Path) -> None:
+def _print_summary(report: Report, out: Path, html_path: Path) -> None:
     sc, meta = report.scorecard, report.metadata
     typer.echo(
         f"\n{sc['runs']} runs, {sc['completion_rate']:.0%} completed, "
@@ -178,7 +179,30 @@ def _print_summary(report: Report, out: Path) -> None:
         typer.echo(
             f"\nAnalysis cost: ${meta['analysis_cost']:.2f} over {meta['analysis_calls']} calls"
         )
-    typer.echo(f"Report: {out / 'report.json'}")
+    typer.echo(f"\nReport: {html_path}  (also report.md, report.json)")
+
+
+@app.command()
+def feedback(
+    finding_id: str | None = typer.Argument(None, help="Finding ID shown in the report."),
+    vote: str | None = typer.Argument(None, help="up or down"),
+    import_path: Path | None = typer.Option(
+        None, "--import", help="Import votes exported from the HTML report."
+    ),
+    report_path: Path = typer.Option(
+        Path("tracedoc-report/report.json"), "--report", help="Report to look the finding up in."
+    ),
+) -> None:
+    """Record whether a finding was useful. Stored locally."""
+    if import_path is not None:
+        count = import_file(import_path)
+        typer.echo(f"Imported {count} vote(s).")
+        return
+    if finding_id is None or vote not in ("up", "down"):
+        typer.echo("Usage: tracedoc feedback FINDING_ID up|down, or --import FILE", err=True)
+        raise typer.Exit(2)
+    record(finding_id, vote, check_for(finding_id, report_path))  # type: ignore[arg-type]
+    typer.echo(f"Recorded {vote} for {finding_id}.")
 
 
 if __name__ == "__main__":
