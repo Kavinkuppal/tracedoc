@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from pydantic import BaseModel
 
 from ...config import Config
-from ...llm.client import LLMClient, LLMError
+from ...llm.client import KeyRejectedError, LLMClient, LLMError
 from ...llm.cost import BudgetExceededError, Spend, estimate_tokens, price_of
 from ...schema import Finding, Run
 from ..util import excerpt
@@ -320,6 +320,7 @@ class Judge:
         verdicts: dict[str, Verdict | None] = {}  # candidate finding id -> verdict
         judged: list[Finding] = []
         stop = threading.Event()
+        fatal: list[KeyRejectedError] = []
         done = [0]
 
         def guarded(fn: Callable[[], None]) -> None:
@@ -329,6 +330,9 @@ class Judge:
                 fn()
             except BudgetExceededError as e:
                 outcome.stopped_for_budget = str(e)
+                stop.set()
+            except KeyRejectedError as e:
+                fatal.append(e)
                 stop.set()
             except LLMError as e:
                 with self._lock:
@@ -359,6 +363,8 @@ class Judge:
 
         with ThreadPoolExecutor(max_workers=max(1, jc.concurrency)) as pool:
             list(pool.map(lambda t: guarded(lambda: handle(t)), plan.tasks))
+        if fatal:
+            raise fatal[0]
         outcome.calls = self.spend.calls
 
         # Confirm or drop rule candidates. Candidates never judged (no prompt, budget, error)

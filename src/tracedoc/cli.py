@@ -9,14 +9,37 @@ import typer
 from .__about__ import NAME, __version__
 from .analyze import SourceName, classifier_calls, load_traces, normalize_all, prepare
 from .analyze import analyze as run_analysis
-from .config import Config, load_config
-from .feedback import check_for, import_file, record
-from .llm.client import has_credentials, make_client
+from .config import Config, ConfigError, config_dir, load_config, user_config_path
+from .feedback import check_for, feedback_path, import_file, record
+from .ingest.jsonl import CaptureFormatError
+from .llm.client import KeyRejectedError, MissingKeyError, make_client, require_key
 from .llm.cost import Spend, price_of
 from .report import write_reports
 from .schema import Report
 
-app = typer.Typer(name=NAME, help="Diagnose LangGraph agent traces.", no_args_is_help=True)
+app = typer.Typer(
+    name=NAME,
+    help="Diagnose LangGraph agent traces.",
+    no_args_is_help=True,
+    pretty_exceptions_enable=False,
+)
+
+# Problems the user can fix: one line on stderr, exit code 2, never a stack trace.
+USER_ERRORS = (
+    MissingKeyError,
+    KeyRejectedError,
+    ConfigError,
+    CaptureFormatError,
+    FileNotFoundError,
+    NotADirectoryError,
+    ValueError,
+)
+
+
+def _fail(error: BaseException) -> typer.Exit:
+    typer.echo(f"Error: {error}", err=True)
+    return typer.Exit(2)
+
 
 # Rough size of one classification fallback call, for estimates.
 _CLASSIFY_IN, _CLASSIFY_OUT = 150, 20
@@ -29,6 +52,16 @@ def main(
     if version:
         typer.echo(f"{NAME} {__version__}")
         raise typer.Exit()
+
+
+def _load(path: Path | None, source: SourceName, project: str | None) -> list:
+    if path is not None and not path.exists():
+        raise FileNotFoundError(f"{path} does not exist")
+    traces = load_traces(path, source, project)
+    if not traces:
+        where = f"LangSmith project {project}" if project else str(path)
+        raise ValueError(f"no traces found in {where}")
+    return traces
 
 
 def _config(
@@ -98,8 +131,16 @@ def estimate(
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
     """Print what analysis would cost, without calling any model."""
-    config = _config(config_path, model, triage_model, include_unvalidated)
-    runs = normalize_all(load_traces(path, source, project), config)
+    try:
+        config = _config(config_path, model, triage_model, include_unvalidated)
+        try:
+            require_key(config.llm)
+        except MissingKeyError as e:
+            hint = "or use `tracedoc analyze --no-judge` for rule checks only (no key needed)"
+            raise MissingKeyError(e.env_var, hint=hint) from None
+        runs = normalize_all(_load(path, source, project), config)
+    except USER_ERRORS as e:
+        raise _fail(e) from None
     _print_estimate(config, runs, prepare(runs, config))
 
 
@@ -122,18 +163,14 @@ def analyze(
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
     """Analyze traces and write a report."""
-    config = _config(config_path, model, triage_model, include_unvalidated)
-    traces = load_traces(path, source, project)
-    if not traces:
-        typer.echo("No traces found.", err=True)
-        raise typer.Exit(1)
-
-    use_model = not no_judge and has_credentials(config.llm)
-    if not no_judge and not use_model:
-        typer.echo(
-            f"No key found for {config.llm.provider}; running rule checks only. "
-            "Set the API key (or --no-judge to silence this)."
-        )
+    try:
+        config = _config(config_path, model, triage_model, include_unvalidated)
+        use_model = not no_judge
+        if use_model:
+            require_key(config.llm)  # fail fast, before any work
+        traces = _load(path, source, project)
+    except USER_ERRORS as e:
+        raise _fail(e) from None
     runs = normalize_all(traces, config)
     client = spend = None
     if use_model:
@@ -143,15 +180,19 @@ def analyze(
             typer.echo(f"Estimate is above --max-cost {_money(max_cost)}; judging will stop there.")
         if not yes and not typer.confirm("Proceed?", default=False):
             raise typer.Exit(1)
-        client = make_client(config.llm)
-        spend = Spend(prices=config.prices, max_cost=max_cost)
-        if classifier_calls(runs):
-            runs = normalize_all(traces, config, client=client, spend=spend)
 
     def progress(done: int, total: int) -> None:
         typer.echo(f"\rJudging {done}/{total}", nl=done == total)
 
-    report = run_analysis(runs, config, client=client, spend=spend, progress=progress)
+    try:
+        if use_model:
+            client = make_client(config.llm)
+            spend = Spend(prices=config.prices, max_cost=max_cost)
+            if classifier_calls(runs):
+                runs = normalize_all(traces, config, client=client, spend=spend)
+        report = run_analysis(runs, config, client=client, spend=spend, progress=progress)
+    except (MissingKeyError, KeyRejectedError) as e:
+        raise _fail(e) from None
     html_path = write_reports(report, runs, out)
     _print_summary(report, out, html_path)
 
@@ -180,6 +221,14 @@ def _print_summary(report: Report, out: Path, html_path: Path) -> None:
             f"\nAnalysis cost: ${meta['analysis_cost']:.2f} over {meta['analysis_calls']} calls"
         )
     typer.echo(f"\nReport: {html_path}  (also report.md, report.json)")
+
+
+@app.command()
+def paths() -> None:
+    """Show where tracedoc keeps its config file and local data."""
+    typer.echo(f"Config file:    {user_config_path()}")
+    typer.echo(f"Config folder:  {config_dir()}")
+    typer.echo(f"Feedback votes: {feedback_path()}")
 
 
 @app.command()

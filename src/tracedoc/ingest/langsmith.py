@@ -8,15 +8,18 @@ of a trace must be present, not only the roots.
 from __future__ import annotations
 
 import json
+import os
 import re
 from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
+from ..llm.client import MissingKeyError
 from ..messages import as_message, to_jsonable
 from .base import RawSpan, RawTrace, SpanKind, parse_time
 
+LANGSMITH_KEY_ENV = "LANGSMITH_API_KEY"
 _KIND: dict[str, SpanKind] = {"llm": "llm", "tool": "tool", "retriever": "tool"}
 _ERROR_TYPE = re.compile(r"^\s*([A-Za-z_][\w.]*)\s*[(:]")
 
@@ -167,8 +170,11 @@ def fetch_project(project: str, *, limit: int | None = 100, client: Any = None) 
         try:
             from langsmith import Client
         except ImportError as e:  # pragma: no cover
-            raise ImportError("LangSmith import needs `pip install tracedoc[langsmith]`") from e
-        client = Client()
+            raise ImportError("LangSmith import needs `pip install 'tracedoc[langsmith]'`") from e
+        key = os.environ.get(LANGSMITH_KEY_ENV, "").strip()
+        if not key:
+            raise MissingKeyError(LANGSMITH_KEY_ENV, hint="or import an exported file instead")
+        client = Client(api_key=key)
     runs: list[dict[str, Any]] = []
     for root in client.list_runs(project_name=project, is_root=True, limit=limit):
         trace_id = getattr(root, "trace_id", None) or root.id

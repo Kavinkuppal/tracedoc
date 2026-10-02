@@ -24,16 +24,35 @@ from ..config import LLMConfig
 
 T = TypeVar("T", bound=BaseModel)
 
-_DEFAULT_KEY_ENV = {
-    "anthropic": "ANTHROPIC_API_KEY",
-    "openai": "OPENAI_API_KEY",
-    "openai_compatible": "OPENAI_API_KEY",
-}
+DEFAULT_KEY_ENV = {"anthropic": "ANTHROPIC_API_KEY", "openai": "OPENAI_API_KEY"}
+README_KEYS = "README: 'Set up your API key'"
 _FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
 
 
 class LLMError(RuntimeError):
     """The model could not produce a valid answer (refusal, bad JSON after retries, API error)."""
+
+
+class MissingKeyError(RuntimeError):
+    """No key in the environment for the configured provider."""
+
+    def __init__(
+        self, env_var: str, hint: str = "or run with --no-judge for rule checks only"
+    ) -> None:
+        self.env_var = env_var
+        super().__init__(
+            f"{env_var} is not set. Set it to your own API key (see {README_KEYS}), {hint}."
+        )
+
+
+class KeyRejectedError(RuntimeError):
+    """The provider rejected the key (401/403). Fatal: stop instead of retrying every call."""
+
+    def __init__(self, env_var: str | None, detail: str) -> None:
+        name = env_var or "the API key"
+        super().__init__(
+            f"The provider rejected {name} ({detail}). Check the key; see {README_KEYS}."
+        )
 
 
 @dataclass
@@ -57,19 +76,31 @@ class LLMClient(Protocol):
     ) -> LLMResult[T]: ...
 
 
-def _api_key(config: LLMConfig) -> str | None:
-    env = config.api_key_env or _DEFAULT_KEY_ENV[config.provider]
-    return os.environ.get(env) or config.api_key
+def key_env_var(config: LLMConfig) -> str | None:
+    """The environment variable this provider's key is read from (None: no key is sent)."""
+    return config.api_key_env or DEFAULT_KEY_ENV.get(config.provider)
+
+
+def require_key(config: LLMConfig) -> str | None:
+    """Return the key from the environment, or raise MissingKeyError. Keys never come from
+    config files, and there is no built-in or fallback key."""
+    env_var = key_env_var(config)
+    if env_var is None:
+        return None
+    key = os.environ.get(env_var, "").strip()
+    if not key:
+        raise MissingKeyError(env_var)
+    return key
 
 
 class AnthropicClient:
     def __init__(self, config: LLMConfig, client: Any = None) -> None:
+        self.env_var = key_env_var(config)
         if client is None:
             import anthropic
 
-            key = _api_key(config)
             client = anthropic.Anthropic(
-                **({"api_key": key} if key else {}),  # else the SDK resolves profiles/tokens
+                api_key=require_key(config),  # explicit: never a profile or other ambient token
                 max_retries=config.max_retries,
                 timeout=config.timeout_s,
             )
@@ -99,6 +130,8 @@ class AnthropicClient:
                 output_format=schema,
                 **kwargs,
             )
+        except (anthropic.AuthenticationError, anthropic.PermissionDeniedError) as e:
+            raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except anthropic.APIError as e:
             raise LLMError(f"Anthropic API error: {e}") from e
         if response.stop_reason == "refusal":
@@ -116,11 +149,13 @@ class AnthropicClient:
 class OpenAIClient:
     def __init__(self, config: LLMConfig, client: Any = None) -> None:
         self.native = config.provider == "openai"
+        self.env_var = key_env_var(config)
         if client is None:
             import openai
 
             client = openai.OpenAI(
-                api_key=_api_key(config) or ("not-needed" if not self.native else None),
+                # A local endpoint gets no key unless api_key_env names one; the SDK needs a value.
+                api_key=require_key(config) or "not-needed",
                 base_url=config.base_url,
                 max_retries=config.max_retries,
                 timeout=config.timeout_s,
@@ -143,6 +178,8 @@ class OpenAIClient:
             if self.native:
                 return self._native(system, prompt, schema, model, max_tokens)
             return self._compatible(system, prompt, schema, model, max_tokens)
+        except (openai.AuthenticationError, openai.PermissionDeniedError) as e:
+            raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except openai.APIError as e:
             raise LLMError(f"OpenAI API error: {e}") from e
 
@@ -211,8 +248,3 @@ def make_client(config: LLMConfig) -> LLMClient:
     if config.provider == "openai_compatible" and not config.base_url:
         raise ValueError("llm.base_url is required for the openai_compatible provider")
     return OpenAIClient(config)
-
-
-def has_credentials(config: LLMConfig) -> bool:
-    """Best effort: whether a key is configured. Anthropic can also use `ant auth` profiles."""
-    return config.provider == "openai_compatible" or _api_key(config) is not None

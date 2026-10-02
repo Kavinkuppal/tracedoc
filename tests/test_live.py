@@ -11,7 +11,7 @@ from tests.fixtures.agents import AGENTS
 from tests.helpers import load_fixture
 from tracedoc.analyze import analyze
 from tracedoc.config import load_config
-from tracedoc.llm.client import has_credentials, make_client
+from tracedoc.llm.client import MissingKeyError, make_client, require_key
 from tracedoc.llm.cost import Spend
 
 pytestmark = pytest.mark.live
@@ -19,8 +19,10 @@ pytestmark = pytest.mark.live
 
 def test_real_judges_find_intended_issues_on_fixtures() -> None:
     config = load_config()
-    if not has_credentials(config.llm):
-        pytest.skip("no model key configured")
+    try:
+        require_key(config.llm)
+    except MissingKeyError as e:
+        pytest.skip(str(e))
     config.judge.include_unvalidated = True
     runs = [load_fixture(n) for n in AGENTS]
     names = {r.id: n for r, n in zip(runs, AGENTS, strict=True)}

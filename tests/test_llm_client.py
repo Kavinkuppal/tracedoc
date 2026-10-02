@@ -12,9 +12,10 @@ from tracedoc.config import LLMConfig
 from tracedoc.llm.client import (
     AnthropicClient,
     LLMError,
+    MissingKeyError,
     OpenAIClient,
-    has_credentials,
     make_client,
+    require_key,
 )
 
 
@@ -119,10 +120,56 @@ def test_make_client_requires_base_url_for_compatible() -> None:
         make_client(LLMConfig(provider="openai_compatible"))
 
 
-def test_has_credentials(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    monkeypatch.delenv("MY_KEY", raising=False)
-    assert not has_credentials(LLMConfig())
+def test_keys_come_only_from_the_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    for var in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY", "MY_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    with pytest.raises(MissingKeyError) as e:
+        require_key(LLMConfig())
+    assert e.value.env_var == "ANTHROPIC_API_KEY"
+    with pytest.raises(MissingKeyError):
+        require_key(LLMConfig(provider="openai"))
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "   ")  # blank counts as missing
+    with pytest.raises(MissingKeyError):
+        require_key(LLMConfig())
     monkeypatch.setenv("MY_KEY", "k")
-    assert has_credentials(LLMConfig(api_key_env="MY_KEY"))
-    assert has_credentials(LLMConfig(provider="openai_compatible", base_url="http://x"))
+    assert require_key(LLMConfig(api_key_env="MY_KEY")) == "k"
+
+
+def test_config_cannot_hold_a_key() -> None:
+    with pytest.raises(ValueError):
+        LLMConfig(api_key="sk-anything")  # type: ignore[call-arg]
+
+
+def test_local_endpoint_never_receives_the_openai_key(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "real-openai-key-should-not-leak")
+    config = LLMConfig(provider="openai_compatible", base_url="http://localhost:11434/v1")
+    assert require_key(config) is None
+    client = make_client(config)
+    assert client.client.api_key == "not-needed"
+
+
+def test_anthropic_client_uses_the_env_key_explicitly(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "env-key")
+    monkeypatch.setenv("ANTHROPIC_AUTH_TOKEN", "ambient-token-should-be-ignored")
+    client = make_client(LLMConfig())
+    assert client.client.api_key == "env-key"
+
+
+def test_rejected_key_is_fatal_not_a_per_call_error() -> None:
+    import anthropic
+    import httpx2 as httpx
+
+    from tracedoc.llm.client import KeyRejectedError
+
+    request = httpx.Request("POST", "https://api.anthropic.com/v1/messages")
+    error = anthropic.AuthenticationError(
+        "bad key", response=httpx.Response(401, request=request), body=None
+    )
+
+    class Raising:
+        def parse(self, **kwargs: Any) -> Any:
+            raise error
+
+    client = AnthropicClient(LLMConfig(), client=SimpleNamespace(messages=Raising()))
+    with pytest.raises(KeyRejectedError, match="HTTP 401"):
+        client.complete_json("s", "p", Answer, model="m")

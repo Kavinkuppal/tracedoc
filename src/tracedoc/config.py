@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from platformdirs import user_config_dir
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from .__about__ import NAME
 from .schema import Severity
@@ -95,7 +95,12 @@ class ChecksConfig(BaseModel):
 
 
 class LLMConfig(BaseModel):
-    """The developer's own model, used for judging and classification fallbacks."""
+    """The developer's own model, used for judging and classification fallbacks.
+
+    Keys are read only from environment variables, never from config files.
+    """
+
+    model_config = ConfigDict(extra="forbid")
 
     provider: Literal["anthropic", "openai", "openai_compatible"] = "anthropic"
     # TODO(founders): confirm default triage and confirmation models.
@@ -106,9 +111,8 @@ class LLMConfig(BaseModel):
     base_url: str | None = None
     """Endpoint for openai_compatible providers (for example a local server)."""
     api_key_env: str | None = None
-    """Environment variable holding the key; defaults to the provider's usual variable."""
-    api_key: str | None = None
-    """Prefer api_key_env. A key here is used only if the environment has none."""
+    """Name of the environment variable holding the key (never the key itself). Defaults to
+    ANTHROPIC_API_KEY / OPENAI_API_KEY; openai_compatible sends no key unless this is set."""
     max_retries: int = 3
     timeout_s: float = 120.0
 
@@ -169,8 +173,14 @@ class Config(BaseModel):
     prices: dict[str, Price] = Field(default_factory=lambda: dict(DEFAULT_PRICES))
 
 
+class ConfigError(ValueError):
+    """A config file problem the user can fix; shown as a one-line message."""
+
+
 def config_dir() -> Path:
-    return Path(user_config_dir(NAME))
+    """macOS: ~/Library/Application Support/tracedoc; Linux: $XDG_CONFIG_HOME/tracedoc
+    (default ~/.config/tracedoc); Windows: %LOCALAPPDATA%\\tracedoc."""
+    return Path(user_config_dir(NAME, appauthor=False))
 
 
 def user_config_path() -> Path:
@@ -196,5 +206,11 @@ def load_config(path: Path | None = None, *, use_user_config: bool = True) -> Co
     for source in sources:
         if source.is_file():
             with source.open("rb") as f:
-                data = _deep_merge(data, tomllib.load(f))
+                loaded = tomllib.load(f)
+            if "api_key" in loaded.get("llm", {}):
+                raise ConfigError(
+                    f"{source}: [llm] api_key is not supported; keys come only from environment "
+                    "variables (set api_key_env to the variable's name)"
+                )
+            data = _deep_merge(data, loaded)
     return Config.model_validate(data)

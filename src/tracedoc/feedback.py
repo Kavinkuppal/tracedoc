@@ -20,7 +20,7 @@ FEEDBACK_FORMAT = "tracedoc-feedback"
 
 
 def feedback_path() -> Path:
-    return Path(user_data_dir(NAME)) / "feedback.jsonl"
+    return Path(user_data_dir(NAME, appauthor=False)) / "feedback.jsonl"
 
 
 def record(

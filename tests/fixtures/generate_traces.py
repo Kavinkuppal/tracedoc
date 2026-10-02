@@ -25,6 +25,12 @@ from tracedoc import TraceCapture
 from .agents import AGENTS, run_agent
 
 TRACES = Path(__file__).parent / "traces"
+REPO = Path(__file__).resolve().parents[2]
+
+
+def scrub_local_paths(text: str) -> str:
+    """Tracebacks embed absolute paths (and so the developer's username); keep them out of git."""
+    return text.replace(str(REPO), "<repo>").replace(str(Path.home()), "<home>")
 
 
 class CollectingTracer(LangChainTracer):
@@ -72,9 +78,11 @@ def generate() -> None:
             with contextlib.suppress(GraphRecursionError):
                 run_agent(name, callbacks=[capture, tracer])
             (written,) = capture.files_written
-            shutil.copy(written, capture_dir / f"{name}.jsonl")
+            (capture_dir / f"{name}.jsonl").write_text(scrub_local_paths(written.read_text()))
         runs = tracer.export()
-        (langsmith_dir / f"{name}.json").write_text(json.dumps(runs, indent=1) + "\n")
+        (langsmith_dir / f"{name}.json").write_text(
+            scrub_local_paths(json.dumps(runs, indent=1) + "\n")
+        )
         print(f"{name}: {len(runs)} LangSmith runs")
 
 

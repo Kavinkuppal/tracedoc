@@ -200,3 +200,11 @@ def test_sources_agree(name: str) -> None:
 def test_step_kind_counts() -> None:
     run = load_fixture("healthy")
     assert Counter(s.kind for s in run.steps) == {"node": 5, "llm": 4, "tool": 1, "handoff": 2}
+
+
+def test_committed_traces_hold_no_local_paths() -> None:
+    from tests.helpers import TRACES
+
+    for path in TRACES.rglob("*.json*"):
+        text = path.read_text()
+        assert "/Users/" not in text and "/home/" not in text and "C:\\\\Users" not in text, path

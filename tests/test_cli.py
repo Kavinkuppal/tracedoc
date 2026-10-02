@@ -21,7 +21,8 @@ def isolated_config(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     from tracedoc import config as config_module
 
     monkeypatch.setattr(config_module, "user_config_path", lambda: tmp_path / "none.toml")
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    for var in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY", "LANGSMITH_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
 
 
 def test_version() -> None:
@@ -29,14 +30,16 @@ def test_version() -> None:
     assert result.exit_code == 0 and "0.0.1" in result.output
 
 
-def test_estimate_prints_cost_without_calls() -> None:
+def test_estimate_prints_cost_without_calls(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
     result = runner.invoke(cli.app, ["estimate", CAPTURES, "--include-unvalidated"])
     assert result.exit_code == 0, result.output
     assert "Estimated cost: $" in result.output
     assert "Judge windows:" in result.output
 
 
-def test_estimate_langsmith_export() -> None:
+def test_estimate_langsmith_export(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
     result = runner.invoke(
         cli.app, ["estimate", str(TRACES / "langsmith"), "--source", "langsmith"]
     )
@@ -44,10 +47,9 @@ def test_estimate_langsmith_export() -> None:
     assert "Runs: 6" in result.output
 
 
-def test_analyze_without_key_runs_rules_only(tmp_path: Path) -> None:
-    result = runner.invoke(cli.app, ["analyze", CAPTURES, "--out", str(tmp_path)])
+def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
+    result = runner.invoke(cli.app, ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path)])
     assert result.exit_code == 0, result.output
-    assert "running rule checks only" in result.output
     report = json.loads((tmp_path / "report.json").read_text())
     assert (tmp_path / "report.html").is_file() and (tmp_path / "report.md").is_file()
     assert report["metadata"]["judged"] is False
@@ -56,7 +58,7 @@ def test_analyze_without_key_runs_rules_only(tmp_path: Path) -> None:
 
 
 def _with_fake(monkeypatch: pytest.MonkeyPatch, client: FakeLLM) -> None:
-    monkeypatch.setattr(cli, "has_credentials", lambda config: True)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
     monkeypatch.setattr(cli, "make_client", lambda config: client)
 
 
@@ -118,3 +120,74 @@ def test_model_flags_override_config(tmp_path: Path, monkeypatch) -> None:
     assert runner.invoke(cli.app, args).exit_code == 0
     report = json.loads((tmp_path / "report.json").read_text())
     assert report["metadata"]["analysis_models"]["confirm"] == "claude-sonnet-5"
+
+
+# ---- missing, rejected, and misplaced keys: one line, exit 2, no traceback -----------------
+
+
+def _one_line_error(result) -> str:
+    assert result.exit_code == 2, result.output
+    assert "Traceback" not in result.output
+    lines = [ln for ln in result.stderr.splitlines() if ln.strip()]
+    assert len(lines) == 1, result.stderr
+    return lines[0]
+
+
+@pytest.mark.parametrize("command", ["analyze", "estimate"])
+def test_missing_anthropic_key_is_one_clear_line(command: str, tmp_path: Path) -> None:
+    line = _one_line_error(
+        runner.invoke(
+            cli.app,
+            [command, CAPTURES, "--out", str(tmp_path)]
+            if command == "analyze"
+            else [command, CAPTURES],
+        )
+    )
+    assert line.startswith("Error: ANTHROPIC_API_KEY is not set.")
+    assert "README: 'Set up your API key'" in line
+
+
+def test_missing_openai_key_names_openai_variable(tmp_path: Path) -> None:
+    config = tmp_path / "c.toml"
+    config.write_text('[llm]\nprovider = "openai"\ntriage_model = "a"\nconfirm_model = "b"\n')
+    line = _one_line_error(runner.invoke(cli.app, ["estimate", CAPTURES, "--config", str(config)]))
+    assert "OPENAI_API_KEY is not set" in line
+
+
+def test_key_in_config_file_is_refused(tmp_path: Path) -> None:
+    config = tmp_path / "c.toml"
+    config.write_text('[llm]\napi_key = "sk-should-not-be-here"\n')
+    line = _one_line_error(runner.invoke(cli.app, ["estimate", CAPTURES, "--config", str(config)]))
+    assert "api_key is not supported" in line
+    assert "sk-should-not-be-here" not in line
+
+
+def test_rejected_key_stops_with_one_line(tmp_path: Path, monkeypatch) -> None:
+    from tracedoc.llm.client import KeyRejectedError
+
+    class Rejecting(FakeLLM):
+        def complete_json(self, *args, **kwargs):
+            raise KeyRejectedError("ANTHROPIC_API_KEY", "HTTP 401")
+
+    _with_fake(monkeypatch, Rejecting())
+    args = ["analyze", CAPTURES, "--out", str(tmp_path), "--yes"]
+    line = _one_line_error(runner.invoke(cli.app, args))
+    assert "rejected ANTHROPIC_API_KEY (HTTP 401)" in line
+    assert not (tmp_path / "report.json").exists()
+
+
+def test_langsmith_project_needs_langsmith_key() -> None:
+    args = ["analyze", "--source", "langsmith", "--project", "p", "--no-judge"]
+    line = _one_line_error(runner.invoke(cli.app, args))
+    assert "LANGSMITH_API_KEY is not set" in line
+
+
+def test_missing_path_is_one_line() -> None:
+    line = _one_line_error(runner.invoke(cli.app, ["analyze", "no/such/dir", "--no-judge"]))
+    assert "does not exist" in line
+
+
+def test_paths_command(tmp_path: Path) -> None:
+    result = runner.invoke(cli.app, ["paths"])
+    assert result.exit_code == 0
+    assert "Config file:" in result.output and "Feedback votes:" in result.output
