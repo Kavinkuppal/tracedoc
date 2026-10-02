@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import typer
@@ -11,11 +12,29 @@ from .analyze import SourceName, classifier_calls, load_traces, normalize_all, p
 from .analyze import analyze as run_analysis
 from .config import Config, ConfigError, config_dir, load_config, user_config_path
 from .feedback import check_for, feedback_path, import_file, record
+from .feedback import load as load_votes
 from .ingest.jsonl import CaptureFormatError
 from .llm.client import KeyRejectedError, MissingKeyError, make_client, require_key
 from .llm.cost import Spend, price_of
 from .report import write_reports
 from .schema import Report
+from .share.consent import (
+    TERMS,
+    load_state,
+    record_choice,
+    rotate_install_id,
+    save_state,
+    state_path,
+)
+from .share.payload import build_contribution, serialize
+from .share.upload import (
+    ShareError,
+    last_payload_path,
+    request_deletion,
+    save_pending,
+    upload,
+    upload_log_path,
+)
 
 app = typer.Typer(
     name=NAME,
@@ -195,6 +214,94 @@ def analyze(
         raise _fail(e) from None
     html_path = write_reports(report, runs, out)
     _print_summary(report, out, html_path)
+    _share_after_report(config, report, runs)
+
+
+def _interactive() -> bool:
+    """Only ask for consent at a real terminal; scripts and CI never get (or answer) a prompt."""
+    return sys.stdin.isatty()
+
+
+def _share_after_report(config, report: Report, runs: list) -> None:  # noqa: ANN001
+    """Save the would-be payload for `share --preview`; ask and upload only when enabled."""
+    state = load_state()  # creates the random install ID on first run
+    votes = [
+        (v["check_id"], v["vote"], v["ts"])
+        for v in load_votes().values()
+        if v.get("check_id")
+        and (state.votes_sent_until is None or v["ts"] > state.votes_sent_until)
+    ]
+    findings = [f for g in report.groups for f in g.findings]
+    payload = serialize(
+        build_contribution(state.install_id, runs, findings, [(c, v) for c, v, _ in votes])
+    )
+    save_pending(payload)
+    if not config.share.enabled:
+        return
+    if state.needs_asking and _interactive():
+        typer.echo("\n" + TERMS)
+        agreed = typer.confirm("Share anonymized statistics?", default=False)  # Enter means no
+        state = record_choice(state, "yes" if agreed else "no")
+    if not state.sharing or not config.share.endpoint.strip():
+        return
+    try:
+        upload(payload, config.share)
+    except ShareError as e:
+        typer.echo(f"Statistics were not shared: {e}", err=True)
+        return
+    if votes:
+        state.votes_sent_until = max(ts for _, _, ts in votes)
+        save_state(state)
+    typer.echo("Shared anonymized statistics (see exactly what: tracedoc share --preview).")
+
+
+@app.command()
+def share(
+    preview: bool = typer.Option(False, "--preview", help="Print the exact payload."),
+    on: bool = typer.Option(False, "--on", help="Opt in to sharing."),
+    off: bool = typer.Option(False, "--off", help="Stop sharing (revoke consent)."),
+    delete: bool = typer.Option(
+        False, "--delete", help="Delete everything shared from this install."
+    ),
+    config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
+) -> None:
+    """Preview, opt in to, revoke, or delete anonymized statistics sharing."""
+    if sum((preview, on, off, delete)) != 1:
+        raise _fail(ValueError("use exactly one of --preview, --on, --off, --delete"))
+    try:
+        config = load_config(config_path)
+    except USER_ERRORS as e:
+        raise _fail(e) from None
+    state = load_state()
+    if preview:
+        path = last_payload_path()
+        if not path.is_file():
+            raise _fail(ValueError("nothing to preview yet; run `tracedoc analyze` first"))
+        sys.stdout.buffer.write(path.read_bytes())  # the exact bytes an upload sends
+        sys.stdout.buffer.flush()
+        return
+    if off:
+        record_choice(state, "no")
+        typer.echo("Sharing is off. Nothing more will be sent.")
+        return
+    if not config.share.enabled:
+        raise _fail(ShareError("data sharing is not enabled in this version"))
+    if on:
+        typer.echo(TERMS)
+        if typer.confirm("Share anonymized statistics?", default=False):
+            record_choice(state, "yes")
+            typer.echo("Sharing is on. Preview with `tracedoc share --preview`.")
+        else:
+            record_choice(state, "no")
+            typer.echo("Sharing stays off.")
+        return
+    try:
+        request_deletion(state.install_id, config.share)
+    except ShareError as e:
+        raise _fail(e) from None
+    record_choice(state, "no")
+    rotate_install_id(state)
+    typer.echo("Deletion requested and confirmed. Sharing is off; this install has a new ID.")
 
 
 def _print_summary(report: Report, out: Path, html_path: Path) -> None:
@@ -229,6 +336,8 @@ def paths() -> None:
     typer.echo(f"Config file:    {user_config_path()}")
     typer.echo(f"Config folder:  {config_dir()}")
     typer.echo(f"Feedback votes: {feedback_path()}")
+    typer.echo(f"Share state:    {state_path()}")
+    typer.echo(f"Upload log:     {upload_log_path()}")
 
 
 @app.command()

@@ -38,6 +38,17 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
 
 
 @pytest.fixture(autouse=True)
+def isolated_user_dirs(
+    tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Tests never read or write the real user config/data directories."""
+    base = tmp_path_factory.mktemp("userdirs")
+    monkeypatch.setattr("tracedoc.config.user_config_dir", lambda *a, **k: str(base / "config"))
+    monkeypatch.setattr("tracedoc.feedback.user_data_dir", lambda *a, **k: str(base / "data"))
+    monkeypatch.setattr("tracedoc.share.upload.user_data_dir", lambda *a, **k: str(base / "data"))
+
+
+@pytest.fixture(autouse=True)
 def no_network(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     if "live" in request.keywords or "browser" in request.keywords:
         yield  # these talk to a model API or drive a local browser; they police their own traffic

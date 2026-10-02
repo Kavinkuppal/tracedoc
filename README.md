@@ -144,7 +144,27 @@ Votes are stored locally (`tracedoc paths` shows where).
 
 - **Model calls, to the provider you configured, with your key.** Only when you run `analyze` without `--no-judge`. They contain short windows of trace content: the user's request, the agents' system prompts, and a few steps around each finding. They can also contain an input preview of up to 500 characters and node names, used to classify runs heuristics can't place. Redaction (below) runs before anything is sent.
 - **LangSmith requests**, only when you import with `--project`. These download your runs; no trace content is uploaded.
-- **Nothing else.** Data sharing is **not yet enabled**: tracedoc sends no statistics anywhere. There are no analytics or telemetry, and captures and reports stay on your disk.
+- **Nothing else** by default. There are no analytics or telemetry, and captures and reports stay on your disk.
+
+### Sharing anonymized statistics (opt-in, not yet enabled)
+
+tracedoc has an opt-in way to share anonymized statistics that would help improve its checks. **It is not yet enabled in this version**: its terms are awaiting legal review, it is switched off, and no destination server is configured. Until it is enabled, tracedoc never asks and never sends anything.
+
+When it is enabled, it works like this:
+
+- **Nothing is sent without your consent.** After your first report, tracedoc shows a plain-language summary of the terms and asks once. Pressing Enter means no. It asks again only if the terms change.
+- **What would be sent:** for each run, the task type, the framework and its version, the public model names used per role (custom or fine-tuned model names become `custom`), counts describing the agent graph, the run's status, step count, tokens, cost and duration, and the IDs, severities and roles of the checks that fired. Your thumbs up/down votes are sent as check IDs only. All of this is tied to a random install ID, not to you.
+- **What is never sent:** prompts, inputs, outputs, tool arguments or results, code, node or tool names, file paths, API keys, or anything identifying you or your users. A test feeds traces with unique markers in every one of those fields and checks that none of them reaches the payload.
+- **You stay in control:**
+
+```bash
+tracedoc share --preview   # print the exact bytes that would be sent for your last analysis
+tracedoc share --off       # stop sharing (revoke consent)
+tracedoc share --on        # opt in (once sharing is enabled)
+tracedoc share --delete    # delete everything shared from this install (once sharing is enabled)
+```
+
+`share --preview` works today, so you can see exactly what would be sent. Every upload is logged locally with its payload; `tracedoc paths` shows where.
 
 **Redaction.** Before anything else reads trace content, tracedoc replaces the values of sensitive keys (`api_key`, `password`, `token`, `authorization`, and more) and anything matching common secret patterns (emails, `sk-...` keys, GitHub tokens, AWS key IDs, bearer tokens, card-like numbers). It also scrubs those values wherever else they reappear in the trace. Add your own:
 
@@ -199,6 +219,8 @@ disabled = ["cost.latency_outlier"]
 **`Estimated cost: unknown (model not in price table)`** Add the model under `[prices."model-name"]`. `--max-cost` also needs prices.
 
 **`Judge checks disabled (8)`** This is expected until precision is measured; see [Run an analysis](#run-an-analysis).
+
+**`Error: data sharing is not enabled in this version`** Sharing is not switched on yet (see [What leaves your machine](#what-leaves-your-machine)). `tracedoc share --preview` and `--off` still work.
 
 **`Error: no traces found in ./runs`** Point tracedoc at the folder `TraceCapture` wrote to (`*.jsonl` files), or use `--source langsmith` for LangSmith exports.
 

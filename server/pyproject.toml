@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tracedoc-server"
+version = "0.0.1"
+description = "Receives opt-in anonymized statistics from tracedoc. Not deployed anywhere."
+requires-python = ">=3.10"
+# Validates contributions with the client's own allow-list schema (tracedoc.share.payload).
+dependencies = [
+    "tracedoc",
+    "fastapi>=0.110",
+    "uvicorn>=0.30",
+    "psycopg[binary]>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["tracedoc_server"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

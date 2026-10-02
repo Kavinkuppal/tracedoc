@@ -162,6 +162,19 @@ DEFAULT_PRICES: dict[str, Price] = {
 }
 
 
+class ShareConfig(BaseModel):
+    """Anonymized-statistics sharing. A feature flag: OFF until the data terms are approved."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    enabled: bool = False
+    """Feature flag. While False: no consent prompt, no uploads, `share --on` is refused."""
+    endpoint: str = ""
+    """Base URL of the contributions server. Empty: nothing can be sent. Must be https://
+    (http:// is accepted only for localhost, for local testing)."""
+    timeout_s: float = 10.0
+
+
 class Config(BaseModel):
     redact: RedactConfig = Field(default_factory=RedactConfig)
     capture: CaptureConfig = Field(default_factory=CaptureConfig)
@@ -171,6 +184,7 @@ class Config(BaseModel):
     llm: LLMConfig = Field(default_factory=LLMConfig)
     judge: JudgeConfig = Field(default_factory=JudgeConfig)
     prices: dict[str, Price] = Field(default_factory=lambda: dict(DEFAULT_PRICES))
+    share: ShareConfig = Field(default_factory=ShareConfig)
 
 
 class ConfigError(ValueError):
