@@ -113,7 +113,7 @@ The file can be a JSON list of runs, `{"runs": [...]}`, or JSONL with one run pe
 ## Run an analysis
 
 ```bash
-tracedoc estimate ./runs              # what analysis would cost; makes no model calls
+tracedoc estimate ./runs              # what analysis would cost; no model calls, no key needed
 tracedoc analyze ./runs               # shows the estimate, asks, then analyzes
 tracedoc analyze ./runs --max-cost 2  # stop judging before $2 of spend
 tracedoc analyze ./runs --no-judge    # rule checks only: no model, no key, no cost
@@ -208,7 +208,7 @@ disabled = ["cost.latency_outlier"]
 
 ## Troubleshooting
 
-**`Error: ANTHROPIC_API_KEY is not set.`** (or `OPENAI_API_KEY`) You ran `analyze` or `estimate` without a key for the configured provider. Set it as shown in [Set up your API key](#set-up-your-api-key), or run `tracedoc analyze ./runs --no-judge` for rule checks only.
+**`Error: ANTHROPIC_API_KEY is not set.`** (or `OPENAI_API_KEY`) You ran `analyze` without a key for the configured provider. (`tracedoc estimate` needs no key.) Set it as shown in [Set up your API key](#set-up-your-api-key), or run `tracedoc analyze ./runs --no-judge` for rule checks only.
 
 **`Error: The provider rejected ANTHROPIC_API_KEY (HTTP 401).`** The key is wrong, expired, or lacks access. Analysis stops as soon as a call is rejected, without writing a report.
 

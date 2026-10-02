@@ -149,15 +149,10 @@ def estimate(
     ),
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
-    """Print what analysis would cost, without calling any model."""
+    """Print what analysis would cost, without calling any model. Needs no API key."""
     try:
         config = _config(config_path, model, triage_model, include_unvalidated)
-        try:
-            require_key(config.llm)
-        except MissingKeyError as e:
-            hint = "or use `tracedoc analyze --no-judge` for rule checks only (no key needed)"
-            raise MissingKeyError(e.env_var, hint=hint) from None
-        runs = normalize_all(_load(path, source, project), config)
+        runs = normalize_all(_load(path, source, project), config)  # no model calls, no key
     except USER_ERRORS as e:
         raise _fail(e) from None
     _print_estimate(config, runs, prepare(runs, config))

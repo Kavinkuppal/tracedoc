@@ -30,16 +30,14 @@ def test_version() -> None:
     assert result.exit_code == 0 and "0.0.1" in result.output
 
 
-def test_estimate_prints_cost_without_calls(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
+def test_estimate_prints_cost_without_calls() -> None:
     result = runner.invoke(cli.app, ["estimate", CAPTURES, "--include-unvalidated"])
     assert result.exit_code == 0, result.output
     assert "Estimated cost: $" in result.output
     assert "Judge windows:" in result.output
 
 
-def test_estimate_langsmith_export(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
+def test_estimate_langsmith_export() -> None:
     result = runner.invoke(
         cli.app, ["estimate", str(TRACES / "langsmith"), "--source", "langsmith"]
     )
@@ -133,32 +131,33 @@ def _one_line_error(result) -> str:
     return lines[0]
 
 
-@pytest.mark.parametrize("command", ["analyze", "estimate"])
-def test_missing_anthropic_key_is_one_clear_line(command: str, tmp_path: Path) -> None:
-    line = _one_line_error(
-        runner.invoke(
-            cli.app,
-            [command, CAPTURES, "--out", str(tmp_path)]
-            if command == "analyze"
-            else [command, CAPTURES],
-        )
-    )
+def test_analyze_without_key_is_one_clear_line(tmp_path: Path) -> None:
+    line = _one_line_error(runner.invoke(cli.app, ["analyze", CAPTURES, "--out", str(tmp_path)]))
     assert line.startswith("Error: ANTHROPIC_API_KEY is not set.")
     assert "README: 'Set up your API key'" in line
 
 
-def test_missing_openai_key_names_openai_variable(tmp_path: Path) -> None:
+def test_analyze_missing_openai_key_names_openai_variable(tmp_path: Path) -> None:
     config = tmp_path / "c.toml"
     config.write_text('[llm]\nprovider = "openai"\ntriage_model = "a"\nconfirm_model = "b"\n')
-    line = _one_line_error(runner.invoke(cli.app, ["estimate", CAPTURES, "--config", str(config)]))
-    assert "OPENAI_API_KEY is not set" in line
+    args = ["analyze", CAPTURES, "--out", str(tmp_path / "r"), "--config", str(config)]
+    assert "OPENAI_API_KEY is not set" in _one_line_error(runner.invoke(cli.app, args))
+
+
+@pytest.mark.parametrize("provider", ["anthropic", "openai"])
+def test_estimate_needs_no_key(provider: str, tmp_path: Path) -> None:
+    config = tmp_path / "c.toml"
+    config.write_text(f'[llm]\nprovider = "{provider}"\n')
+    result = runner.invoke(cli.app, ["estimate", CAPTURES, "--config", str(config)])
+    assert result.exit_code == 0, result.output
+    assert "Estimated cost:" in result.output
 
 
 def test_key_in_config_file_is_refused(tmp_path: Path) -> None:
     config = tmp_path / "c.toml"
     config.write_text('[llm]\napi_key = "sk-should-not-be-here"\n')
     line = _one_line_error(runner.invoke(cli.app, ["estimate", CAPTURES, "--config", str(config)]))
-    assert "api_key is not supported" in line
+    assert "api_key is not supported" in line  # a key in config is refused even by estimate
     assert "sk-should-not-be-here" not in line
 
 
