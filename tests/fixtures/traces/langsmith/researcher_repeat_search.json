@@ -1,0 +1,2869 @@
+[
+ {
+  "id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "name": "researcher_repeat_search",
+  "start_time": "2026-10-02T18:32:54.783440Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.791918Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.783440Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.791918Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0707-7612-a5f4-30a8f323e1d4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 209,
+      "output_tokens": 36,
+      "total_tokens": 245
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0700-70e0-be76-679c2fd0b04c",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.784343Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.785611Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:9215741a-1e21-34f9-e194-bf7e89a38620"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.784343Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.785611Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254784343Z01a0fde4-0700-70e0-be76-679c2fd0b04c",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0700-70e0-be76-67a944ec0343",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.784728Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.785321Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:9215741a-1e21-34f9-e194-bf7e89a38620",
+    "checkpoint_ns": "researcher:9215741a-1e21-34f9-e194-bf7e89a38620",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 35,
+     "output_tokens": 15,
+     "total_tokens": 50
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.784728Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.785321Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a research assistant. Search the web, then answer concisely with sources.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What are the main approaches to long-term memory in LangGraph?",
+       "type": "human",
+       "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "langgraph long-term memory approaches"
+          },
+          "id": "call_1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 35,
+         "output_tokens": 15,
+         "total_tokens": 50
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0700-70e0-be76-679c2fd0b04c",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254784343Z01a0fde4-0700-70e0-be76-679c2fd0b04c.20261002T183254784728Z01a0fde4-0700-70e0-be76-67a944ec0343",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 35,
+  "completion_tokens": 15
+ },
+ {
+  "id": "01a0fde4-0701-7260-995d-2dc1bffdb0fc",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.785468Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.785561Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:9215741a-1e21-34f9-e194-bf7e89a38620"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.785468Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.785561Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0700-70e0-be76-679c2fd0b04c",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254784343Z01a0fde4-0700-70e0-be76-679c2fd0b04c.20261002T183254785468Z01a0fde4-0701-7260-995d-2dc1bffdb0fc",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0701-7260-995d-2dd08e3637ee",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.785896Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.786767Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:23eeaae7-95e0-2fb6-5a7e-1c04a20376e8"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.785896Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.786767Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254785896Z01a0fde4-0701-7260-995d-2dd08e3637ee",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0702-7ca2-b151-b03618de40ad",
+  "name": "web_search",
+  "start_time": "2026-10-02T18:32:54.786329Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.786613Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:23eeaae7-95e0-2fb6-5a7e-1c04a20376e8",
+    "checkpoint_ns": "tools:23eeaae7-95e0-2fb6-5a7e-1c04a20376e8"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web and return the top results."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.786329Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.786613Z"
+   }
+  ],
+  "inputs": {
+   "query": "langgraph long-term memory approaches"
+  },
+  "outputs": {
+   "output": {
+    "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+    "tool_call_id": "call_1",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0701-7260-995d-2dd08e3637ee",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254785896Z01a0fde4-0701-7260-995d-2dd08e3637ee.20261002T183254786329Z01a0fde4-0702-7ca2-b151-b03618de40ad",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0702-7ca2-b151-b04455830b9d",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.787027Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.787821Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:b710ccc2-7c8a-9445-1083-e879d95f70d6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.787027Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.787821Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254787027Z01a0fde4-0702-7ca2-b151-b04455830b9d",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0703-7aa0-a322-bb3c02dc8f32",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.787256Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.787573Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:b710ccc2-7c8a-9445-1083-e879d95f70d6",
+    "checkpoint_ns": "researcher:b710ccc2-7c8a-9445-1083-e879d95f70d6",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 93,
+     "output_tokens": 15,
+     "total_tokens": 108
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.787256Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.787573Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a research assistant. Search the web, then answer concisely with sources.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What are the main approaches to long-term memory in LangGraph?",
+       "type": "human",
+       "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 35,
+        "output_tokens": 15,
+        "total_tokens": 50
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+       "tool_call_id": "call_1",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "langgraph long-term memory approaches"
+          },
+          "id": "call_2",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 93,
+         "output_tokens": 15,
+         "total_tokens": 108
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0702-7ca2-b151-b04455830b9d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254787027Z01a0fde4-0702-7ca2-b151-b04455830b9d.20261002T183254787256Z01a0fde4-0703-7aa0-a322-bb3c02dc8f32",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 93,
+  "completion_tokens": 15
+ },
+ {
+  "id": "01a0fde4-0703-7aa0-a322-bb45db2e5824",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.787699Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.787779Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:b710ccc2-7c8a-9445-1083-e879d95f70d6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.787699Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.787779Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0702-7ca2-b151-b04455830b9d",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254787027Z01a0fde4-0702-7ca2-b151-b04455830b9d.20261002T183254787699Z01a0fde4-0703-7aa0-a322-bb45db2e5824",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0703-7aa0-a322-bb5ecbc9a663",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.788028Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.788714Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:97aa8463-cbe1-ebec-e76c-bef204d06b44"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.788028Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.788714Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:4"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254788028Z01a0fde4-0703-7aa0-a322-bb5ecbc9a663",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0704-7c43-8731-9c207728d37b",
+  "name": "web_search",
+  "start_time": "2026-10-02T18:32:54.788288Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.788565Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_2",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:97aa8463-cbe1-ebec-e76c-bef204d06b44",
+    "checkpoint_ns": "tools:97aa8463-cbe1-ebec-e76c-bef204d06b44"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web and return the top results."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.788288Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.788565Z"
+   }
+  ],
+  "inputs": {
+   "query": "langgraph long-term memory approaches"
+  },
+  "outputs": {
+   "output": {
+    "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+    "tool_call_id": "call_2",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0703-7aa0-a322-bb5ecbc9a663",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254788028Z01a0fde4-0703-7aa0-a322-bb5ecbc9a663.20261002T183254788288Z01a0fde4-0704-7c43-8731-9c207728d37b",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0704-7c43-8731-9c3656684043",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.788971Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.789772Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:ccadb9ac-0277-22c5-650b-595143a7c6a6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.788971Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.789772Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:5"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254788971Z01a0fde4-0704-7c43-8731-9c3656684043",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0705-7183-a292-bda11bd3c0f6",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.789184Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.789521Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 5,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:ccadb9ac-0277-22c5-650b-595143a7c6a6",
+    "checkpoint_ns": "researcher:ccadb9ac-0277-22c5-650b-595143a7c6a6",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 151,
+     "output_tokens": 15,
+     "total_tokens": 166
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.789184Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.789521Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a research assistant. Search the web, then answer concisely with sources.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What are the main approaches to long-term memory in LangGraph?",
+       "type": "human",
+       "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 35,
+        "output_tokens": 15,
+        "total_tokens": 50
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+       "tool_call_id": "call_1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_2",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 93,
+        "output_tokens": 15,
+        "total_tokens": 108
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+       "tool_call_id": "call_2",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "langgraph long-term memory approaches"
+          },
+          "id": "call_3",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 151,
+         "output_tokens": 15,
+         "total_tokens": 166
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0704-7c43-8731-9c3656684043",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254788971Z01a0fde4-0704-7c43-8731-9c3656684043.20261002T183254789184Z01a0fde4-0705-7183-a292-bda11bd3c0f6",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 151,
+  "completion_tokens": 15
+ },
+ {
+  "id": "01a0fde4-0705-7183-a292-bdbc4770e597",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.789652Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.789732Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:ccadb9ac-0277-22c5-650b-595143a7c6a6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.789652Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.789732Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0704-7c43-8731-9c3656684043",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254788971Z01a0fde4-0704-7c43-8731-9c3656684043.20261002T183254789652Z01a0fde4-0705-7183-a292-bdbc4770e597",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0705-7183-a292-bdc61982c199",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.790000Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.790646Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 6,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:2c6a5c6a-7fdd-ad21-8b23-65f2231fefe0"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.790000Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.790646Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:6"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254790000Z01a0fde4-0705-7183-a292-bdc61982c199",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0706-7793-bc6f-496b7ee71c90",
+  "name": "web_search",
+  "start_time": "2026-10-02T18:32:54.790261Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.790529Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_3",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 6,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:2c6a5c6a-7fdd-ad21-8b23-65f2231fefe0",
+    "checkpoint_ns": "tools:2c6a5c6a-7fdd-ad21-8b23-65f2231fefe0"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web and return the top results."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.790261Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.790529Z"
+   }
+  ],
+  "inputs": {
+   "query": "langgraph long-term memory approaches"
+  },
+  "outputs": {
+   "output": {
+    "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+    "tool_call_id": "call_3",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0705-7183-a292-bdc61982c199",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254790000Z01a0fde4-0705-7183-a292-bdc61982c199.20261002T183254790261Z01a0fde4-0706-7793-bc6f-496b7ee71c90",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0706-7793-bc6f-497610e8d48f",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.790884Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.791660Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:96a6a5f5-ffa8-cd89-978a-a3c95c0fb586"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.790884Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.791660Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0707-7612-a5f4-30a8f323e1d4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 209,
+      "output_tokens": 36,
+      "total_tokens": 245
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "tags": [
+   "graph:step:7"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254790884Z01a0fde4-0706-7793-bc6f-497610e8d48f",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0707-7612-a5f4-30a8f323e1d4",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.791086Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.791429Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 7,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:96a6a5f5-ffa8-cd89-978a-a3c95c0fb586",
+    "checkpoint_ns": "researcher:96a6a5f5-ffa8-cd89-978a-a3c95c0fb586",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 209,
+     "output_tokens": 36,
+     "total_tokens": 245
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'langgraph long-term memory approaches'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.791086Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.791429Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a research assistant. Search the web, then answer concisely with sources.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What are the main approaches to long-term memory in LangGraph?",
+       "type": "human",
+       "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 35,
+        "output_tokens": 15,
+        "total_tokens": 50
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+       "tool_call_id": "call_1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_2",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 93,
+        "output_tokens": 15,
+        "total_tokens": 108
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+       "tool_call_id": "call_2",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "langgraph long-term memory approaches"
+         },
+         "id": "call_3",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 151,
+        "output_tokens": 15,
+        "total_tokens": 166
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+       "tool_call_id": "call_3",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0707-7612-a5f4-30a8f323e1d4-0",
+        "usage_metadata": {
+         "input_tokens": 209,
+         "output_tokens": 36,
+         "total_tokens": 245
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0706-7793-bc6f-497610e8d48f",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254790884Z01a0fde4-0706-7793-bc6f-497610e8d48f.20261002T183254791086Z01a0fde4-0707-7612-a5f4-30a8f323e1d4",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 209,
+  "completion_tokens": 36
+ },
+ {
+  "id": "01a0fde4-0707-7612-a5f4-30bac34ebbb5",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.791555Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.791626Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:96a6a5f5-ffa8-cd89-978a-a3c95c0fb586"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.791555Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.791626Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What are the main approaches to long-term memory in LangGraph?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "98e1ec8e-67f0-454e-8ee7-2f5f4c27b7ca"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0700-70e0-be76-67a944ec0343-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 35,
+      "output_tokens": 15,
+      "total_tokens": 50
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "9bd4d14c-4bed-4ba0-98a2-a410968c0265",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0703-7aa0-a322-bb3c02dc8f32-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 93,
+      "output_tokens": 15,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "8a3d8ff7-bbdb-4709-8fa5-4f84e68a6035",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0705-7183-a292-bda11bd3c0f6-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "langgraph long-term memory approaches"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 151,
+      "output_tokens": 15,
+      "total_tokens": 166
+     }
+    },
+    {
+     "content": "1. LangGraph Store: namespaced key-value store for cross-thread memory. 2. Checkpointers persist thread state between turns. 3. Semantic search over the store with embeddings.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "3cbc0057-b6e3-4a36-98f5-5efb3a8fe2a2",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "LangGraph offers three main approaches: the Store for cross-thread memory, checkpointers for per-thread state, and semantic search over the store.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0707-7612-a5f4-30a8f323e1d4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 209,
+      "output_tokens": 36,
+      "total_tokens": 245
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0706-7793-bc6f-497610e8d48f",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254783440Z01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7.20261002T183254790884Z01a0fde4-0706-7793-bc6f-497610e8d48f.20261002T183254791555Z01a0fde4-0707-7612-a5f4-30bac34ebbb5",
+  "trace_id": "01a0fde4-06fe-7860-9bb5-65a9dc5d1ed7",
+  "dangerously_allow_filesystem": false
+ }
+]

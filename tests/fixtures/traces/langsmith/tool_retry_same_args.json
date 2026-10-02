@@ -1,0 +1,2833 @@
+[
+ {
+  "id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "name": "tool_retry_same_args",
+  "start_time": "2026-10-02T18:32:54.817719Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.825018Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.817719Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.825018Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "f99f4b86-1016-46b5-8d18-c5ad4022ce4d",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "Sorry, I could not load the pricing page.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0728-7713-8c97-0e369343f063-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 134,
+      "output_tokens": 10,
+      "total_tokens": 144
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0722-7600-98ac-696cc69eb52b",
+  "name": "agent",
+  "start_time": "2026-10-02T18:32:54.818128Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.818813Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:3c613df8-b23e-0629-dfbf-39c0d980a264"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.818128Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.818813Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254818128Z01a0fde4-0722-7600-98ac-696cc69eb52b",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0722-7600-98ac-69739a68c093",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.818392Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.818608Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:3c613df8-b23e-0629-dfbf-39c0d980a264",
+    "checkpoint_ns": "agent:3c613df8-b23e-0629-dfbf-39c0d980a264",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 20,
+     "output_tokens": 12,
+     "total_tokens": 32
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Sorry, I could not load the pricing page.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.818392Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.818608Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You summarize web pages.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Summarize the pricing page at https://example.com/pricing",
+       "type": "human",
+       "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+        "tool_calls": [
+         {
+          "name": "fetch_url",
+          "args": {
+           "url": "https://example.com/pricing"
+          },
+          "id": "call_1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 20,
+         "output_tokens": 12,
+         "total_tokens": 32
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0722-7600-98ac-696cc69eb52b",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254818128Z01a0fde4-0722-7600-98ac-696cc69eb52b.20261002T183254818392Z01a0fde4-0722-7600-98ac-69739a68c093",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 20,
+  "completion_tokens": 12
+ },
+ {
+  "id": "01a0fde4-0722-7600-98ac-698dd9066611",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.818705Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.818774Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:3c613df8-b23e-0629-dfbf-39c0d980a264"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.818705Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.818774Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0722-7600-98ac-696cc69eb52b",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254818128Z01a0fde4-0722-7600-98ac-696cc69eb52b.20261002T183254818705Z01a0fde4-0722-7600-98ac-698dd9066611",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0722-7600-98ac-699b10315552",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.819007Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.820297Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:d9ac07c7-6e1f-99f4-2b62-46bb8a0841bf"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.819007Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.820297Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254819007Z01a0fde4-0722-7600-98ac-699b10315552",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0723-7d83-bf62-a37074ec3e6a",
+  "name": "fetch_url",
+  "start_time": "2026-10-02T18:32:54.819301Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.820182Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:d9ac07c7-6e1f-99f4-2b62-46bb8a0841bf",
+    "checkpoint_ns": "tools:d9ac07c7-6e1f-99f4-2b62-46bb8a0841bf"
+   }
+  },
+  "error": "ConnectionError('Timed out connecting to https://example.com/pricing')Traceback (most recent call last):\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py\", line 1098, in run\n    response = context.run(self._run, *tool_args, **tool_kwargs)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py\", line 152, in _run\n    return self.func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/tests/fixtures/agents/tool_retry_same_args.py\", line 23, in fetch_url\n    raise ConnectionError(f\"Timed out connecting to {url}\")\n\n\nConnectionError: Timed out connecting to https://example.com/pricing",
+  "serialized": {
+   "name": "fetch_url",
+   "description": "Fetch a web page and return its text."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.819301Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-02T18:32:54.820182Z"
+   }
+  ],
+  "inputs": {
+   "url": "https://example.com/pricing"
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0722-7600-98ac-699b10315552",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254819007Z01a0fde4-0722-7600-98ac-699b10315552.20261002T183254819301Z01a0fde4-0723-7d83-bf62-a37074ec3e6a",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0724-71a1-af0b-796274601837",
+  "name": "agent",
+  "start_time": "2026-10-02T18:32:54.820474Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.821091Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:ed40b0eb-fb50-30f1-14f3-a3b6dff91733"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.820474Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.821091Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254820474Z01a0fde4-0724-71a1-af0b-796274601837",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0724-71a1-af0b-797ce128e803",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.820641Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.820884Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:ed40b0eb-fb50-30f1-14f3-a3b6dff91733",
+    "checkpoint_ns": "agent:ed40b0eb-fb50-30f1-14f3-a3b6dff91733",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 58,
+     "output_tokens": 12,
+     "total_tokens": 70
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Sorry, I could not load the pricing page.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.820641Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.820884Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You summarize web pages.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Summarize the pricing page at https://example.com/pricing",
+       "type": "human",
+       "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 20,
+        "output_tokens": 12,
+        "total_tokens": 32
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+       "tool_call_id": "call_1",
+       "status": "error"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+        "tool_calls": [
+         {
+          "name": "fetch_url",
+          "args": {
+           "url": "https://example.com/pricing"
+          },
+          "id": "call_2",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 58,
+         "output_tokens": 12,
+         "total_tokens": 70
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0724-71a1-af0b-796274601837",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254820474Z01a0fde4-0724-71a1-af0b-796274601837.20261002T183254820641Z01a0fde4-0724-71a1-af0b-797ce128e803",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 58,
+  "completion_tokens": 12
+ },
+ {
+  "id": "01a0fde4-0724-71a1-af0b-7988e8c40d5f",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.820987Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.821055Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:ed40b0eb-fb50-30f1-14f3-a3b6dff91733"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.820987Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.821055Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0724-71a1-af0b-796274601837",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254820474Z01a0fde4-0724-71a1-af0b-796274601837.20261002T183254820987Z01a0fde4-0724-71a1-af0b-7988e8c40d5f",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0725-7b50-b0c0-14507244ef9c",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.821260Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.821978Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:a8d5d118-c594-55b7-0634-0e0787d91d38"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.821260Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.821978Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:4"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254821260Z01a0fde4-0725-7b50-b0c0-14507244ef9c",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0725-7b50-b0c0-1467016f0f2f",
+  "name": "fetch_url",
+  "start_time": "2026-10-02T18:32:54.821488Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.821866Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_2",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:a8d5d118-c594-55b7-0634-0e0787d91d38",
+    "checkpoint_ns": "tools:a8d5d118-c594-55b7-0634-0e0787d91d38"
+   }
+  },
+  "error": "ConnectionError('Timed out connecting to https://example.com/pricing')Traceback (most recent call last):\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py\", line 1098, in run\n    response = context.run(self._run, *tool_args, **tool_kwargs)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py\", line 152, in _run\n    return self.func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/tests/fixtures/agents/tool_retry_same_args.py\", line 23, in fetch_url\n    raise ConnectionError(f\"Timed out connecting to {url}\")\n\n\nConnectionError: Timed out connecting to https://example.com/pricing",
+  "serialized": {
+   "name": "fetch_url",
+   "description": "Fetch a web page and return its text."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.821488Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-02T18:32:54.821866Z"
+   }
+  ],
+  "inputs": {
+   "url": "https://example.com/pricing"
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0725-7b50-b0c0-14507244ef9c",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254821260Z01a0fde4-0725-7b50-b0c0-14507244ef9c.20261002T183254821488Z01a0fde4-0725-7b50-b0c0-1467016f0f2f",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0726-73a0-b0cd-c15ce26f5141",
+  "name": "agent",
+  "start_time": "2026-10-02T18:32:54.822203Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.822925Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:f07f4e27-e5cd-bb19-d685-6975ce5c6c89"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.822203Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.822925Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:5"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254822203Z01a0fde4-0726-73a0-b0cd-c15ce26f5141",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0726-73a0-b0cd-c16da7508326",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.822387Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.822689Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 5,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:f07f4e27-e5cd-bb19-d685-6975ce5c6c89",
+    "checkpoint_ns": "agent:f07f4e27-e5cd-bb19-d685-6975ce5c6c89",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 96,
+     "output_tokens": 12,
+     "total_tokens": 108
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Sorry, I could not load the pricing page.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.822387Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.822689Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You summarize web pages.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Summarize the pricing page at https://example.com/pricing",
+       "type": "human",
+       "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 20,
+        "output_tokens": 12,
+        "total_tokens": 32
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+       "tool_call_id": "call_1",
+       "status": "error"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_2",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 58,
+        "output_tokens": 12,
+        "total_tokens": 70
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+       "tool_call_id": "call_2",
+       "status": "error"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+        "tool_calls": [
+         {
+          "name": "fetch_url",
+          "args": {
+           "url": "https://example.com/pricing"
+          },
+          "id": "call_3",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 96,
+         "output_tokens": 12,
+         "total_tokens": 108
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0726-73a0-b0cd-c15ce26f5141",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254822203Z01a0fde4-0726-73a0-b0cd-c15ce26f5141.20261002T183254822387Z01a0fde4-0726-73a0-b0cd-c16da7508326",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 96,
+  "completion_tokens": 12
+ },
+ {
+  "id": "01a0fde4-0726-73a0-b0cd-c1792580b67e",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.822816Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.822888Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:f07f4e27-e5cd-bb19-d685-6975ce5c6c89"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.822816Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.822888Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0726-73a0-b0cd-c15ce26f5141",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254822203Z01a0fde4-0726-73a0-b0cd-c15ce26f5141.20261002T183254822816Z01a0fde4-0726-73a0-b0cd-c1792580b67e",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0727-7963-afaf-396209f1d753",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.823120Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.823798Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 6,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:c01b5813-adc3-c03a-ac78-16e35bccf2ff"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.823120Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.823798Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "f99f4b86-1016-46b5-8d18-c5ad4022ce4d",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:6"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254823120Z01a0fde4-0727-7963-afaf-396209f1d753",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0727-7963-afaf-397f2b33763e",
+  "name": "fetch_url",
+  "start_time": "2026-10-02T18:32:54.823343Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.823693Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "call_3",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 6,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:c01b5813-adc3-c03a-ac78-16e35bccf2ff",
+    "checkpoint_ns": "tools:c01b5813-adc3-c03a-ac78-16e35bccf2ff"
+   }
+  },
+  "error": "ConnectionError('Timed out connecting to https://example.com/pricing')Traceback (most recent call last):\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/base.py\", line 1098, in run\n    response = context.run(self._run, *tool_args, **tool_kwargs)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langchain_core/tools/structured.py\", line 152, in _run\n    return self.func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"<repo>/tests/fixtures/agents/tool_retry_same_args.py\", line 23, in fetch_url\n    raise ConnectionError(f\"Timed out connecting to {url}\")\n\n\nConnectionError: Timed out connecting to https://example.com/pricing",
+  "serialized": {
+   "name": "fetch_url",
+   "description": "Fetch a web page and return its text."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.823343Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-02T18:32:54.823693Z"
+   }
+  ],
+  "inputs": {
+   "url": "https://example.com/pricing"
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0727-7963-afaf-396209f1d753",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254823120Z01a0fde4-0727-7963-afaf-396209f1d753.20261002T183254823343Z01a0fde4-0727-7963-afaf-397f2b33763e",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0727-7963-afaf-398c5a1e29be",
+  "name": "agent",
+  "start_time": "2026-10-02T18:32:54.824004Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.824833Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:5ecf7af4-df52-18fa-a033-40c8036224c4"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.824004Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.824833Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "f99f4b86-1016-46b5-8d18-c5ad4022ce4d",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "error"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Sorry, I could not load the pricing page.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0728-7713-8c97-0e369343f063-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 134,
+      "output_tokens": 10,
+      "total_tokens": 144
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "tags": [
+   "graph:step:7"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254824004Z01a0fde4-0727-7963-afaf-398c5a1e29be",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0728-7713-8c97-0e369343f063",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.824294Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.824615Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 7,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:5ecf7af4-df52-18fa-a033-40c8036224c4",
+    "checkpoint_ns": "agent:5ecf7af4-df52-18fa-a033-40c8036224c4",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 134,
+     "output_tokens": 10,
+     "total_tokens": 144
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_2', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'fetch_url', 'args': {'url': 'https://example.com/pricing'}, 'id': 'call_3', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Sorry, I could not load the pricing page.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.824294Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.824615Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You summarize web pages.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Summarize the pricing page at https://example.com/pricing",
+       "type": "human",
+       "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 20,
+        "output_tokens": 12,
+        "total_tokens": 32
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+       "tool_call_id": "call_1",
+       "status": "error"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_2",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 58,
+        "output_tokens": 12,
+        "total_tokens": 70
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+       "tool_call_id": "call_2",
+       "status": "error"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+       "tool_calls": [
+        {
+         "name": "fetch_url",
+         "args": {
+          "url": "https://example.com/pricing"
+         },
+         "id": "call_3",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 96,
+        "output_tokens": 12,
+        "total_tokens": 108
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+       "type": "tool",
+       "name": "fetch_url",
+       "id": "f99f4b86-1016-46b5-8d18-c5ad4022ce4d",
+       "tool_call_id": "call_3",
+       "status": "error"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Sorry, I could not load the pricing page.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Sorry, I could not load the pricing page.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0728-7713-8c97-0e369343f063-0",
+        "usage_metadata": {
+         "input_tokens": 134,
+         "output_tokens": 10,
+         "total_tokens": 144
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0727-7963-afaf-398c5a1e29be",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254824004Z01a0fde4-0727-7963-afaf-398c5a1e29be.20261002T183254824294Z01a0fde4-0728-7713-8c97-0e369343f063",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 134,
+  "completion_tokens": 10
+ },
+ {
+  "id": "01a0fde4-0728-7713-8c97-0e4c7f5aebea",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.824735Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.824803Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "agent:5ecf7af4-df52-18fa-a033-40c8036224c4"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.824735Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.824803Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Summarize the pricing page at https://example.com/pricing",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "7ab5d6e1-3ccf-4522-aa0e-34a398e81f88"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0722-7600-98ac-69739a68c093-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 20,
+      "output_tokens": 12,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "0d080a28-134e-4406-903b-e0bcb511f4e6",
+     "tool_call_id": "call_1",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0724-71a1-af0b-797ce128e803-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 12,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "49c0ed8f-16e6-4d6c-9fc4-d1f0a1c4d258",
+     "tool_call_id": "call_2",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0726-73a0-b0cd-c16da7508326-0",
+     "tool_calls": [
+      {
+       "name": "fetch_url",
+       "args": {
+        "url": "https://example.com/pricing"
+       },
+       "id": "call_3",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 96,
+      "output_tokens": 12,
+      "total_tokens": 108
+     }
+    },
+    {
+     "content": "Error: ConnectionError('Timed out connecting to https://example.com/pricing')\n Please fix your mistakes.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "fetch_url",
+     "id": "f99f4b86-1016-46b5-8d18-c5ad4022ce4d",
+     "tool_call_id": "call_3",
+     "artifact": null,
+     "status": "error"
+    },
+    {
+     "content": "Sorry, I could not load the pricing page.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0728-7713-8c97-0e369343f063-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 134,
+      "output_tokens": 10,
+      "total_tokens": 144
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0727-7963-afaf-398c5a1e29be",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254817719Z01a0fde4-0720-7310-bb50-2fc81bb46372.20261002T183254824004Z01a0fde4-0727-7963-afaf-398c5a1e29be.20261002T183254824735Z01a0fde4-0728-7713-8c97-0e4c7f5aebea",
+  "trace_id": "01a0fde4-0720-7310-bb50-2fc81bb46372",
+  "dangerously_allow_filesystem": false
+ }
+]

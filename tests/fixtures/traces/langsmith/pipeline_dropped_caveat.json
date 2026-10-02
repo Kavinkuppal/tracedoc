@@ -1,0 +1,452 @@
+[
+ {
+  "id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "name": "pipeline_dropped_caveat",
+  "start_time": "2026-10-02T18:32:54.797067Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.798882Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.797067Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.798882Z"
+   }
+  ],
+  "inputs": {
+   "question": "Did the new onboarding flow improve 30-day retention?"
+  },
+  "outputs": {
+   "question": "Did the new onboarding flow improve 30-day retention?",
+   "analysis": "Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable.",
+   "report": "The new onboarding flow lifted 30-day retention from 41% to 58%. We recommend rolling it out to all users."
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254797067Z01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "trace_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-070d-76d1-bd19-1a5231136748",
+  "name": "analyst",
+  "start_time": "2026-10-02T18:32:54.797544Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.798063Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "analyst",
+    "langgraph_triggers": [
+     "branch:to:analyst"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "analyst"
+    ],
+    "langgraph_checkpoint_ns": "analyst:08cd85c5-f494-6c89-7284-6e6b1b95983f"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.797544Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.798063Z"
+   }
+  ],
+  "inputs": {
+   "question": "Did the new onboarding flow improve 30-day retention?"
+  },
+  "outputs": {
+   "analysis": "Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable."
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254797067Z01a0fde4-070c-71c1-98c5-b5cb1012653e.20261002T183254797544Z01a0fde4-070d-76d1-bd19-1a5231136748",
+  "trace_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-070d-76d1-bd19-1a6b8279c191",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.797783Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.798003Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "analyst",
+    "langgraph_triggers": [
+     "branch:to:analyst"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "analyst"
+    ],
+    "langgraph_checkpoint_ns": "analyst:08cd85c5-f494-6c89-7284-6e6b1b95983f",
+    "checkpoint_ns": "analyst:08cd85c5-f494-6c89-7284-6e6b1b95983f",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 28,
+     "output_tokens": 40,
+     "total_tokens": 68
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.797783Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.798003Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a data analyst. Report findings and their limitations.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Did the new onboarding flow improve 30-day retention?",
+       "type": "human"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-070d-76d1-bd19-1a6b8279c191-0",
+        "usage_metadata": {
+         "input_tokens": 28,
+         "output_tokens": 40,
+         "total_tokens": 68
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-070d-76d1-bd19-1a5231136748",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254797067Z01a0fde4-070c-71c1-98c5-b5cb1012653e.20261002T183254797544Z01a0fde4-070d-76d1-bd19-1a5231136748.20261002T183254797783Z01a0fde4-070d-76d1-bd19-1a6b8279c191",
+  "trace_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 28,
+  "completion_tokens": 40
+ },
+ {
+  "id": "01a0fde4-070e-7f82-84c1-77714f2988b9",
+  "name": "writer",
+  "start_time": "2026-10-02T18:32:54.798245Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.798712Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:c57f8628-9602-0b10-7553-c6dc6909c1e6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.798245Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.798712Z"
+   }
+  ],
+  "inputs": {
+   "question": "Did the new onboarding flow improve 30-day retention?",
+   "analysis": "Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable."
+  },
+  "outputs": {
+   "report": "The new onboarding flow lifted 30-day retention from 41% to 58%. We recommend rolling it out to all users."
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254797067Z01a0fde4-070c-71c1-98c5-b5cb1012653e.20261002T183254798245Z01a0fde4-070e-7f82-84c1-77714f2988b9",
+  "trace_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-070e-7f82-84c1-778ad2edce0e",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.798470Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.798661Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 2,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:c57f8628-9602-0b10-7553-c6dc6909c1e6",
+    "checkpoint_ns": "writer:c57f8628-9602-0b10-7553-c6dc6909c1e6",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 77,
+     "output_tokens": 26,
+     "total_tokens": 103
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='The new onboarding flow lifted 30-day retention from 41% to 58%. We recommend rolling it out to all users.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.798470Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.798661Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You write short executive summaries. Preserve every caveat from the analysis.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Question: Did the new onboarding flow improve 30-day retention?\n\nAnalysis: Retention rose from 41% to 58% for users who saw the new onboarding flow. CAVEAT: the sample is only 12 customers, so this result is not statistically reliable.",
+       "type": "human"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "The new onboarding flow lifted 30-day retention from 41% to 58%. We recommend rolling it out to all users.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "The new onboarding flow lifted 30-day retention from 41% to 58%. We recommend rolling it out to all users.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-070e-7f82-84c1-778ad2edce0e-0",
+        "usage_metadata": {
+         "input_tokens": 77,
+         "output_tokens": 26,
+         "total_tokens": 103
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-070e-7f82-84c1-77714f2988b9",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254797067Z01a0fde4-070c-71c1-98c5-b5cb1012653e.20261002T183254798245Z01a0fde4-070e-7f82-84c1-77714f2988b9.20261002T183254798470Z01a0fde4-070e-7f82-84c1-778ad2edce0e",
+  "trace_id": "01a0fde4-070c-71c1-98c5-b5cb1012653e",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 77,
+  "completion_tokens": 26
+ }
+]

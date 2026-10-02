@@ -1,0 +1,4616 @@
+[
+ {
+  "id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "name": "supervisor_no_end",
+  "start_time": "2026-10-02T18:32:54.801954Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.811150Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": "GraphRecursionError('Recursion limit of 12 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT')Traceback (most recent call last):\n\n\n  File \"<repo>/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py\", line 3011, in stream\n    raise GraphRecursionError(msg)\n\n\nlanggraph.errors.GraphRecursionError: Recursion limit of 12 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.801954Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-02T18:32:54.811150Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0712-7b60-a11a-b93401cdae2a",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.802376Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.803012Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:0fa22baf-3954-429f-7d2f-a9ba6f3b31d2"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.802376Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.803012Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    }
+   ]
+  },
+  "outputs": {
+   "next": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254802376Z01a0fde4-0712-7b60-a11a-b93401cdae2a",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0712-7b60-a11a-b94477e8c4f5",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.802612Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.802814Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:0fa22baf-3954-429f-7d2f-a9ba6f3b31d2",
+    "checkpoint_ns": "supervisor:0fa22baf-3954-429f-7d2f-a9ba6f3b31d2",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 40,
+     "output_tokens": 2,
+     "total_tokens": 42
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.802612Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.802814Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "researcher",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "researcher",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0712-7b60-a11a-b94477e8c4f5-0",
+        "usage_metadata": {
+         "input_tokens": 40,
+         "output_tokens": 2,
+         "total_tokens": 42
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0712-7b60-a11a-b93401cdae2a",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254802376Z01a0fde4-0712-7b60-a11a-b93401cdae2a.20261002T183254802612Z01a0fde4-0712-7b60-a11a-b94477e8c4f5",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 40,
+  "completion_tokens": 2
+ },
+ {
+  "id": "01a0fde4-0712-7b60-a11a-b9501c09f3c4",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.802909Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.802980Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:0fa22baf-3954-429f-7d2f-a9ba6f3b31d2"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.802909Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.802980Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "output": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0712-7b60-a11a-b93401cdae2a",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254802376Z01a0fde4-0712-7b60-a11a-b93401cdae2a.20261002T183254802909Z01a0fde4-0712-7b60-a11a-b9501c09f3c4",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0713-7f21-9e9d-852e1d106e86",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.803200Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.803808Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:477ab374-0ff6-6d6f-41f8-19921680197e"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.803200Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.803808Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254803200Z01a0fde4-0713-7f21-9e9d-852e1d106e86",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0713-7f21-9e9d-853ba4289d24",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.803396Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.803750Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 2,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:477ab374-0ff6-6d6f-41f8-19921680197e",
+    "checkpoint_ns": "researcher:477ab374-0ff6-6d6f-41f8-19921680197e",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 16,
+     "output_tokens": 16,
+     "total_tokens": 32
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries replace liquid electrolyte with a solid one.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.803396Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.803750Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries replace liquid electrolyte with a solid one.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+        "usage_metadata": {
+         "input_tokens": 16,
+         "output_tokens": 16,
+         "total_tokens": 32
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0713-7f21-9e9d-852e1d106e86",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254803200Z01a0fde4-0713-7f21-9e9d-852e1d106e86.20261002T183254803396Z01a0fde4-0713-7f21-9e9d-853ba4289d24",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 16,
+  "completion_tokens": 16
+ },
+ {
+  "id": "01a0fde4-0713-7f21-9e9d-854bdf40894d",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.803990Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.804529Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:3c10ea59-ff17-e720-9c3c-b3bf91d80927"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.803990Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.804529Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "next": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254803990Z01a0fde4-0713-7f21-9e9d-854bdf40894d",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0714-73f2-aa5c-a44fcadc1fe3",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.804133Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.804333Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:3c10ea59-ff17-e720-9c3c-b3bf91d80927",
+    "checkpoint_ns": "supervisor:3c10ea59-ff17-e720-9c3c-b3bf91d80927",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 56,
+     "output_tokens": 1,
+     "total_tokens": 57
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.804133Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.804333Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "writer",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "writer",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0714-73f2-aa5c-a44fcadc1fe3-0",
+        "usage_metadata": {
+         "input_tokens": 56,
+         "output_tokens": 1,
+         "total_tokens": 57
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0713-7f21-9e9d-854bdf40894d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254803990Z01a0fde4-0713-7f21-9e9d-854bdf40894d.20261002T183254804133Z01a0fde4-0714-73f2-aa5c-a44fcadc1fe3",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 56,
+  "completion_tokens": 1
+ },
+ {
+  "id": "01a0fde4-0714-73f2-aa5c-a45435301042",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.804428Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.804499Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:3c10ea59-ff17-e720-9c3c-b3bf91d80927"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.804428Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.804499Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "output": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0713-7f21-9e9d-854bdf40894d",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254803990Z01a0fde4-0713-7f21-9e9d-854bdf40894d.20261002T183254804428Z01a0fde4-0714-73f2-aa5c-a45435301042",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0714-73f2-aa5c-a46eccaddd72",
+  "name": "writer",
+  "start_time": "2026-10-02T18:32:54.804708Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.805143Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:00cf547c-909e-fe45-cb18-0031c4a33f1c"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.804708Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.805143Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:4"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254804708Z01a0fde4-0714-73f2-aa5c-a46eccaddd72",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.804897Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.805094Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 4,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:00cf547c-909e-fe45-cb18-0031c4a33f1c",
+    "checkpoint_ns": "writer:00cf547c-909e-fe45-cb18-0031c4a33f1c",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 33,
+     "output_tokens": 15,
+     "total_tokens": 48
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries promise higher energy density and safety.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.804897Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.805094Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You write briefs.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries promise higher energy density and safety.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries promise higher energy density and safety.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+        "usage_metadata": {
+         "input_tokens": 33,
+         "output_tokens": 15,
+         "total_tokens": 48
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0714-73f2-aa5c-a46eccaddd72",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254804708Z01a0fde4-0714-73f2-aa5c-a46eccaddd72.20261002T183254804897Z01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 33,
+  "completion_tokens": 15
+ },
+ {
+  "id": "01a0fde4-0715-7152-96f8-8a8e6a59f4ce",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.805305Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.805839Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d0fc4b12-bcf1-ce32-4e9d-4dc9d8443a5c"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.805305Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.805839Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "next": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:5"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254805305Z01a0fde4-0715-7152-96f8-8a8e6a59f4ce",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0715-7152-96f8-8a909d465b71",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.805447Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.805660Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 5,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d0fc4b12-bcf1-ce32-4e9d-4dc9d8443a5c",
+    "checkpoint_ns": "supervisor:d0fc4b12-bcf1-ce32-4e9d-4dc9d8443a5c",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 71,
+     "output_tokens": 2,
+     "total_tokens": 73
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.805447Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.805660Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "researcher",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "researcher",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0715-7152-96f8-8a909d465b71-0",
+        "usage_metadata": {
+         "input_tokens": 71,
+         "output_tokens": 2,
+         "total_tokens": 73
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0715-7152-96f8-8a8e6a59f4ce",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254805305Z01a0fde4-0715-7152-96f8-8a8e6a59f4ce.20261002T183254805447Z01a0fde4-0715-7152-96f8-8a909d465b71",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 71,
+  "completion_tokens": 2
+ },
+ {
+  "id": "01a0fde4-0715-7152-96f8-8aa4d2f4964e",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.805746Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.805811Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d0fc4b12-bcf1-ce32-4e9d-4dc9d8443a5c"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.805746Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.805811Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "output": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0715-7152-96f8-8a8e6a59f4ce",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254805305Z01a0fde4-0715-7152-96f8-8a8e6a59f4ce.20261002T183254805746Z01a0fde4-0715-7152-96f8-8aa4d2f4964e",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0715-7152-96f8-8abc259e032d",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.805988Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.806393Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 6,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:b95d65b6-8686-670c-aec4-3aad5af4a30b"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.805988Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.806393Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:6"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254805988Z01a0fde4-0715-7152-96f8-8abc259e032d",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0716-75b0-8593-80d878263fc5",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.806129Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.806344Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 6,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:b95d65b6-8686-670c-aec4-3aad5af4a30b",
+    "checkpoint_ns": "researcher:b95d65b6-8686-670c-aec4-3aad5af4a30b",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 47,
+     "output_tokens": 16,
+     "total_tokens": 63
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries replace liquid electrolyte with a solid one.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.806129Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.806344Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries replace liquid electrolyte with a solid one.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+        "usage_metadata": {
+         "input_tokens": 47,
+         "output_tokens": 16,
+         "total_tokens": 63
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0715-7152-96f8-8abc259e032d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254805988Z01a0fde4-0715-7152-96f8-8abc259e032d.20261002T183254806129Z01a0fde4-0716-75b0-8593-80d878263fc5",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 47,
+  "completion_tokens": 16
+ },
+ {
+  "id": "01a0fde4-0716-75b0-8593-80e53e63f96c",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.806553Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.807089Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:a4a6b126-5433-99ac-da92-59b572952886"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.806553Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.807089Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "next": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:7"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254806553Z01a0fde4-0716-75b0-8593-80e53e63f96c",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0716-75b0-8593-80f518ccfbb1",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.806687Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.806913Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 7,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:a4a6b126-5433-99ac-da92-59b572952886",
+    "checkpoint_ns": "supervisor:a4a6b126-5433-99ac-da92-59b572952886",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 87,
+     "output_tokens": 1,
+     "total_tokens": 88
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.806687Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.806913Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "writer",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "writer",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0716-75b0-8593-80f518ccfbb1-0",
+        "usage_metadata": {
+         "input_tokens": 87,
+         "output_tokens": 1,
+         "total_tokens": 88
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0716-75b0-8593-80e53e63f96c",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254806553Z01a0fde4-0716-75b0-8593-80e53e63f96c.20261002T183254806687Z01a0fde4-0716-75b0-8593-80f518ccfbb1",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 87,
+  "completion_tokens": 1
+ },
+ {
+  "id": "01a0fde4-0716-75b0-8593-810026cff378",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.806995Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.807062Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 7,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:a4a6b126-5433-99ac-da92-59b572952886"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.806995Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.807062Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "output": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0716-75b0-8593-80e53e63f96c",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254806553Z01a0fde4-0716-75b0-8593-80e53e63f96c.20261002T183254806995Z01a0fde4-0716-75b0-8593-810026cff378",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0717-7220-9dae-b1083de049b3",
+  "name": "writer",
+  "start_time": "2026-10-02T18:32:54.807234Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.807639Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 8,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:4310a0f2-37cb-dbcf-265d-0325d07dfdea"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.807234Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.807639Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:8"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254807234Z01a0fde4-0717-7220-9dae-b1083de049b3",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0717-7220-9dae-b11139a44a62",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.807365Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.807590Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 8,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:4310a0f2-37cb-dbcf-265d-0325d07dfdea",
+    "checkpoint_ns": "writer:4310a0f2-37cb-dbcf-265d-0325d07dfdea",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 64,
+     "output_tokens": 15,
+     "total_tokens": 79
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries promise higher energy density and safety.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.807365Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.807590Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You write briefs.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries promise higher energy density and safety.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries promise higher energy density and safety.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+        "usage_metadata": {
+         "input_tokens": 64,
+         "output_tokens": 15,
+         "total_tokens": 79
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0717-7220-9dae-b1083de049b3",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254807234Z01a0fde4-0717-7220-9dae-b1083de049b3.20261002T183254807365Z01a0fde4-0717-7220-9dae-b11139a44a62",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 64,
+  "completion_tokens": 15
+ },
+ {
+  "id": "01a0fde4-0717-7220-9dae-b12ac5b49124",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.807795Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.808349Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 9,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:121cda38-6a6b-a575-976f-f11805386909"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.807795Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.808349Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "next": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:9"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254807795Z01a0fde4-0717-7220-9dae-b12ac5b49124",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0717-7220-9dae-b138fe6a07f7",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.807934Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.808176Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 9,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:121cda38-6a6b-a575-976f-f11805386909",
+    "checkpoint_ns": "supervisor:121cda38-6a6b-a575-976f-f11805386909",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 102,
+     "output_tokens": 2,
+     "total_tokens": 104
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.807934Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.808176Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+       "usage_metadata": {
+        "input_tokens": 64,
+        "output_tokens": 15,
+        "total_tokens": 79
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "researcher",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "researcher",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0717-7220-9dae-b138fe6a07f7-0",
+        "usage_metadata": {
+         "input_tokens": 102,
+         "output_tokens": 2,
+         "total_tokens": 104
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0717-7220-9dae-b12ac5b49124",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254807795Z01a0fde4-0717-7220-9dae-b12ac5b49124.20261002T183254807934Z01a0fde4-0717-7220-9dae-b138fe6a07f7",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 102,
+  "completion_tokens": 2
+ },
+ {
+  "id": "01a0fde4-0718-7ae2-97d1-853b4d8d869d",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.808259Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.808322Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 9,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:121cda38-6a6b-a575-976f-f11805386909"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.808259Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.808322Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "output": "researcher"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0717-7220-9dae-b12ac5b49124",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254807795Z01a0fde4-0717-7220-9dae-b12ac5b49124.20261002T183254808259Z01a0fde4-0718-7ae2-97d1-853b4d8d869d",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0718-7ae2-97d1-854ac441243d",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.808497Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.808983Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 10,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:7ab904c9-1fa5-1a2d-9470-234e8062aafe"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.808497Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.808983Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 78,
+      "output_tokens": 16,
+      "total_tokens": 94
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:10"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254808497Z01a0fde4-0718-7ae2-97d1-854ac441243d",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0718-7ae2-97d1-855050a3646c",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.808630Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.808936Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 10,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:7ab904c9-1fa5-1a2d-9470-234e8062aafe",
+    "checkpoint_ns": "researcher:7ab904c9-1fa5-1a2d-9470-234e8062aafe",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 78,
+     "output_tokens": 16,
+     "total_tokens": 94
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries replace liquid electrolyte with a solid one.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.808630Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.808936Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+       "usage_metadata": {
+        "input_tokens": 64,
+        "output_tokens": 15,
+        "total_tokens": 79
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries replace liquid electrolyte with a solid one.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+        "usage_metadata": {
+         "input_tokens": 78,
+         "output_tokens": 16,
+         "total_tokens": 94
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0718-7ae2-97d1-854ac441243d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254808497Z01a0fde4-0718-7ae2-97d1-854ac441243d.20261002T183254808630Z01a0fde4-0718-7ae2-97d1-855050a3646c",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 78,
+  "completion_tokens": 16
+ },
+ {
+  "id": "01a0fde4-0719-79a3-b7f8-8e0ff143802f",
+  "name": "supervisor",
+  "start_time": "2026-10-02T18:32:54.809139Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.809714Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 11,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:26c4dffb-0f8a-b031-9bcf-b99754aa3ddc"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.809139Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.809714Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 78,
+      "output_tokens": 16,
+      "total_tokens": 94
+     }
+    }
+   ],
+   "next": "researcher"
+  },
+  "outputs": {
+   "next": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:11"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254809139Z01a0fde4-0719-79a3-b7f8-8e0ff143802f",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0719-79a3-b7f8-8e1632e048ba",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.809282Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.809542Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 11,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:26c4dffb-0f8a-b031-9bcf-b99754aa3ddc",
+    "checkpoint_ns": "supervisor:26c4dffb-0f8a-b031-9bcf-b99754aa3ddc",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 118,
+     "output_tokens": 1,
+     "total_tokens": 119
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='researcher', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='writer', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.809282Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.809542Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage a researcher and a writer. Reply with the next worker's name, or FINISH when the brief is complete.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+       "usage_metadata": {
+        "input_tokens": 64,
+        "output_tokens": 15,
+        "total_tokens": 79
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+       "usage_metadata": {
+        "input_tokens": 78,
+        "output_tokens": 16,
+        "total_tokens": 94
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "writer",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "writer",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0719-79a3-b7f8-8e1632e048ba-0",
+        "usage_metadata": {
+         "input_tokens": 118,
+         "output_tokens": 1,
+         "total_tokens": 119
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0719-79a3-b7f8-8e0ff143802f",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254809139Z01a0fde4-0719-79a3-b7f8-8e0ff143802f.20261002T183254809282Z01a0fde4-0719-79a3-b7f8-8e1632e048ba",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 118,
+  "completion_tokens": 1
+ },
+ {
+  "id": "01a0fde4-0719-79a3-b7f8-8e2ed70ba3ef",
+  "name": "route",
+  "start_time": "2026-10-02T18:32:54.809626Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.809688Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 11,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:26c4dffb-0f8a-b031-9bcf-b99754aa3ddc"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.809626Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.809688Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 78,
+      "output_tokens": 16,
+      "total_tokens": 94
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "output": "writer"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0719-79a3-b7f8-8e0ff143802f",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254809139Z01a0fde4-0719-79a3-b7f8-8e0ff143802f.20261002T183254809626Z01a0fde4-0719-79a3-b7f8-8e2ed70ba3ef",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0719-79a3-b7f8-8e3bf2784b35",
+  "name": "writer",
+  "start_time": "2026-10-02T18:32:54.809861Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.810313Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 12,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:b0f38a35-b0b2-9a7c-ff53-ee553a3f73a7"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.809861Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.810313Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Write a one-paragraph brief on solid-state batteries.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 16,
+      "output_tokens": 16,
+      "total_tokens": 32
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 33,
+      "output_tokens": 15,
+      "total_tokens": 48
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 47,
+      "output_tokens": 16,
+      "total_tokens": 63
+     }
+    },
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 64,
+      "output_tokens": 15,
+      "total_tokens": 79
+     }
+    },
+    {
+     "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 78,
+      "output_tokens": 16,
+      "total_tokens": 94
+     }
+    }
+   ],
+   "next": "writer"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Solid-state batteries promise higher energy density and safety.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0719-79a3-b7f8-8e48963ea48e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 95,
+      "output_tokens": 15,
+      "total_tokens": 110
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "tags": [
+   "graph:step:12"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254809861Z01a0fde4-0719-79a3-b7f8-8e3bf2784b35",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0719-79a3-b7f8-8e48963ea48e",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.810004Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.810264Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 12,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:b0f38a35-b0b2-9a7c-ff53-ee553a3f73a7",
+    "checkpoint_ns": "writer:b0f38a35-b0b2-9a7c-ff53-ee553a3f73a7",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 95,
+     "output_tokens": 15,
+     "total_tokens": 110
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='Solid-state batteries promise higher energy density and safety.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], cycle=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.810004Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.810264Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You write briefs.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Write a one-paragraph brief on solid-state batteries.",
+       "type": "human",
+       "id": "f04a40bf-a41a-4488-9b99-ed89f559b79c"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0713-7f21-9e9d-853ba4289d24-0",
+       "usage_metadata": {
+        "input_tokens": 16,
+        "output_tokens": 16,
+        "total_tokens": 32
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0714-73f2-aa5c-a47cd9dc4f8e-0",
+       "usage_metadata": {
+        "input_tokens": 33,
+        "output_tokens": 15,
+        "total_tokens": 48
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0716-75b0-8593-80d878263fc5-0",
+       "usage_metadata": {
+        "input_tokens": 47,
+        "output_tokens": 16,
+        "total_tokens": 63
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries promise higher energy density and safety.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0717-7220-9dae-b11139a44a62-0",
+       "usage_metadata": {
+        "input_tokens": 64,
+        "output_tokens": 15,
+        "total_tokens": 79
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Solid-state batteries replace liquid electrolyte with a solid one.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0718-7ae2-97d1-855050a3646c-0",
+       "usage_metadata": {
+        "input_tokens": 78,
+        "output_tokens": 16,
+        "total_tokens": 94
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Solid-state batteries promise higher energy density and safety.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Solid-state batteries promise higher energy density and safety.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0719-79a3-b7f8-8e48963ea48e-0",
+        "usage_metadata": {
+         "input_tokens": 95,
+         "output_tokens": 15,
+         "total_tokens": 110
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0719-79a3-b7f8-8e3bf2784b35",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254801954Z01a0fde4-0711-7211-93dd-8a528b01bf93.20261002T183254809861Z01a0fde4-0719-79a3-b7f8-8e3bf2784b35.20261002T183254810004Z01a0fde4-0719-79a3-b7f8-8e48963ea48e",
+  "trace_id": "01a0fde4-0711-7211-93dd-8a528b01bf93",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 95,
+  "completion_tokens": 15
+ }
+]

@@ -1,0 +1,1852 @@
+[
+ {
+  "id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "name": "healthy",
+  "start_time": "2026-10-02T18:32:54.837125Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.841484Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.837125Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.841484Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    },
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 52,
+      "output_tokens": 18,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0738-79e0-a924-fe582a6f3e36-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 71,
+      "output_tokens": 32,
+      "total_tokens": 103
+     }
+    },
+    {
+     "content": "APPROVED: the answer matches the research (about 70 degrees Celsius).",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0738-79e0-a924-fe7d1611659e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 103,
+      "output_tokens": 17,
+      "total_tokens": 120
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0735-7ab2-9f82-e718597d1804",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.837549Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.838225Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:dc735fe5-156a-580d-3cfd-fb4af301194f"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.837549Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.838225Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254837549Z01a0fde4-0735-7ab2-9f82-e718597d1804",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0735-7ab2-9f82-e72853581cee",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.837800Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.838015Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:dc735fe5-156a-580d-3cfd-fb4af301194f",
+    "checkpoint_ns": "researcher:dc735fe5-156a-580d-3cfd-fb4af301194f",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 22,
+     "output_tokens": 11,
+     "total_tokens": 33
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'boiling point Everest'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Research: water boils at about 70 degrees Celsius at the summit of Everest.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.837800Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.838015Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research facts with web_search.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What is the boiling point of water at the top of Everest?",
+       "type": "human",
+       "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "boiling point Everest"
+          },
+          "id": "c1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 22,
+         "output_tokens": 11,
+         "total_tokens": 33
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0735-7ab2-9f82-e718597d1804",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254837549Z01a0fde4-0735-7ab2-9f82-e718597d1804.20261002T183254837800Z01a0fde4-0735-7ab2-9f82-e72853581cee",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 22,
+  "completion_tokens": 11
+ },
+ {
+  "id": "01a0fde4-0736-7a60-9fcb-6cd857f950d4",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.838117Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.838187Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:dc735fe5-156a-580d-3cfd-fb4af301194f"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.838117Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.838187Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0735-7ab2-9f82-e718597d1804",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254837549Z01a0fde4-0735-7ab2-9f82-e718597d1804.20261002T183254838117Z01a0fde4-0736-7a60-9fcb-6cd857f950d4",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0736-7a60-9fcb-6cec96ef457d",
+  "name": "tools",
+  "start_time": "2026-10-02T18:32:54.838421Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.839116Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:b24fcfb1-eedc-ef06-0f3b-35aace617838"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.838421Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.839116Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254838421Z01a0fde4-0736-7a60-9fcb-6cec96ef457d",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0736-7a60-9fcb-6cfb7078f37a",
+  "name": "web_search",
+  "start_time": "2026-10-02T18:32:54.838818Z",
+  "run_type": "tool",
+  "end_time": "2026-10-02T18:32:54.839017Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "c1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "tools:b24fcfb1-eedc-ef06-0f3b-35aace617838",
+    "checkpoint_ns": "tools:b24fcfb1-eedc-ef06-0f3b-35aace617838"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web and return the top results."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.838818Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.839017Z"
+   }
+  ],
+  "inputs": {
+   "query": "boiling point Everest"
+  },
+  "outputs": {
+   "output": {
+    "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+    "tool_call_id": "c1",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0736-7a60-9fcb-6cec96ef457d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254838421Z01a0fde4-0736-7a60-9fcb-6cec96ef457d.20261002T183254838818Z01a0fde4-0736-7a60-9fcb-6cfb7078f37a",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0737-7893-a114-ea08c1bd38c2",
+  "name": "researcher",
+  "start_time": "2026-10-02T18:32:54.839292Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.839898Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:2166d144-75a9-8070-620a-2bedd7ff7b33"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.839292Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.839898Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    },
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 52,
+      "output_tokens": 18,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254839292Z01a0fde4-0737-7893-a114-ea08c1bd38c2",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0737-7893-a114-ea186a063e0e",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.839450Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.839690Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:2166d144-75a9-8070-620a-2bedd7ff7b33",
+    "checkpoint_ns": "researcher:2166d144-75a9-8070-620a-2bedd7ff7b33",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 52,
+     "output_tokens": 18,
+     "total_tokens": 70
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'boiling point Everest'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Research: water boils at about 70 degrees Celsius at the summit of Everest.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.839450Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.839690Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research facts with web_search.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What is the boiling point of water at the top of Everest?",
+       "type": "human",
+       "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "boiling point Everest"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 22,
+        "output_tokens": 11,
+        "total_tokens": 33
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+        "usage_metadata": {
+         "input_tokens": 52,
+         "output_tokens": 18,
+         "total_tokens": 70
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0737-7893-a114-ea08c1bd38c2",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254839292Z01a0fde4-0737-7893-a114-ea08c1bd38c2.20261002T183254839450Z01a0fde4-0737-7893-a114-ea186a063e0e",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 52,
+  "completion_tokens": 18
+ },
+ {
+  "id": "01a0fde4-0737-7893-a114-ea24e238ae83",
+  "name": "tools_condition",
+  "start_time": "2026-10-02T18:32:54.839798Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.839866Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "researcher",
+    "langgraph_triggers": [
+     "branch:to:researcher"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "researcher"
+    ],
+    "langgraph_checkpoint_ns": "researcher:2166d144-75a9-8070-620a-2bedd7ff7b33"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.839798Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.839866Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    },
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 52,
+      "output_tokens": 18,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0737-7893-a114-ea08c1bd38c2",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254839292Z01a0fde4-0737-7893-a114-ea08c1bd38c2.20261002T183254839798Z01a0fde4-0737-7893-a114-ea24e238ae83",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0738-79e0-a924-fe436bdc2455",
+  "name": "writer",
+  "start_time": "2026-10-02T18:32:54.840088Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.840589Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 4,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:8b7388f0-7062-4c63-11e5-11b8fe282146"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.840088Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.840589Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    },
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 52,
+      "output_tokens": 18,
+      "total_tokens": 70
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0738-79e0-a924-fe582a6f3e36-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 71,
+      "output_tokens": 32,
+      "total_tokens": 103
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "tags": [
+   "graph:step:4"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254840088Z01a0fde4-0738-79e0-a924-fe436bdc2455",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0738-79e0-a924-fe582a6f3e36",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.840293Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.840534Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 4,
+    "langgraph_node": "writer",
+    "langgraph_triggers": [
+     "branch:to:writer"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "writer"
+    ],
+    "langgraph_checkpoint_ns": "writer:8b7388f0-7062-4c63-11e5-11b8fe282146",
+    "checkpoint_ns": "writer:8b7388f0-7062-4c63-11e5-11b8fe282146",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 71,
+     "output_tokens": 32,
+     "total_tokens": 103
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.840293Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.840534Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "Write a clear answer from the research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What is the boiling point of water at the top of Everest?",
+       "type": "human",
+       "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "boiling point Everest"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 22,
+        "output_tokens": 11,
+        "total_tokens": 33
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+       "usage_metadata": {
+        "input_tokens": 52,
+        "output_tokens": 18,
+        "total_tokens": 70
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0738-79e0-a924-fe582a6f3e36-0",
+        "usage_metadata": {
+         "input_tokens": 71,
+         "output_tokens": 32,
+         "total_tokens": 103
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0738-79e0-a924-fe436bdc2455",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254840088Z01a0fde4-0738-79e0-a924-fe436bdc2455.20261002T183254840293Z01a0fde4-0738-79e0-a924-fe582a6f3e36",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 71,
+  "completion_tokens": 32
+ },
+ {
+  "id": "01a0fde4-0738-79e0-a924-fe6f89aa66b2",
+  "name": "critic",
+  "start_time": "2026-10-02T18:32:54.840760Z",
+  "run_type": "chain",
+  "end_time": "2026-10-02T18:32:54.841255Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 5,
+    "langgraph_node": "critic",
+    "langgraph_triggers": [
+     "branch:to:critic"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "critic"
+    ],
+    "langgraph_checkpoint_ns": "critic:4db5cae0-7c9e-0323-4202-1af2de6d6509"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.840760Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.841255Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What is the boiling point of water at the top of Everest?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "boiling point Everest"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 22,
+      "output_tokens": 11,
+      "total_tokens": 33
+     }
+    },
+    {
+     "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 52,
+      "output_tokens": 18,
+      "total_tokens": 70
+     }
+    },
+    {
+     "content": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0738-79e0-a924-fe582a6f3e36-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 71,
+      "output_tokens": 32,
+      "total_tokens": 103
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "APPROVED: the answer matches the research (about 70 degrees Celsius).",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a0fde4-0738-79e0-a924-fe7d1611659e-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 103,
+      "output_tokens": 17,
+      "total_tokens": 120
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "tags": [
+   "graph:step:5"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254840760Z01a0fde4-0738-79e0-a924-fe6f89aa66b2",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a0fde4-0738-79e0-a924-fe7d1611659e",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-02T18:32:54.840955Z",
+  "run_type": "llm",
+  "end_time": "2026-10-02T18:32:54.841206Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 5,
+    "langgraph_node": "critic",
+    "langgraph_triggers": [
+     "branch:to:critic"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "critic"
+    ],
+    "langgraph_checkpoint_ns": "critic:4db5cae0-7c9e-0323-4202-1af2de6d6509",
+    "checkpoint_ns": "critic:4db5cae0-7c9e-0323-4202-1af2de6d6509",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 103,
+     "output_tokens": 17,
+     "total_tokens": 120
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='APPROVED: the answer matches the research (about 70 degrees Celsius).', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-02T18:32:54.840955Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-02T18:32:54.841206Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "Check the answer against the research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What is the boiling point of water at the top of Everest?",
+       "type": "human",
+       "id": "019a3524-8262-4f19-bfe0-ab919cc0e107"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0735-7ab2-9f82-e72853581cee-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "boiling point Everest"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 22,
+        "output_tokens": 11,
+        "total_tokens": 33
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "At the summit of Everest (8,849 m), water boils at about 70 degrees Celsius.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "f34c08e3-f246-477e-8b9d-600583c9d642",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Research: water boils at about 70 degrees Celsius at the summit of Everest.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0737-7893-a114-ea186a063e0e-0",
+       "usage_metadata": {
+        "input_tokens": 52,
+        "output_tokens": 18,
+        "total_tokens": 70
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "At the top of Everest (8,849 m) water boils at about 70 degrees Celsius, because the air pressure is roughly a third of sea level.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a0fde4-0738-79e0-a924-fe582a6f3e36-0",
+       "usage_metadata": {
+        "input_tokens": 71,
+        "output_tokens": 32,
+        "total_tokens": 103
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "APPROVED: the answer matches the research (about 70 degrees Celsius).",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "APPROVED: the answer matches the research (about 70 degrees Celsius).",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a0fde4-0738-79e0-a924-fe7d1611659e-0",
+        "usage_metadata": {
+         "input_tokens": 103,
+         "output_tokens": 17,
+         "total_tokens": 120
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a0fde4-0738-79e0-a924-fe6f89aa66b2",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261002T183254837125Z01a0fde4-0734-7311-bfe7-568e94a510dd.20261002T183254840760Z01a0fde4-0738-79e0-a924-fe6f89aa66b2.20261002T183254840955Z01a0fde4-0738-79e0-a924-fe7d1611659e",
+  "trace_id": "01a0fde4-0734-7311-bfe7-568e94a510dd",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 103,
+  "completion_tokens": 17
+ }
+]
