@@ -76,7 +76,10 @@ def test_analyze_with_model_asks_then_judges(tmp_path: Path, monkeypatch) -> Non
     meta = report["metadata"]
     assert meta["judged"] is True
     assert meta["analysis_cost"] > 0
-    assert meta["analysis_models"] == {"triage": "claude-haiku-4-5", "confirm": "claude-opus-5"}
+    assert meta["analysis_models"] == {
+        "triage": "claude-haiku-4-5-20251001",
+        "confirm": "claude-sonnet-5-5",
+    }
     checks = {g["check_id"] for g in report["groups"]}
     assert "agents.ignored_output" in checks
 

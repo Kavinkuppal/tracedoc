@@ -232,7 +232,7 @@ def test_triage_gates_confirmation_calls() -> None:
     judge = _judge(_config(), client)
     judge.run(judge.plan(runs, []), [])
     assert {schema for _, schema in client.calls} == {"TriageResult"}
-    assert all(model == "claude-haiku-4-5" for model, _ in client.calls)
+    assert all(model == "claude-haiku-4-5-20251001" for model, _ in client.calls)
 
 
 def test_low_confidence_triage_is_ignored() -> None:

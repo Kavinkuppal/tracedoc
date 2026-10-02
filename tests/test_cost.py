@@ -44,3 +44,17 @@ def test_user_prices_extend_defaults(tmp_path, monkeypatch) -> None:
     assert config.prices["my-model"] == Price(input=0.5, output=1.5)
     assert config.prices["claude-opus-5"].input == 4.0
     assert "claude-haiku-4-5" in config.prices
+
+
+def test_default_models_are_priced_and_public() -> None:
+    from tracedoc.config import LLMConfig
+    from tracedoc.share.payload import public_model_name
+
+    llm = LLMConfig()
+    assert (llm.triage_model, llm.confirm_model) == (
+        "claude-haiku-4-5-20251001",
+        "claude-sonnet-5-5",
+    )
+    for model in (llm.triage_model, llm.confirm_model):
+        assert model in DEFAULT_PRICES
+        assert public_model_name(model) == model

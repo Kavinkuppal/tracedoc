@@ -127,7 +127,7 @@ Reports go to `./tracedoc-report/` (change it with `--out`):
 
 Reports include excerpts of your traces (after redaction), so share them only with people who may see that data.
 
-**What the analysis does.** Rule checks always run, with no model: repeated steps, runs that never finish, tool errors and blind retries, ignored tool output, no verification before finishing, token hotspots, and slow steps. With a key, a cheap triage model and a stronger confirmation model (default `claude-haiku-4-5` and `claude-opus-5`) confirm or dismiss the uncertain rule findings. They see only a few steps around each finding.
+**What the analysis does.** Rule checks always run, with no model: repeated steps, runs that never finish, tool errors and blind retries, ignored tool output, no verification before finishing, token hotspots, and slow steps. With a key, a cheap triage model and a stronger confirmation model (default `claude-haiku-4-5-20251001` and `claude-sonnet-5-5`) confirm or dismiss the uncertain rule findings. They see only a few steps around each finding.
 
 Eight further judge checks (ignored instructions, lost context, incomplete handoffs, ignored agent output, reasoning/action mismatch, guessing on ambiguous input, task drift, finishing early) stay **off** until their precision is measured on labeled examples. None have been measured yet. Turn them on anyway with `--include-unvalidated`, or measure them from a clone of this repository with `python evals/run_evals.py --write`, which uses your key.
 
@@ -191,8 +191,8 @@ The config file never holds API keys. It can name an environment variable (`api_
 ```toml
 [llm]
 provider = "anthropic"             # anthropic | openai | openai_compatible
-triage_model = "claude-haiku-4-5"
-confirm_model = "claude-opus-5"
+triage_model = "claude-haiku-4-5-20251001"
+confirm_model = "claude-sonnet-5-5"
 
 [prices."my-model"]                # USD per million tokens; adds to the built-in table
 input = 0.5

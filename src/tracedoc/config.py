@@ -103,9 +103,10 @@ class LLMConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     provider: Literal["anthropic", "openai", "openai_compatible"] = "anthropic"
-    # TODO(founders): confirm default triage and confirmation models.
-    triage_model: str = "claude-haiku-4-5"
-    confirm_model: str = "claude-opus-5"
+    # Claude API IDs, checked against platform.claude.com/docs models overview on 2026-10-02.
+    # Haiku 4.5 retirement: "not sooner than October 15, 2026"; watch the deprecations page.
+    triage_model: str = "claude-haiku-4-5-20251001"
+    confirm_model: str = "claude-sonnet-5-5"
     confirm_effort: Literal["low", "medium", "high", "xhigh", "max"] | None = "low"
     """Anthropic effort for the confirmation model; ignored by other providers."""
     base_url: str | None = None
@@ -151,10 +152,16 @@ class Price(BaseModel):
     """USD per million output tokens."""
 
 
-# Anthropic list prices (USD per million tokens), checked 2026-10-02. Prices change: override or
-# extend under [prices."model-name"] in config.toml. Unknown models get no cost estimate.
+# Anthropic list prices (USD per million tokens) from the models overview, checked 2026-10-02.
+# Prices change: override or extend under [prices."model-name"] in config.toml. Models not in the
+# table get no cost estimate.
 DEFAULT_PRICES: dict[str, Price] = {
+    "claude-haiku-4-5-20251001": Price(input=1.0, output=5.0),
     "claude-haiku-4-5": Price(input=1.0, output=5.0),
+    "claude-sonnet-5-5": Price(input=2.0, output=10.0),
+    "claude-opus-5-5": Price(input=4.0, output=20.0),
+    "claude-fable-5-1": Price(input=10.0, output=50.0),
+    # Legacy models, still available.
     "claude-sonnet-5": Price(input=2.0, output=10.0),
     "claude-sonnet-4-6": Price(input=3.0, output=15.0),
     "claude-opus-5": Price(input=5.0, output=25.0),
