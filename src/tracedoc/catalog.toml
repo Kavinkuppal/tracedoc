@@ -245,6 +245,28 @@ why = "The user asked a question and got nothing back."
 what_happened = "{agent}'s final reply had no text, so the user got no answer."
 what_to_change = "Add to {agent}'s prompt: \"Always end with a written answer for the user.\" Or add a graph edge that sends an empty reply back to {agent}."
 
+[checks."design.run_error"]
+title = "Run ended in an error"
+how = "rule"
+looks_for = "Runs that stopped with an error instead of an answer: a model call, a tool or another step raised an error that the system did not handle. LangGraph's own control-flow signals (a handoff passing control to another agent, or a deliberate pause) are not counted."
+why = "The user got an error instead of an answer, and everything the run spent was wasted."
+
+[checks."design.run_error".model]
+what_happened = "{agent}'s model call failed, and the run ended with an error: {error}"
+what_to_change = "Fix what {agent} sends to its model so this error can't recur, and catch model errors in {agent} so the user gets a message instead of a failed run."
+
+[checks."design.run_error".parallel_handoff]
+what_happened = "{sender} called {calls} in one reply. The handoff passed control before the other call's result was recorded, and {agent}'s next model call failed: {error}"
+what_to_change = "Turn off parallel tool calls for {sender}'s model (bind its tools with parallel_tool_calls=False), so a handoff never shares a reply with another tool call."
+
+[checks."design.run_error".tool]
+what_happened = "{tool} failed for {agent}, and the run ended with an error: {error}"
+what_to_change = "Make {tool} return an error message instead of raising, so {agent} can recover or tell the user."
+
+[checks."design.run_error".run]
+what_happened = "the run ended with an error: {error}"
+what_to_change = "Catch errors in the graph so a failed run ends with a message to the user, and fix the cause in the error message."
+
 [checks."design.loop"]
 title = "Agent repeated the same step"
 how = "rule"
