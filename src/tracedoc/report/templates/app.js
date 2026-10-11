@@ -544,7 +544,8 @@ if (typeof document !== "undefined") {
     filled("c-flow");
     const maxVisits = Math.max(...nodes.map((n) => n[1]));
     const maxEdge = Math.max(1, ...edges.map((e) => e[2]));
-    const names = ["__start__", ...nodes.map((n) => n[0]), ...(edges.some((e) => e[1] === "__end__") ? ["__end__"] : [])];
+    // Unique names: ECharts' graph fails on duplicates (for example a step labeled "__start__").
+    const names = [...new Set(["__start__", ...nodes.map((n) => n[0]), ...(edges.some((e) => e[1] === "__end__") ? ["__end__"] : [])])];
     const info = new Map(nodes.map(([n, v, f]) => [n, { visits: v, failure: f }]));
     // Layered layout: column = shortest distance from START; END goes last. Deterministic.
     const out = new Map();

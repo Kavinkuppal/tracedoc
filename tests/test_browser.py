@@ -60,3 +60,24 @@ def test_renders_offline_without_errors(report_url: str, engine: str, scheme: st
         assert not errors, errors
         assert not external, external
         browser.close()
+
+
+def test_flow_map_renders_with_duplicate_names(tmp_path) -> None:
+    """A step labeled like the map's own START node used to crash the chart (ECharts rejects
+    duplicate names). Older traces could produce one; the map must still render."""
+    runs = [load_fixture(n) for n in AGENTS]
+    run = runs[0].model_copy(deep=True)
+    top = next(s for s in run.steps if s.kind == "node" and s.parent_id is None)
+    top.node = "__start__"
+    runs[0] = run
+    html = write_reports(analyze(runs, Config()), runs, tmp_path)
+    with playwright.sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(viewport={"width": 1280, "height": 900})
+        errors: list[str] = []
+        page.on("pageerror", lambda e: errors.append(str(e)))
+        page.goto(html.as_uri())
+        page.wait_for_timeout(500)
+        assert page.locator("#c-flow svg").count() == 1
+        assert not errors, errors
+        browser.close()
