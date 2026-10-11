@@ -223,7 +223,12 @@ def build_report(
     return Report(
         scorecard=_scorecard(prepared.runs, findings),
         groups=groups,
-        signals=prepared.signals,
+        # A run with any finding is not an example of an efficient path.
+        signals=[
+            s
+            for s in prepared.signals
+            if s.check_id != "good.efficient_path" or s.run_id not in {f.run_id for f in findings}
+        ],
         metadata={
             "tool_version": __version__,
             "generated_at": datetime.now(timezone.utc).isoformat(),

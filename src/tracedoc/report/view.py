@@ -615,16 +615,17 @@ def _entry_agent(runs: list[Run]) -> str | None:
 
 
 def _working(signals: list[Finding], total: int) -> list[str]:
-    runs: dict[tuple[str, str], set[str]] = defaultdict(set)
+    runs: dict[tuple[str, str, str], set[str]] = defaultdict(set)
     for s in signals:
-        runs[(s.check_id, s.node or "")].add(s.run_id)
+        runs[(s.check_id, s.node or "", s.facts.get("sender", ""))].add(s.run_id)
     ordered = sorted(runs.items(), key=lambda kv: (-len(kv[1]), kv[0]))
     lines = []
-    for (check_id, agent), affected in ordered[:WORKING_LINES]:
+    for (check_id, agent, sender), affected in ordered[:WORKING_LINES]:
         lines.append(
             fill(
                 check_entry(check_id)["line"],
                 agent=agent or label("unknown_agent"),
+                sender=sender or label("unknown_agent"),
                 runs=len(affected),
                 total_runs=units("runs", total),
             )

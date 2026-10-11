@@ -13,6 +13,7 @@ from tests.helpers import SOURCES, load_fixture
 from tracedoc.checks.base import REGISTRY, enabled_checks, run_rule_checks
 from tracedoc.checks.signals import find_signals
 from tracedoc.config import Config, Thresholds
+from tracedoc.schema import Step
 
 RULE_CHECKS = {
     "design.empty_answer",
@@ -221,12 +222,86 @@ def test_error_recovery_signal() -> None:
 
 
 def test_efficient_path_signal() -> None:
-    def run(i: int, n: int):
-        return build_run(f"r{i}", [step("node", "agent")] * n, task_type="research")
+    def run(i: int, n: int, *, answer: str = "Meta had 67,317 employees.", tool: bool = True):
+        specs = [step("node", "agent")] * (n - 1)
+        specs += [step("tool", "agent", name="web_search" if tool else "transfer_to_math")]
+        return build_run(f"r{i}", specs, task_type="research", final_answer=answer)
 
-    runs = [run(i, 10) for i in range(5)] + [run(9, 3)]
+    runs = [run(i, 10) for i in range(5)] + [
+        run(9, 3),  # counts: an answer, a tool, few steps
+        run(8, 3, tool=False),  # only a handoff tool
+        run(7, 3, answer=""),  # no answer
+        run(6, 3, answer="Which year do you mean? Do you want all five companies?"),  # only asks
+    ]
     found = [s for s in find_signals(runs) if s.check_id == "good.efficient_path"]
     assert [s.run_id for s in found] == ["r9"]
+
+
+def test_efficient_path_needs_a_run_without_findings() -> None:
+    from tracedoc.analyze import analyze
+
+    def run(i: int, n: int):
+        specs = [step("node", "agent")] * (n - 1) + [step("tool", "agent", name="web_search")]
+        return build_run(f"r{i}", specs, task_type="research", final_answer="Done, here it is.")
+
+    runs = [run(i, 10) for i in range(5)] + [run(9, 3)]
+    assert any(s.check_id == "good.efficient_path" for s in analyze(runs, Config()).signals)
+    runs[-1] = runs[-1].model_copy(update={"status": "error", "error": "ValueError: boom"})
+    signals = analyze(runs, Config()).signals  # r9 now has a finding (it ended in an error)
+    assert not any(s.check_id == "good.efficient_path" and s.run_id == "r9" for s in signals)
+
+
+def test_clean_handoff_counts_only_what_the_sender_wrote() -> None:
+    request = "What was the combined FAANG headcount in 2024?"
+    table = "Meta 67,317 Apple 164,000 Amazon 1,551,000 Netflix 14,000 Google 181,269 total"
+    history = [{"type": "human", "content": request}]
+    specs = [
+        step("node", "supervisor", role="supervisor"),
+        step(
+            "llm",
+            "supervisor",
+            input=history,
+            output={"type": "ai", "content": "", "tool_calls": [{"name": "transfer_to_r"}]},
+        ),
+        step("node", "researcher", role="researcher"),
+        step("llm", "researcher", input=history, output=ai(f"Here are the numbers: {table}")),
+        step("node", "supervisor", role="supervisor"),
+        step(
+            "llm",
+            "supervisor",
+            input=[*history, ai(f"Here are the numbers: {table}")],
+            output=ai("The combined headcount is 1,977,586."),
+        ),
+    ]
+    run = build_run("r1", specs, input_preview=request, final_answer="1,977,586.")
+    handoffs = [
+        Step(
+            id="h0",
+            run_id="r1",
+            kind="handoff",
+            name="supervisor -> researcher",
+            handoff_from="supervisor",
+            handoff_to="researcher",
+            node="researcher",
+            started_at=run.steps[1].ended_at,
+            ended_at=run.steps[2].started_at,
+        ),
+        Step(
+            id="h1",
+            run_id="r1",
+            kind="handoff",
+            name="researcher -> supervisor",
+            handoff_from="researcher",
+            handoff_to="supervisor",
+            node="supervisor",
+            started_at=run.steps[3].ended_at,
+            ended_at=run.steps[4].started_at,
+        ),
+    ]
+    run.steps = sorted([*run.steps, *handoffs], key=lambda s: s.started_at)
+    found = [s for s in find_signals([run]) if s.check_id == "good.clean_handoff"]
+    # supervisor -> researcher carried only the user's request (the supervisor wrote nothing)
+    assert [(s.facts["sender"], s.facts["agent"]) for s in found] == [("researcher", "supervisor")]
 
 
 def test_signals_never_carry_problem_severity() -> None:

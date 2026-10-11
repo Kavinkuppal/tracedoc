@@ -149,6 +149,13 @@ def message_text(message: Mapping[str, Any]) -> str:
     return text.strip()
 
 
+def reply_text(output: Any) -> str:
+    """The words of a model reply, without its tool calls ("" for a tool-call-only reply)."""
+    if isinstance(output, Mapping) and "content" in output:
+        return message_text({"content": output.get("content")})
+    return output.strip() if isinstance(output, str) else ""
+
+
 def payload_text(payload: Any) -> str:
     """A readable string for any normalized payload, for previews and overlap checks."""
     if payload is None:

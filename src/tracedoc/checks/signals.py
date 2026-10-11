@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from statistics import median
 from typing import Any
 
 from ..catalog import check_entry, fill
 from ..config import Config
-from ..messages import payload_text
-from ..schema import Finding, Group, Run
+from ..messages import payload_text, reply_text
+from ..schema import Finding, Group, Run, Step
 from .rules.unchecked_result import verified_after_last_tool
-from .util import canonical, content_tokens, coverage, excerpt
+from .util import canonical, content_tokens, coverage, excerpt, is_handoff_tool
 
 
 def _signal(
@@ -97,8 +98,23 @@ def verified(runs: list[Run], config: Config) -> list[Finding]:
     return out
 
 
+def only_asks(answer: str) -> bool:
+    """The reply only asks the user something: every sentence in it is a question."""
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", answer.strip()) if s.strip()]
+    return bool(sentences) and all(s.endswith("?") for s in sentences)
+
+
+def delivered(run: Run) -> bool:
+    """An answer reached the user, it did more than ask a question, and a tool was used.
+    (Findings are checked later: a run with any finding is dropped when the report is built.)"""
+    used_tool = any(not is_handoff_tool(s.name) for s in run.steps_of("tool"))
+    answer = run.final_answer.strip()
+    return run.status == "completed" and bool(answer) and not only_asks(answer) and used_tool
+
+
 def efficient_path(runs: list[Run], config: Config) -> list[Finding]:
-    """Completed in far fewer steps than the batch median for the same task type."""
+    """Delivered an answer with at least one tool, in far fewer steps than the median for the
+    same task type."""
     t = config.thresholds
     by_task: dict[str, list[Run]] = defaultdict(list)
     for run in runs:
@@ -110,7 +126,7 @@ def efficient_path(runs: list[Run], config: Config) -> list[Finding]:
         med = median(r.totals.step_count for r in group)
         for run in group:
             steps = run.totals.step_count
-            if run.status == "completed" and steps and steps <= t.efficient_path_ratio * med:
+            if delivered(run) and steps and steps <= t.efficient_path_ratio * med:
                 out.append(
                     _signal(
                         "good.efficient_path",
@@ -124,8 +140,36 @@ def efficient_path(runs: list[Run], config: Config) -> list[Finding]:
     return out
 
 
+def _sender_wrote(run: Run, handoff: Step) -> str:
+    """What the sending agent itself wrote since it last got control: the words of its model
+    replies, not tool calls, and not the user's request or other agents' work it was handed."""
+    sender = handoff.handoff_from
+    since = max(
+        (
+            h.ended_at
+            for h in run.steps_of("handoff")
+            if h.handoff_to == sender
+            and h.ended_at
+            and handoff.started_at
+            and h.ended_at <= handoff.started_at
+        ),
+        default=None,
+    )
+    replies = [
+        reply_text(s.output)
+        for s in run.steps_of("llm")
+        if s.node == sender
+        and s.ended_at
+        and handoff.started_at
+        and s.ended_at <= handoff.started_at
+        and (since is None or (s.started_at is not None and s.started_at >= since))
+    ]
+    return " ".join(r for r in replies if r)
+
+
 def clean_handoff(runs: list[Run], config: Config) -> list[Finding]:
-    """The receiver's first model call carries the sender's key content."""
+    """A handoff from one agent to another where the receiver's first model call carries what
+    the sender wrote. The user's request, which every agent sees, doesn't count."""
     out = []
     for run in runs:
         llm_by_parent: dict[str, list] = defaultdict(list)
@@ -133,7 +177,10 @@ def clean_handoff(runs: list[Run], config: Config) -> list[Finding]:
             if s.parent_id:
                 llm_by_parent[s.parent_id].append(s)
         nodes = run.steps_of("node")
+        request = content_tokens(run.input_preview)
         for handoff in run.steps_of("handoff"):
+            if not handoff.handoff_from or handoff.handoff_from == handoff.handoff_to:
+                continue
             receiver = next(
                 (
                     n
@@ -146,7 +193,7 @@ def clean_handoff(runs: list[Run], config: Config) -> list[Finding]:
                 None,
             )
             calls = llm_by_parent.get(receiver.id, []) if receiver else []
-            sent = content_tokens(payload_text(handoff.input))
+            sent = content_tokens(_sender_wrote(run, handoff)) - request
             if not calls or len(sent) < config.thresholds.unused_output_min_tokens:
                 continue
             received = content_tokens(payload_text(calls[0].input))

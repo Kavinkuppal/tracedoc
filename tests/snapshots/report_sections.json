@@ -626,16 +626,6 @@
    "writer->critic"
   ],
   [
-   "good.clean_handoff",
-   6,
-   "research_agent->supervisor"
-  ],
-  [
-   "good.clean_handoff",
-   6,
-   "supervisor->research_agent"
-  ],
-  [
    "good.verified",
    5,
    "critic"
