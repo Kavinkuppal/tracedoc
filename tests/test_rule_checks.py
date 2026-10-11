@@ -280,3 +280,33 @@ def test_runs_without_an_answer_do_not_count_as_completed() -> None:
     completed = sum(r.status == "completed" for r in runs)
     assert completed == len(runs) - 2  # recursion limit + empty answer
     assert report.scorecard["completion_rate"] == pytest.approx(completed / len(runs))
+
+
+@pytest.mark.parametrize(
+    "tool_name", ["transfer_to_research_expert", "transfer_back_to_supervisor"]
+)
+def test_handoff_tools_are_not_unused_output(tool_name: str) -> None:
+    specs = [
+        step("node", "supervisor", role="supervisor"),
+        step("llm", "supervisor", output=ai("Routing you to the researcher now.")),
+        step(
+            "tool",
+            "supervisor",
+            name=tool_name,
+            output="Successfully transferred to research_expert after the long handoff",
+        ),
+        step("node", "research_expert", role="researcher"),
+        step("llm", "research_expert", output=ai("Here is what I found about rainfall.")),
+    ]
+    findings = run_rule_checks([build_run("r", specs)])
+    assert "tools.unused_output" not in {f.check_id for f in findings}
+
+
+def test_is_handoff_tool() -> None:
+    from tracedoc.checks.util import is_handoff_tool
+
+    assert is_handoff_tool("transfer_to_hotel_assistant")
+    assert is_handoff_tool("transfer_back_to_supervisor")
+    assert not is_handoff_tool("transfer_funds")
+    assert not is_handoff_tool("web_search")
+    assert not is_handoff_tool(None)

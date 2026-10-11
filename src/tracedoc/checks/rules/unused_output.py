@@ -9,7 +9,14 @@ from __future__ import annotations
 
 from ...schema import Finding, Impact, Run
 from ..base import Check, register
-from ..util import content_tokens, coverage, excerpt, llm_output_text, step_latency
+from ..util import (
+    content_tokens,
+    coverage,
+    excerpt,
+    is_handoff_tool,
+    llm_output_text,
+    step_latency,
+)
 
 
 @register
@@ -27,6 +34,8 @@ class UnusedOutput(Check):
             for tool in run.steps_of("tool"):
                 if tool.error or tool.output is None or tool.ended_at is None:
                     continue
+                if is_handoff_tool(tool.name):
+                    continue  # a transfer confirmation is not data to use
                 tool_tokens = content_tokens(excerpt(tool.output, 4000))
                 if len(tool_tokens) < self.t.unused_output_min_tokens:
                     continue

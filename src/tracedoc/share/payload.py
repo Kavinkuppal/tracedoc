@@ -19,6 +19,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from ..__about__ import __version__
+from ..checks.util import is_handoff_tool
 from ..schema import Finding, Role, Run, RunStatus, Severity, TaskType
 
 SCHEMA_VERSION = 1
@@ -237,7 +238,7 @@ def shared_run(run: Run, findings: list[Finding]) -> SharedRun:
     for s in run.steps_of("llm"):
         by_role.setdefault(s.role or "other", set()).add(public_model_name(s.model))
     agents = {s.node for s in run.steps_of("node") if s.node and s.role != "tool_executor"}
-    tools = {s.name for s in run.steps_of("tool")}
+    tools = {s.name for s in run.steps_of("tool") if not is_handoff_tool(s.name)}
     framework = run.framework if run.framework in ("langgraph", "langchain") else "unknown"
     version = (
         run.framework_version

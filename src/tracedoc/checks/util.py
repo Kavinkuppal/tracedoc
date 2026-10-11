@@ -79,6 +79,15 @@ _STOPWORDS = frozenset(
 _IGNORED_KEYS = {"id", "tool_call_id"}
 
 
+HANDOFF_TOOL_PREFIXES = ("transfer_to_", "transfer_back_to_")
+
+
+def is_handoff_tool(name: str | None) -> bool:
+    """Tools that pass control to another agent (LangGraph supervisor/swarm handoffs). Their
+    output is a transfer confirmation, not data for the agent to use."""
+    return bool(name) and str(name).startswith(HANDOFF_TOOL_PREFIXES)
+
+
 def content_tokens(text: str) -> set[str]:
     """Distinctive lowercase tokens: words of 3+ letters minus stopwords, and anything numeric."""
     tokens = set()
