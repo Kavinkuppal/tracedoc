@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -98,12 +99,36 @@ def read_capture_file(path: Path) -> RawTrace:
     )
 
 
-def iter_capture_files(path: Path) -> Iterator[Path]:
+SKIPPED_DIRS = {"__pycache__", "node_modules", "site-packages"}
+
+
+def iter_files(path: Path, suffixes: tuple[str, ...]) -> Iterator[Path]:
+    """`path` itself if it is a file, else every matching file below it, in sorted order.
+    Hidden folders (.venv, .git, ...) and package folders are not searched."""
     if path.is_file():
         yield path
         return
-    yield from sorted(path.glob("*.jsonl"))
+    found = []
+    for folder, dirs, files in os.walk(path, followlinks=False):
+        dirs[:] = sorted(d for d in dirs if not d.startswith(".") and d not in SKIPPED_DIRS)
+        found += [Path(folder) / f for f in files if f.endswith(suffixes)]
+    yield from sorted(found)
+
+
+def is_capture_file(path: Path) -> bool:
+    """Whether the file starts with a tracedoc capture header (cheap: reads one line)."""
+    try:
+        with path.open(encoding="utf-8") as f:
+            first = f.readline()
+        header = json.loads(first)
+    except (OSError, UnicodeDecodeError, ValueError):
+        return False
+    return isinstance(header, dict) and header.get("format") == FORMAT
+
+
+def iter_capture_files(path: Path) -> Iterator[Path]:
+    yield from iter_files(path, (".jsonl",))
 
 
 def read_captures(path: Path) -> list[RawTrace]:
-    return [read_capture_file(p) for p in iter_capture_files(path)]
+    return [read_capture_file(p) for p in iter_capture_files(path) if is_capture_file(p)]

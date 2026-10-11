@@ -8,7 +8,7 @@ from pathlib import Path
 import typer
 
 from .__about__ import NAME, __version__
-from .analyze import SourceName, classifier_calls, load_traces, normalize_all, prepare
+from .analyze import SourceName, classifier_calls, collect_traces, normalize_all, prepare
 from .analyze import analyze as run_analysis
 from .config import Config, ConfigError, config_dir, load_config, user_config_path
 from .feedback import check_for, feedback_path, import_file, record
@@ -81,14 +81,16 @@ def main(
         raise typer.Exit()
 
 
-def _load(path: Path | None, source: SourceName, project: str | None) -> list:
-    if path is not None and not path.exists():
-        raise FileNotFoundError(f"{path} does not exist")
-    traces = load_traces(path, source, project)
-    if not traces:
-        where = f"LangSmith project {project}" if project else str(path)
+def _load(paths: list[Path] | None, source: SourceName, project: str | None) -> list:
+    for path in paths or []:
+        if not path.exists():
+            raise FileNotFoundError(f"{path} does not exist")
+    loaded = collect_traces(paths, source, project)
+    if not loaded.traces:
+        where = f"LangSmith project {project}" if project else ", ".join(map(str, paths or []))
         raise ValueError(f"no traces found in {where}")
-    return traces
+    typer.echo(loaded.describe())
+    return loaded.traces
 
 
 def _config(
@@ -147,7 +149,9 @@ def _print_estimate(config: Config, runs: list, prepared) -> float | None:  # no
 
 @app.command()
 def estimate(
-    path: Path | None = typer.Argument(None, help="Capture directory/file or LangSmith export."),
+    path: list[Path] | None = typer.Argument(
+        None, help="Folders or files with traces; sub-folders are searched."
+    ),
     source: SourceName = typer.Option("capture", help="capture or langsmith"),
     project: str | None = typer.Option(None, help="LangSmith project to pull from."),
     model: str | None = typer.Option(None, help="Confirmation model."),
@@ -168,7 +172,9 @@ def estimate(
 
 @app.command()
 def analyze(
-    path: Path | None = typer.Argument(None, help="Capture directory/file or LangSmith export."),
+    path: list[Path] | None = typer.Argument(
+        None, help="Folders or files with traces; sub-folders are searched."
+    ),
     source: SourceName = typer.Option("capture", help="capture or langsmith"),
     project: str | None = typer.Option(None, help="LangSmith project to pull from."),
     model: str | None = typer.Option(None, help="Confirmation model."),

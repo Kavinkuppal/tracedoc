@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from dataclasses import dataclass
+from collections.abc import Callable, Sequence
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from statistics import median
@@ -19,7 +19,7 @@ from .classify.task_type import task_from_text
 from .config import Config
 from .group import group_findings
 from .ingest.base import RawTrace
-from .ingest.jsonl import read_captures
+from .ingest.jsonl import is_capture_file, iter_files, read_capture_file
 from .ingest.langsmith import fetch_project, read_export
 from .llm.classify import role_classifier, task_classifier
 from .llm.client import LLMClient
@@ -30,19 +30,78 @@ from .schema import Finding, Report, Run
 SourceName = Literal["capture", "langsmith"]
 
 
+@dataclass
+class LoadResult:
+    traces: list[RawTrace]
+    files_read: int = 0
+    skipped_files: list[Path] = field(default_factory=list)
+    """Files that matched the extension but are not tracedoc traces or LangSmith exports."""
+    duplicates: int = 0
+    """Runs found more than once (for example through symlinks); each is kept once."""
+
+    def describe(self) -> str:
+        parts = [f"Read {len(self.traces)} run(s) from {self.files_read} file(s)"]
+        if self.skipped_files:
+            parts.append(f"skipped {len(self.skipped_files)} file(s) that are not traces")
+        if self.duplicates:
+            parts.append(f"ignored {self.duplicates} duplicate run(s)")
+        return "; ".join(parts) + "."
+
+
+def collect_traces(
+    paths: Path | Sequence[Path] | None,
+    source: SourceName = "capture",
+    project: str | None = None,
+) -> LoadResult:
+    """Read traces from any number of files and folders, searching sub-folders."""
+    if source == "langsmith" and project:
+        traces = fetch_project(project)
+        return _dedupe_traces(LoadResult(traces=traces, files_read=0))
+    path_list = [paths] if isinstance(paths, Path) else list(paths or [])
+    if not path_list:
+        raise ValueError(
+            "LangSmith import needs an export file PATH or --project"
+            if source == "langsmith"
+            else "PATH is required"
+        )
+    result = LoadResult(traces=[])
+    for path in path_list:
+        if source == "langsmith":
+            for f in iter_files(path, (".json", ".jsonl")):
+                try:
+                    found = read_export(f)
+                except (ValueError, KeyError, TypeError):
+                    result.skipped_files.append(f)
+                    continue
+                result.files_read += 1
+                result.traces += found
+        else:
+            for f in iter_files(path, (".jsonl",)):
+                if not is_capture_file(f):
+                    result.skipped_files.append(f)
+                    continue
+                result.files_read += 1
+                result.traces.append(read_capture_file(f))
+    return _dedupe_traces(result)
+
+
+def _dedupe_traces(result: LoadResult) -> LoadResult:
+    seen: set[str] = set()
+    unique = []
+    for trace in result.traces:
+        if trace.id in seen:
+            result.duplicates += 1
+            continue
+        seen.add(trace.id)
+        unique.append(trace)
+    result.traces = unique
+    return result
+
+
 def load_traces(
-    path: Path | None, source: SourceName = "capture", project: str | None = None
+    paths: Path | Sequence[Path] | None, source: SourceName = "capture", project: str | None = None
 ) -> list[RawTrace]:
-    if source == "langsmith":
-        if project:
-            return fetch_project(project)
-        if path is None:
-            raise ValueError("LangSmith import needs an export file PATH or --project")
-        files = [path] if path.is_file() else sorted(path.glob("*.json*"))
-        return [t for f in files for t in read_export(f)]
-    if path is None:
-        raise ValueError("PATH is required")
-    return read_captures(path)
+    return collect_traces(paths, source, project).traces
 
 
 def normalize_all(
