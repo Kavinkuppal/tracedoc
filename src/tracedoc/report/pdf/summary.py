@@ -40,7 +40,7 @@ from .base import (
 )
 
 FOOTER_SPACE = 16.0
-CARD_PAD = 8.0
+CARD_PAD = 7.0
 CARD_LABEL_WIDTH = 86.0
 TILE_GAP = 8.0
 SECTION_GAP = 12.0
@@ -98,7 +98,7 @@ def _header(view: ReportView, s: Styles) -> Table:
         [cell("header_models", h.models), "", cell("header_cost", h.cost)],
     ]
     table = Table(
-        rows, colWidths=[CONTENT_WIDTH * 0.42, CONTENT_WIDTH * 0.33, CONTENT_WIDTH * 0.25]
+        rows, colWidths=[CONTENT_WIDTH * 0.42, CONTENT_WIDTH * 0.25, CONTENT_WIDTH * 0.33]
     )
     table.setStyle(
         table_style(
@@ -190,8 +190,8 @@ class CardBox(Flowable):
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
                     ("LEFTPADDING", (0, 0), (-1, -1), 0),
                     ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-                    ("TOPPADDING", (0, 0), (-1, -1), 1.5),
-                    ("BOTTOMPADDING", (0, 0), (-1, -1), 1.5),
+                    ("TOPPADDING", (0, 0), (-1, -1), 1),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 1),
                 ]
             )
         )
@@ -227,10 +227,10 @@ class CardBox(Flowable):
 
 
 def _page_one(cursor: Cursor, view: ReportView, s: Styles, page_of: Callable[[str], int]) -> None:
-    cursor.place(Paragraph(markup(label("summary_title")), s.title), 8)
-    cursor.place(_header(view, s), 6)
-    cursor.place(Paragraph(markup(view.verdict), s.verdict), SECTION_GAP)
-    cursor.place(Tiles(view, s), SECTION_GAP + 2)
+    cursor.place(Paragraph(markup(label("summary_title")), s.title), 6)
+    cursor.place(_header(view, s), 4)
+    cursor.place(Paragraph(markup(view.verdict), s.verdict), SECTION_GAP - 2)
+    cursor.place(Tiles(view, s), SECTION_GAP)
     cursor.place(Paragraph(markup(label("top_fixes_title")), s.h2), 6)
     if not view.cards:
         cursor.place(Paragraph(markup(label("top_fixes_none")), s.body))
