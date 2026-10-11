@@ -18,6 +18,7 @@ RULE_CHECKS = {
     "design.empty_answer",
     "design.loop",
     "design.no_stop",
+    "design.run_error",
     "tools.errors_retries",
     "tools.unused_output",
     "verification.unchecked_result",
