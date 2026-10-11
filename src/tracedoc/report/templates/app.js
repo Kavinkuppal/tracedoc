@@ -442,7 +442,7 @@ if (typeof document !== "undefined") {
           <div class="fix-body">
             <div class="fix-head"><span class="sev sev-${f.severity}"><span class="icon">${SEV_ICON[f.severity]}</span> ${SEV_LABEL[f.severity]}</span>
               <h3>${esc(title(g.check_id))}</h3>${f.needs_confirmation ? `<span class="badge">unconfirmed</span>` : ""}</div>
-            <div class="muted small">${esc(g.check_id)}${where ? " · " + esc(where) : ""} · ${g.runs_affected} run${g.runs_affected === 1 ? "" : "s"} (${pct(g.frequency)})${g.impact.tokens ? ` · ${fmtInt(g.impact.tokens)} tokens wasted` : ""}</div>
+            <div class="muted small">${esc(g.check_id)}${where ? " · " + esc(where) : ""} · ${g.runs_affected} run${g.runs_affected === 1 ? "" : "s"} (${pct(g.frequency)})${g.impact.tokens ? ` · ${fmtInt(g.impact.tokens)} tokens in these runs` : ""}</div>
             <p>${esc(f.explanation)}</p>
             <p class="fix-text"><strong>Suggested fix:</strong> ${esc(f.suggested_fix)}</p>
             ${f.evidence_excerpts.length ? `<blockquote>${f.evidence_excerpts.map(esc).join("<br>")}</blockquote>` : ""}

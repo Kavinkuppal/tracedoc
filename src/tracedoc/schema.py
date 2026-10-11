@@ -152,6 +152,7 @@ class FindingGroup(BaseModel):
     frequency: float
     """Share of analyzed runs affected, 0 to 1."""
     impact: Impact = Field(default_factory=Impact)
+    """Tokens, cost and time of the runs this problem appeared in (each run counted once)."""
     representative: Finding
     findings: list[Finding] = Field(default_factory=list)
 

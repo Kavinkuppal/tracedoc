@@ -128,7 +128,7 @@ def build_report(
     spend: Spend | None,
 ) -> Report:
     findings = outcome.findings if outcome else prepared.rule_findings
-    groups = group_findings(findings, len(prepared.runs))
+    groups = group_findings(findings, prepared.runs)
     llm = config.llm
     return Report(
         scorecard=_scorecard(prepared.runs, findings),

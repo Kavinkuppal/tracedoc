@@ -15,6 +15,13 @@
  },
  "02_top_fixes": [
   [
+   "design.empty_answer",
+   "high",
+   1,
+   "supervisor",
+   "supervisor"
+  ],
+  [
    "design.no_stop",
    "high",
    1,
@@ -27,13 +34,6 @@
    1,
    "agent",
    "fetch_url"
-  ],
-  [
-   "design.empty_answer",
-   "high",
-   1,
-   "supervisor",
-   "supervisor"
   ]
  ],
  "03_failure_frequency": [
