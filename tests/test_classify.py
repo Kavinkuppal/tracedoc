@@ -71,3 +71,55 @@ def test_task_fallback_gets_truncated_preview() -> None:
     assert classify_task("x" * 2000, fallback=fallback, max_chars=100) == "coding"
     assert seen == ["x" * 100]
     assert classify_task("zzz") == "other"
+
+
+# ---- labeled task-type sets ----------------------------------------------------------------
+# task_types.jsonl was used to write the rules (a regression guard). task_types_holdout.jsonl
+# was written before the rules were scored on it and must not be used to tune them: it is the
+# honest estimate of how the keyword rules do on new requests (16/21 when it was added).
+
+import json  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+FIXTURES = Path(__file__).parent / "fixtures"
+
+
+def _accuracy(name: str) -> tuple[float, list[str]]:
+    rows = [json.loads(line) for line in (FIXTURES / name).read_text().splitlines() if line]
+    misses = [
+        f"want {r['label']}, got {classify_task(r['text'])}: {r['text']}"
+        for r in rows
+        if classify_task(r["text"]) != r["label"]
+    ]
+    return 1 - len(misses) / len(rows), misses
+
+
+def test_labeled_task_types_regression() -> None:
+    accuracy, misses = _accuracy("task_types.jsonl")
+    assert accuracy >= 0.95, misses
+
+
+def test_labeled_task_types_holdout() -> None:
+    accuracy, misses = _accuracy("task_types_holdout.jsonl")
+    assert accuracy >= 0.75, misses
+
+
+def test_every_task_type_is_labeled() -> None:
+    rows = [json.loads(line) for line in (FIXTURES / "task_types.jsonl").read_text().splitlines()]
+    from tracedoc.schema import TASK_TYPES
+
+    assert {r["label"] for r in rows} == set(TASK_TYPES)
+
+
+@pytest.mark.parametrize(
+    ("text", "task"),
+    [
+        ("Book me a flight from Boston to New York tomorrow.", "customer_support"),
+        ("What's 17.5 multiplied by 24?", "other"),
+        ("What was the combined headcount of the big tech firms in 2024?", "research"),
+        ("Write a SQL query for monthly revenue.", "coding"),
+        ("Draft a product roadmap.", "planning"),
+    ],
+)
+def test_boundary_cases(text: str, task: str) -> None:
+    assert classify_task(text) == task

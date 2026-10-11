@@ -1,4 +1,20 @@
-"""Classify a run's task into a fixed list, from its input preview."""
+"""Classify a run's task into a fixed list, from its input preview.
+
+Weighted keyword rules: each task type has patterns with weights (specific cues weigh more than
+generic question words); the highest total wins, ties go to the earlier type in PRIORITY, and no
+match at all means "other" (or the optional model fallback). Definitions:
+
+- research: find or explain facts ("who founded...", "compare...", "how many employees...").
+- coding: write, fix, test or explain code.
+- data_extraction: pull structured fields out of given documents or text.
+- customer_support: the user's own orders, accounts, bills and bookings, including booking,
+  changing or cancelling travel or reservations through an assistant.
+- planning: plans, itineraries, schedules, roadmaps, step-by-step plans.
+- writing: produce or edit prose (posts, emails, summaries, translations, taglines).
+- other: everything else, including pure arithmetic and chit-chat.
+
+Labeled examples: tests/fixtures/task_types.jsonl.
+"""
 
 from __future__ import annotations
 
@@ -10,109 +26,90 @@ from ..schema import TASK_TYPES, TaskType
 TaskClassifier = Callable[[str], "TaskType | None"]
 """Optional model fallback: given a truncated input preview, return a task type or None."""
 
-# Higher-specificity types first so ties break toward them.
-_PATTERNS: list[tuple[TaskType, tuple[str, ...]]] = [
-    (
-        "coding",
+PRIORITY: tuple[TaskType, ...] = (
+    "coding",
+    "data_extraction",
+    "customer_support",
+    "planning",
+    "writing",
+    "research",
+    "other",
+)
+
+_RULES: dict[TaskType, list[tuple[str, int]]] = {
+    "coding": [
+        (r"\b(python|javascript|typescript|java|golang|rust|c\+\+|react|sql|regex|html|css)\b", 3),
+        (r"\b(go|my) program\b", 3),
         (
-            r"\bcode\b",
-            r"\bfunction\b",
-            r"\bbug\b",
-            r"\bpython\b",
-            r"\bjavascript\b",
-            r"\btypescript\b",
-            r"\brefactor",
-            r"\bstack ?trace\b",
-            r"\bcompile",
-            r"\bunit tests?\b",
-            r"\bimplement",
-            r"\bdebug",
-            r"\bsql\b",
-            r"\bregex\b",
+            r"\b(function|refactor\w*|bug|stack ?trace|unit tests?|compile\w*|panics?|exception)\b",
+            2,
         ),
-    ),
-    (
-        "customer_support",
-        (
-            r"\bmy order\b",
-            r"\border #?\w*\d",
-            r"\brefund",
-            r"\bmy account\b",
-            r"\bpassword\b",
-            r"\bshipping\b",
-            r"\bsubscription\b",
-            r"\bdelivery\b",
-            r"\bcancel my\b",
-            r"\bcharged\b",
-            r"\bwhere is my\b",
-        ),
-    ),
-    (
-        "data_extraction",
-        (
-            r"\bextract",
-            r"\bparse\b",
-            r"\bfields?\b",
-            r"\binvoices?\b",
-            r"\bscrape",
-            r"\bjson\b",
-            r"\bcsv\b",
-            r"\bstructured data\b",
-        ),
-    ),
-    (
-        "planning",
-        (
-            r"\bplan\b",
-            r"\bitinerary\b",
-            r"\bschedule\b",
-            r"\broadmap\b",
-            r"\bsteps to\b",
-            r"\bmilestones?\b",
-        ),
-    ),
-    (
-        "writing",
-        (
-            r"\bwrite\b",
-            r"\bdraft\b",
-            r"\bessay\b",
-            r"\bblog\b",
-            r"\bemail\b",
-            r"\bbrief\b",
-            r"\bsummar(y|ize|ise)\b",
-            r"\brewrite\b",
-            r"\bparagraph\b",
-            r"\bpost\b",
-        ),
-    ),
-    (
-        "research",
-        (
-            r"\bresearch\b",
-            r"\bwhat (is|are|was|were)\b",
-            r"\bfind\b",
-            r"\bcompare\b",
-            r"\bsources?\b",
-            r"\blook up\b",
-            r"\bapproaches\b",
-            r"\bhow does\b",
-            r"\bwhy\b",
-            r"\bdid\b.*\?",
-        ),
-    ),
-]
-_COMPILED = [(t, [re.compile(p, re.IGNORECASE) for p in ps]) for t, ps in _PATTERNS]
+        (r"\b(implement\w*|debug\w*|component|module|async|await|nil pointer|endpoint)\b", 2),
+        (r"\b(code|script|query|loop)\b", 1),
+    ],
+    "data_extraction": [
+        (r"\b(extract\w*|scrape\w*|parse\w*)\b", 3),
+        (r"\bpull\b.*\b(out of|from)\b", 3),
+        (r"\b(into|as) (json|csv|a table|structured)\b", 3),
+        (r"\b(fields?|structured)\b", 2),
+        (r"\b(invoices?|receipts?|resumes?|contract|pdf)\b", 1),
+        (r"\bget the\b.*\bfrom (each|these|this)\b", 3),
+    ],
+    "customer_support": [
+        (r"\bmy (order|package|account|subscription|booking|reservation|password|bill|card)\b", 3),
+        (r"\b(refund|charged|cancel my|log ?in|password|order number)\b", 3),
+        (r"\b(book|reserve)( me)? (a|an|the) (flight|hotel|room|table|seat|ticket)\b", 3),
+        (r"\b(flight|flights) from\b.*\bto\b", 3),
+        (r"\b(find|get) me a (flight|hotel|room)\b", 3),
+        (r"\bhotel room\b|\bi need a (hotel|flight|room)\b", 3),
+        (r"\b(reservation|booking)\b", 2),
+        (r"\bchange my\b", 2),
+    ],
+    "planning": [
+        (r"\b(itinerary|roadmap|milestones?|meal prep)\b", 3),
+        (r"\b(plan|planning)\b", 2),
+        (r"\bschedule\b", 2),
+        (r"\bsteps to\b", 3),
+        (r"\bbreak\b.*\binto\b", 2),
+    ],
+    "writing": [
+        (r"\b(blog|essay|tagline|slogan|cover letter|announcement|poem|story)\b", 3),
+        (r"\b(proofread|rewrite|translate|summari[sz]e|summary)\b", 3),
+        (r"\b(write|draft)\b", 1),
+        (r"\b(email|paragraph|brief|post|bullet points?)\b", 2),
+    ],
+    "research": [
+        (r"\b(research|studies|sources?|look up|compare|founded|history|population)\b", 2),
+        (r"\b(headcount|employees|market cap|revenue|ceo)\b", 3),
+        (r"\b(who|which|why|when)\b", 1),
+        (r"\bwhat (is|are|was|were|'s)\b|\bwhat's\b", 1),
+        (r"\bhow (many|much|does|did|do)\b", 1),
+        (r"\bfind\b", 1),
+        (r"^\s*(did|does|do|is|are|was|were|has|have|can)\b.*\?\s*$", 1),
+    ],
+    "other": [
+        (r"\b(multiplied by|divided by|times|plus|minus|square root|power of)\b", 3),
+        (r"\d+(\.\d+)?\s*%\s*of\b", 3),
+        (r"\b(compute|calculate|add|subtract)\s+[\d$]", 3),
+        (r"\bconvert\b.*\b(celsius|fahrenheit|miles|km|kg|pounds|inches|cm)\b", 3),
+        (r"\b(joke|riddle)\b|^\s*(hi|hello|hey)\b", 3),
+    ],
+}
+_COMPILED = {
+    t: [(re.compile(p, re.IGNORECASE), w) for p, w in rules] for t, rules in _RULES.items()
+}
+
+
+def task_scores(text: str) -> dict[TaskType, int]:
+    return {t: sum(w for p, w in rules if p.search(text)) for t, rules in _COMPILED.items()}
 
 
 def task_from_text(text: str) -> TaskType | None:
-    best: TaskType | None = None
-    best_score = 0
-    for task, patterns in _COMPILED:
-        score = sum(1 for p in patterns if p.search(text))
-        if score > best_score:
-            best, best_score = task, score
-    return best
+    scores = task_scores(text)
+    best = max(scores.values())
+    if best == 0:
+        return None
+    return next(t for t in PRIORITY if scores[t] == best)
 
 
 def classify_task(
