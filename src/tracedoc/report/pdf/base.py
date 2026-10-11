@@ -118,6 +118,31 @@ def fit_middle(text: Any, font: str, size: float, width: float) -> str:
     return "…"
 
 
+def fit_end(text: Any, font: str, size: float, width: float) -> str:
+    """`text` cut at a word boundary, with "…", so it fits on one line of `width` points."""
+    text = " ".join(safe(text).split())
+    if stringWidth(text, font, size) <= width:
+        return text
+    words = text.split(" ")
+
+    def cut(n: int) -> str:
+        return " ".join(words[:n]).rstrip(" ,;:.") + "…"
+
+    lo, hi = 0, len(words) - 1  # the most whole words that fit
+    while lo < hi:
+        mid = (lo + hi + 1) // 2
+        if stringWidth(cut(mid), font, size) <= width:
+            lo = mid
+        else:
+            hi = mid - 1
+    if lo:
+        return cut(lo)
+    n = len(words[0])  # a single word longer than the line: cut inside it
+    while n and stringWidth(words[0][:n] + "…", font, size) > width:
+        n -= 1
+    return words[0][:n] + "…"
+
+
 def fit_lines(text: Any, font: str, size: float, width: float, lines: int = 2) -> str:
     """`text` shortened in the middle so it takes at most `lines` lines of `width` points."""
     return fit_middle(text, font, size, width * lines * 0.9)

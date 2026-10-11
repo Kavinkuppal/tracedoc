@@ -1,7 +1,9 @@
 """details.pdf: the supporting document, with fixed sections and no page limit.
 
 1. How to read this report (fixed text from the catalog, plus what the AI judge skipped).
-2. Every finding, one block each, grouped into problems in ranking order.
+2. Every finding, grouped into problems in ranking order. Each problem shows its explanation
+   and its fix once, one worked example with the full evidence, and a table with one row per
+   affected run.
 3. Run index, and every agent.
 4. Check catalog (fixed text).
 
@@ -36,15 +38,20 @@ from .base import (
     MARGIN_X,
     PAGE_HEIGHT,
     PAGE_WIDTH,
+    REGULAR,
     RULE,
     SEVERITY_COLORS,
     Styles,
     deterministic_canvas,
+    fit_end,
     markup,
     table_style,
 )
 
 LABEL_WIDTH = 104.0
+AFFECTED_COLUMNS = (0.06, 0.32, 0.52, 0.10)
+"""Run, request, what happened, finding ID: shares of the content width."""
+CELL_PADDING = 3.0
 
 
 class Story:
@@ -129,12 +136,10 @@ def _tools(f: FindingView, s: Styles) -> list[Paragraph] | Paragraph:
     return out
 
 
-def _finding(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]:
+def _example(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]:
+    """The worked example: one finding with its complete evidence."""
     badges = label("finding_badges", severity=f.severity, confidence=f.confidence, method=f.method)
-    heading = Paragraph(
-        markup(label("finding_heading", id=f.id, title=f.title)),
-        s.h3,
-    )
+    heading = Paragraph(markup(label("example_heading", id=f.id, title=f.title)), s.h3)
     color = SEVERITY_COLORS.get(f.finding.severity)
     badge_style = s.small_muted.clone("badge", textColor=color) if color else s.small_muted
     rows: list[tuple[str, Any]] = [
@@ -148,27 +153,81 @@ def _finding(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]
         rows.append(("f_error", f.error))
     if f.quote:
         rows.append(("f_quote", f"“{f.quote}”"))
-    change = f.what_to_change + (f"  ({f.change_kind})" if f.change_kind else "")
-    rows += [
-        ("f_change", change),
-        ("f_id", f"{f.id} · {label('f_ref')} {f.reference}"),
-    ]
+    rows.append(("f_id", f"{f.id} · {label('f_ref')} {f.reference}"))
     return [
         Anchor(f.id, pages),
         heading,
         _p(badges, badge_style),
-        _p(f.looks_for, s.small_muted),
         Spacer(0, 3),
         _fields(rows, s),
-        Spacer(0, 10),
     ]
 
 
+def _one_line(text: str, share: float, s: Styles) -> Paragraph:
+    width = CONTENT_WIDTH * share - 2 * CELL_PADDING
+    return Paragraph(markup(fit_end(text, REGULAR, s.cell.fontSize, width)), s.cell)
+
+
+def _affected_table(p: ProblemView, s: Styles, pages: dict[str, int]) -> Table:
+    """One row per affected run. Each finding ID in it is anchored on the row's page, except
+    the worked example's, whose anchor is the example itself."""
+    shown = p.representative.id
+    head = [label(k) for k in ("aff_run", "aff_request", "aff_what_happened", "aff_finding")]
+    data: list[list[Any]] = [[_p(h, s.cell_head) for h in head]]
+    for row in p.affected:
+        ids = [
+            *(Anchor(fid, pages) for fid in row.finding_ids if fid != shown),
+            _p(", ".join(row.finding_ids), s.cell),
+        ]
+        data.append(
+            [
+                _p(row.run_id, s.cell),
+                _one_line(row.request, AFFECTED_COLUMNS[1], s),
+                _one_line(row.what_happened, AFFECTED_COLUMNS[2], s),
+                ids,
+            ]
+        )
+    table = Table(data, colWidths=[CONTENT_WIDTH * w for w in AFFECTED_COLUMNS], repeatRows=1)
+    table.setStyle(
+        table_style(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), CELL_PADDING),
+                ("RIGHTPADDING", (0, 0), (-1, -1), CELL_PADDING),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                ("LINEBELOW", (0, 0), (-1, 0), 0.75, RULE),
+                ("LINEBELOW", (0, 1), (-1, -1), 0.25, RULE),
+            ]
+        )
+    )
+    return table
+
+
 def _problem(story: Story, p: ProblemView, total: int, s: Styles, pages: dict[str, int]) -> None:
+    """Explanation and fix once, then one worked example, then every affected run."""
     heading = label("group_heading", title=p.title, agent=p.agent, runs=runs_of(p.runs, total))
+    rows: list[tuple[str, Any]] = [
+        ("p_looks_for", p.looks_for),
+        ("p_why", p.why),
+        ("f_change", p.what_to_change),
+    ]
+    if p.other_changes:
+        rows.append(
+            (
+                "p_other_changes",
+                [
+                    _p(label("other_change", text=c.text, ids=", ".join(c.finding_ids)), s.small)
+                    for c in p.other_changes
+                ],
+            )
+        )
     story.lead(_p(heading, s.group))
-    for f in p.findings:
-        story.block(*_finding(f, s, pages))
+    # One block, so the fix and the example summary.pdf cites are on the same page if they fit.
+    story.block(_fields(rows, s), Spacer(0, 8), *_example(p.representative, s, pages))
+    story.add(Spacer(0, 8))
+    story.lead(_p(label("affected_title", runs=runs_of(p.runs, total)), s.h3))
+    story.add(_affected_table(p, s, pages), Spacer(0, 14))
 
 
 def _table(head: list[str], rows: list[list[str]], widths: list[float], s: Styles) -> Table:

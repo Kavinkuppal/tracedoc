@@ -146,7 +146,7 @@ Reports go to `./tracedoc-report/` (change it with `--out`), one sub-folder per 
 - **`summary.pdf`** is the report: two pages, US Letter.
   - Page 1, *What to fix*, makes sense on its own: the system, dates, runs and models; a one-sentence verdict; a scorecard (runs with a serious problem, median cost, time and steps per run, and the share of cost spent in runs with a serious problem); and the top three fixes. Each fix says where (agent and step), what happened, why it matters, what to change, how confident the finding is, and where its evidence is in `details.pdf`.
   - Page 2, *Where and how often*: a map of your agents and their handoffs, shaded by how often each had a serious problem; a table of agents; the other findings; and what's working.
-- **`details.pdf`** is the evidence, with no page limit: how to read the report, every finding with excerpts from the trace (the request, the tool calls and results, the agent's output), an index of every run, and a catalog of every check.
+- **`details.pdf`** is the evidence, with no page limit: how to read the report, every finding, an index of every run, and a catalog of every check. Findings are grouped into problems. Each problem shows what it is and what to change once, then one worked example with excerpts from the trace (the request, the tool calls and results, the agent's output, any error), then a table with one row per affected run: the run, its request, what happened, and the finding ID.
 - **`report.json`** holds the full results, for scripts and CI.
 - With `--html`, also `report.html` (the older interactive report, kept as is) and `report.md`.
 
@@ -162,7 +162,7 @@ A *serious problem* is a high-severity finding found with high or medium confide
 
 Eight further judge checks (ignored instructions, lost context, incomplete handoffs, ignored agent output, reasoning/action mismatch, guessing on ambiguous input, task drift, finishing early) stay **off** until their precision is measured on labeled examples. None have been measured yet. Turn them on anyway with `--include-unvalidated`, or measure them from a clone of this repository with `python evals/run_evals.py --write`, which uses your key.
 
-**Feedback on findings.** Each finding in `details.pdf` shows a reference ID; record whether it was useful with the command below. (The `--html` report also has thumbs up/down buttons, and can export all of your votes to a file.)
+**Feedback on findings.** Each problem's worked example in `details.pdf` shows a reference ID; record whether it was useful with the command below. (The `--html` report also has thumbs up/down buttons, and can export all of your votes to a file.)
 
 ```bash
 tracedoc feedback <finding-id> up

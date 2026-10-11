@@ -186,7 +186,6 @@ class FindingView:
     id: str
     finding: Finding
     title: str
-    looks_for: str
     severity: str
     confidence: str
     method: str
@@ -211,6 +210,26 @@ class FindingView:
         return f"{self.agent}, {self.step}"
 
 
+@dataclass(frozen=True)
+class AffectedRun:
+    """One run a problem appeared in: a row of its table in details.pdf."""
+
+    run_id: str
+    """R-number of the run."""
+    request: str
+    what_happened: str
+    """The run's first finding in the problem, as one sentence (no "In R3, ")."""
+    finding_ids: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class OtherChange:
+    """A change some findings of a problem suggest that differs from the problem's own."""
+
+    text: str
+    finding_ids: tuple[str, ...]
+
+
 @dataclass
 class ProblemView:
     """A group of findings: one problem at one agent, across runs."""
@@ -221,10 +240,21 @@ class ProblemView:
     runs: int
     findings: list[FindingView]
     serious: bool
+    looks_for: str = ""
+    why: str = ""
+    other_changes: list[OtherChange] = field(default_factory=list)
+    affected: list[AffectedRun] = field(default_factory=list)
+    """One row per affected run, in run order."""
 
     @property
     def representative(self) -> FindingView:
+        """The worked example: the problem's most severe, most confident finding."""
         return self.findings[0]
+
+    @property
+    def what_to_change(self) -> str:
+        rep = self.representative
+        return rep.what_to_change + (f"  ({rep.change_kind})" if rep.change_kind else "")
 
 
 @dataclass(frozen=True)
@@ -460,7 +490,6 @@ def _finding_view(
         id=fid,
         finding=f,
         title=entry["title"],
-        looks_for=entry["looks_for"],
         severity=text("severity", f.severity),
         confidence=text("confidence", level),
         method=method_label(f),
@@ -493,6 +522,37 @@ def _ordered_findings(group: FindingGroup, run_index: dict[str, int]) -> list[Fi
     )
 
 
+def _affected(views: list[FindingView], run_index: dict[str, int]) -> list[AffectedRun]:
+    by_run: dict[str, list[FindingView]] = defaultdict(list)
+    for v in views:
+        by_run[v.finding.run_id].append(v)
+    ordered = sorted(by_run.items(), key=lambda kv: (run_index.get(kv[0], len(run_index)), kv[0]))
+    rows = []
+    for _, in_run in ordered:
+        in_run = sorted(in_run, key=lambda v: int(v.id[1:]))
+        first = in_run[0]
+        rows.append(
+            AffectedRun(
+                run_id=first.run_id,
+                request=first.request or label("no_output"),
+                what_happened=_sentence(first.finding.explanation),
+                finding_ids=tuple(v.id for v in in_run),
+            )
+        )
+    return rows
+
+
+def _other_changes(views: list[FindingView]) -> list[OtherChange]:
+    """Changes suggested by findings of the problem that differ from the worked example's, each
+    listed once (AI judge findings each write their own)."""
+    own = views[0].what_to_change
+    ids: dict[str, list[str]] = defaultdict(list)
+    for v in views[1:]:
+        if v.what_to_change and v.what_to_change != own:
+            ids[v.what_to_change].append(v.id)
+    return [OtherChange(text, tuple(found)) for text, found in ids.items()]
+
+
 def _problems(
     findings: list[Finding],
     runs: list[Run],
@@ -508,6 +568,7 @@ def _problems(
         for f in _ordered_findings(group, run_index):
             n += 1
             views.append(_finding_view(f"F{n}", f, by_id.get(f.run_id), run_ids, len(runs)))
+        entry = check_entry(group.check_id)
         problems.append(
             ProblemView(
                 group=group,
@@ -516,6 +577,10 @@ def _problems(
                 runs=group.runs_affected,
                 findings=views,
                 serious=any(is_serious(v.finding) for v in views),
+                looks_for=entry["looks_for"],
+                why=entry["why"],
+                other_changes=_other_changes(views),
+                affected=_affected(views, run_index),
             )
         )
     return problems
