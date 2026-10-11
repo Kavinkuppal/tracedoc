@@ -138,6 +138,9 @@ def _print_estimate(config: Config, runs: list, prepared) -> float | None:  # no
     typer.echo(f"Estimated cost: {_money(total)} (at most {_money(total_max)})")
     if est.unpriced_models:
         typer.echo(f"Add prices for {', '.join(est.unpriced_models)} under [prices] in config.")
+    caps = prepared.plan.unreviewed_summary(config)
+    if caps:
+        typer.echo(caps)
     if prepared.disabled_judges:
         typer.echo(
             f"Judge checks disabled ({len(prepared.disabled_judges)}): "

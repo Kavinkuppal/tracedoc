@@ -330,3 +330,49 @@ def test_premature_finish_allows_clarification_after_mismatched_tool_data() -> N
         "did not\n  match the request" in prompt.confirm
         or "did not match the request" in prompt.confirm
     )
+
+
+def test_plan_counts_what_the_caps_leave_unreviewed() -> None:
+    from collections import Counter
+
+    runs = _batch(30)
+    findings = run_rule_checks(runs)
+    config = _config(max_windows_per_signature=2, max_handoffs_per_run=1, sample_runs=5)
+    plan = _judge(config).plan(runs, findings)
+
+    candidates = [
+        f for f in findings if f.needs_confirmation and f.check_id in confirmation_prompts()
+    ]
+    per_signature = Counter((f.check_id, f.node or "", f.key) for f in candidates)
+    reviewed = sum(1 for t in plan.tasks if t.confirmation)
+    assert reviewed == sum(min(n, 2) for n in per_signature.values())
+    assert sum(plan.unreviewed_candidates.values()) == len(candidates) - reviewed
+
+    handoffs = sum(len(r.steps_of("handoff")) for r in runs)
+    handoff_windows = sum(1 for t in plan.tasks if t.window.kind == "handoff")
+    assert plan.unreviewed_handoffs == handoffs - handoff_windows
+
+    sampled = sum(1 for t in plan.tasks if t.window.kind == "run")
+    assert sampled == 5 and plan.unsampled_runs == len(runs) - 5
+
+    sentence = plan.unreviewed_summary(config)
+    assert sentence.startswith("AI judge caps: ")
+    assert f"{len(candidates) - reviewed} rule finding(s) were not reviewed" in sentence
+
+
+def test_no_caps_hit_means_no_sentence() -> None:
+    runs = [load_fixture("healthy")]
+    plan = _judge(_config()).plan(runs, run_rule_checks(runs))
+    assert plan.unreviewed_summary(_config()) is None
+
+
+def test_report_records_unreviewed_counts() -> None:
+    from tracedoc.analyze import analyze
+
+    runs = _batch(12)
+    config = _config(max_windows_per_signature=1)
+    report = analyze(runs, config, client=FakeLLM())
+    caps = report.metadata["unreviewed_by_judge"]
+    assert sum(caps["rule_candidates"].values()) > 0
+    assert set(caps) == {"rule_candidates", "handoffs", "unsampled_runs"}
+    assert analyze(runs, config).metadata["unreviewed_by_judge"] is None  # no judge, no caps

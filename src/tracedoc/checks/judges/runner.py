@@ -75,6 +75,35 @@ class WindowTask:
 @dataclass
 class Plan:
     tasks: list[WindowTask]
+    unreviewed_candidates: dict[str, int] = field(default_factory=dict)
+    """Rule candidates per check the judge will not see because of the per-pattern cap."""
+    unreviewed_handoffs: int = 0
+    """Handoffs left out by the per-run or per-agent-pair cap."""
+    unsampled_runs: int = 0
+    """Runs left out of the sample for whole-run checks."""
+
+    def unreviewed_summary(self, config: Config) -> str | None:
+        """One sentence on what the judge caps left out, or None if nothing was left out."""
+        jc = config.judge
+        parts = []
+        n = sum(self.unreviewed_candidates.values())
+        if n:
+            parts.append(
+                f"{n} rule finding(s) were not reviewed (at most {jc.max_windows_per_signature} "
+                "per problem pattern)"
+            )
+        if self.unreviewed_handoffs:
+            parts.append(
+                f"{self.unreviewed_handoffs} handoff(s) were not reviewed (at most "
+                f"{jc.max_handoffs_per_run} per run and {jc.max_windows_per_signature} per "
+                "pair of agents)"
+            )
+        if self.unsampled_runs:
+            parts.append(
+                f"{self.unsampled_runs} run(s) were not sampled for whole-run checks (sample "
+                f"of {jc.sample_runs})"
+            )
+        return ("AI judge caps: " + "; ".join(parts) + ".") if parts else None
 
     @property
     def triage_pairs(self) -> int:
@@ -153,21 +182,24 @@ class Judge:
         tasks: list[WindowTask] = []
         per_signature: Counter[tuple[str, ...]] = Counter()
 
+        unreviewed: Counter[str] = Counter()
+        unreviewed_handoffs = 0
+        unsampled = 0
+
         def take(*sig: str) -> bool:
             per_signature[sig] += 1
             return per_signature[sig] <= jc.max_windows_per_signature
 
         for f in sorted(findings, key=lambda f: -f.confidence):
             prompt = self.confirmations.get(f.check_id)
-            if (
-                f.needs_confirmation
-                and prompt is not None
-                and f.run_id in by_id
-                and take(f.check_id, f.node or "", f.key)
-            ):
-                window = window_around(by_id[f.run_id], f.evidence_step_ids, k, "candidate")
-                window.candidate = f
-                tasks.append(WindowTask(window=window, checks=[prompt], confirmation=prompt))
+            if not (f.needs_confirmation and prompt is not None and f.run_id in by_id):
+                continue
+            if not take(f.check_id, f.node or "", f.key):
+                unreviewed[f.check_id] += 1
+                continue
+            window = window_around(by_id[f.run_id], f.evidence_step_ids, k, "candidate")
+            window.candidate = f
+            tasks.append(WindowTask(window=window, checks=[prompt], confirmation=prompt))
 
         handoff_checks = [p for p in self.judges.values() if "handoff" in p.scope]
         run_checks = [p for p in self.judges.values() if "run" in p.scope]
@@ -181,8 +213,11 @@ class Judge:
                         seen.add((h.handoff_from, h.handoff_to))
                         distinct.append(h)
                 rest = [h for h in handoffs if h not in distinct]
-                for h in (distinct + rest)[: jc.max_handoffs_per_run]:
+                ordered = distinct + rest
+                unreviewed_handoffs += max(0, len(ordered) - jc.max_handoffs_per_run)
+                for h in ordered[: jc.max_handoffs_per_run]:
                     if not take("handoff", str(h.handoff_from), str(h.handoff_to)):
+                        unreviewed_handoffs += 1
                         continue
                     window = window_around(run, [h.id], k, "handoff")
                     tasks.append(WindowTask(window=window, checks=handoff_checks))
@@ -190,10 +225,16 @@ class Judge:
             rng = random.Random(jc.seed)
             sample = sorted(runs, key=lambda r: r.id)
             rng.shuffle(sample)
-            for run in sample[: jc.sample_runs]:
-                if any(s.kind != "node" for s in run.steps):
-                    tasks.append(WindowTask(window=run_end_window(run, k), checks=run_checks))
-        return Plan(tasks=tasks)
+            judgeable = [r for r in sample if any(s.kind != "node" for s in r.steps)]
+            unsampled = max(0, len(judgeable) - jc.sample_runs)
+            for run in judgeable[: jc.sample_runs]:
+                tasks.append(WindowTask(window=run_end_window(run, k), checks=run_checks))
+        return Plan(
+            tasks=tasks,
+            unreviewed_candidates=dict(sorted(unreviewed.items())),
+            unreviewed_handoffs=unreviewed_handoffs,
+            unsampled_runs=unsampled,
+        )
 
     def estimate(self, plan: Plan) -> Estimate:
         """Tokens per window x number of windows x price. Triage always runs; a configured share

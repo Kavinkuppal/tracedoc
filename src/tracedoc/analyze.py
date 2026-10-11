@@ -207,6 +207,13 @@ def build_report(
             "judge_errors": outcome.errors if outcome else [],
             "stopped_for_budget": outcome.stopped_for_budget if outcome else None,
             "disabled_judge_checks": prepared.disabled_judges,
+            "unreviewed_by_judge": {
+                "rule_candidates": prepared.plan.unreviewed_candidates,
+                "handoffs": prepared.plan.unreviewed_handoffs,
+                "unsampled_runs": prepared.plan.unsampled_runs,
+            }
+            if outcome is not None
+            else None,
         },
     )
 

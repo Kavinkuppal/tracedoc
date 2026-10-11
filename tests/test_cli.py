@@ -193,3 +193,14 @@ def test_paths_command(tmp_path: Path) -> None:
     result = runner.invoke(cli.app, ["paths"])
     assert result.exit_code == 0
     assert "Config file:" in result.output and "Feedback votes:" in result.output
+
+
+def test_estimate_reports_judge_caps(tmp_path: Path) -> None:
+    config = tmp_path / "caps.toml"
+    config.write_text("[judge]\nmax_windows_per_signature = 1\nsample_runs = 2\n")
+    result = runner.invoke(
+        cli.app, ["estimate", CAPTURES, "--include-unvalidated", "--config", str(config)]
+    )
+    assert result.exit_code == 0, result.output
+    assert "AI judge caps:" in result.output
+    assert "run(s) were not sampled for whole-run checks (sample of 2)" in result.output
