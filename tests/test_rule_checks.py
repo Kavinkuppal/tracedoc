@@ -115,9 +115,13 @@ def test_unchecked_result_skips_verified_and_unfinished_runs() -> None:
         for name in AGENTS
         if "verification.unchecked_result" in {f.check_id for f in _findings(name)}
     }
-    assert "healthy" not in flagged
-    assert "supervisor_no_end" not in flagged
-    assert "tool_output_unused" in flagged
+    assert "healthy" not in flagged  # a critic checked the answer
+    assert "supervisor_no_end" not in flagged  # never finished
+    assert "nested_agents" not in flagged  # no answer at all
+    # Only answers that state facts taken from tool output count:
+    assert "researcher_repeat_search" in flagged  # repeats the search results' terms
+    assert "tool_output_unused" not in flagged  # its answer uses nothing from the tool
+    assert "pipeline_dropped_caveat" not in flagged  # no tools at all
 
 
 def test_near_duplicate_tool_calls_go_to_judge() -> None:
@@ -310,3 +314,59 @@ def test_is_handoff_tool() -> None:
     assert not is_handoff_tool("transfer_funds")
     assert not is_handoff_tool("web_search")
     assert not is_handoff_tool(None)
+
+
+def _answer_run(answer: str, tool_output: str, request: str = "How big is the team?") -> object:
+    specs = [
+        step("node", "agent"),
+        step("llm", "agent", output=ai("searching")),
+        step("node", "tools"),
+        step("tool", "tools", name="search", output=tool_output),
+        step("node", "agent"),
+        step("llm", "agent", output=ai(answer)),
+    ]
+    return build_run("r", specs, input_preview=request, final_answer=answer)
+
+
+@pytest.mark.parametrize(
+    ("answer", "tool_output", "user_request", "fires"),
+    [
+        (
+            "The team has 1,551,000 people.",
+            "Amazon: 1,551,000 employees",
+            "How big is Amazon?",
+            True,
+        ),
+        ("Revenue grew 58%.", "growth: 58% year over year", "Did revenue grow?", True),
+        (
+            "Pestana Vintage hotel in Porto, Ribeira district.",
+            "Pestana Vintage, Porto, Ribeira district, from 112 EUR",
+            "Find a hotel",
+            True,
+        ),
+        ("Sure, 2024 was busy.", "headcount 2024: 164,000", "What happened in 2024?", False),
+        ("I could not find that, sorry.", "Amazon: 1,551,000 employees", "Who is the CEO?", False),
+        ("It has 3 offices.", "offices: 3", "How many offices?", False),
+        ("Try again on the 10th.", "date: 2026-10-03", "Book it", False),  # bare 2-digit number
+        (  # JSON field names are not facts; only values are
+            "What date and which airline and airport do you want?",
+            '[{"departure_airport": "BOS", "airline": "Jet Blue", "date": "2026-10-03"}]',
+            "Book a flight",
+            False,
+        ),
+        (
+            "Jet Blue flight from BOS on 2026-10-03.",
+            '[{"departure_airport": "BOS", "airline": "Jet Blue", "date": "2026-10-03"}]',
+            "Book a flight",
+            True,
+        ),
+    ],
+)
+def test_unchecked_result_needs_claims_from_tool_output(
+    answer: str, tool_output: str, user_request: str, fires: bool
+) -> None:
+    run = _answer_run(answer, tool_output, user_request)
+    found = [f for f in run_rule_checks([run]) if f.check_id == "verification.unchecked_result"]
+    assert bool(found) is fires
+    if fires:
+        assert "Taken from tool results:" in found[0].evidence_excerpts[1]

@@ -3,7 +3,7 @@
   "completion_rate": 0.7143,
   "findings_by_severity": {
    "high": 3,
-   "low": 4,
+   "low": 1,
    "medium": 3
   },
   "median_cost": null,
@@ -38,11 +38,6 @@
  ],
  "03_failure_frequency": [
   {
-   "check": "verification.unchecked_result",
-   "runs": 4,
-   "severity": "low"
-  },
-  {
    "check": "design.loop",
    "runs": 2,
    "severity": "medium"
@@ -66,6 +61,11 @@
    "check": "tools.unused_output",
    "runs": 1,
    "severity": "medium"
+  },
+  {
+   "check": "verification.unchecked_result",
+   "runs": 1,
+   "severity": "low"
   }
  ],
  "04_failures_by_task": {
@@ -73,12 +73,6 @@
    [
     "customer_support",
     "tools.unused_output",
-    1,
-    1.0
-   ],
-   [
-    "customer_support",
-    "verification.unchecked_result",
     1,
     1.0
    ],
@@ -97,8 +91,8 @@
    [
     "research",
     "verification.unchecked_result",
-    2,
-    0.5
+    1,
+    0.25
    ],
    [
     "writing",
@@ -117,21 +111,15 @@
     "tools.errors_retries",
     1,
     0.5
-   ],
-   [
-    "writing",
-    "verification.unchecked_result",
-    1,
-    0.5
    ]
   ],
   "checks": [
-   "verification.unchecked_result",
    "design.loop",
    "design.empty_answer",
    "design.no_stop",
    "tools.errors_retries",
-   "tools.unused_output"
+   "tools.unused_output",
+   "verification.unchecked_result"
   ],
   "tasks": [
    "customer_support",
@@ -319,7 +307,7 @@
    [
     "writer",
     5,
-    0.3333
+    0.0
    ]
   ]
  },
@@ -708,30 +696,6 @@
    0,
    "researcher",
    "researcher",
-   true
-  ],
-  [
-   "verification.unchecked_result",
-   "low",
-   1,
-   "writer",
-   "writer",
-   true
-  ],
-  [
-   "verification.unchecked_result",
-   "low",
-   3,
-   "agent",
-   "agent",
-   true
-  ],
-  [
-   "verification.unchecked_result",
-   "low",
-   4,
-   "support_agent",
-   "support_agent",
    true
   ]
  ]

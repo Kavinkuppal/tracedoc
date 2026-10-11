@@ -244,7 +244,8 @@ def test_low_confidence_triage_is_ignored() -> None:
 
 
 def test_candidates_confirmed_dropped_or_left_unconfirmed() -> None:
-    runs = [load_fixture("tool_output_unused")]
+    # One unused-output candidate and one unchecked-result candidate.
+    runs = [load_fixture("tool_output_unused"), load_fixture("researcher_repeat_search")]
     findings = run_rule_checks(runs)
     cands = {f.check_id for f in findings if f.needs_confirmation}
     assert cands == {"tools.unused_output", "verification.unchecked_result"}
