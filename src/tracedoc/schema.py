@@ -9,7 +9,8 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field, computed_field
 
 Source = Literal["capture", "langsmith", "otel"]
-RunStatus = Literal["completed", "error", "recursion_limit", "interrupted"]
+RunStatus = Literal["completed", "no_answer", "error", "recursion_limit", "interrupted"]
+"""no_answer: the run finished, but its final reply had no text, so it did not complete."""
 StepKind = Literal["llm", "tool", "node", "handoff"]
 Role = Literal["planner", "researcher", "writer", "critic", "supervisor", "tool_executor", "other"]
 TaskType = Literal[
@@ -92,6 +93,8 @@ class Run(BaseModel):
     error: str | None = None
     input_preview: str = ""
     output_preview: str = ""
+    final_answer: str = ""
+    """Text of the run's final reply ("" when there was none or it had no text)."""
     task_type: TaskType = "other"
     steps: list[Step] = Field(default_factory=list)
     totals: Totals = Field(default_factory=Totals)

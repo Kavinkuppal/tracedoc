@@ -6,7 +6,7 @@
 "use strict";
 
 const SEVERITIES = ["high", "medium", "low"];
-const STATUSES = ["completed", "error", "recursion_limit", "interrupted"];
+const STATUSES = ["completed", "no_answer", "error", "recursion_limit", "interrupted"];
 const CONTEXT_GROWTH_MAX_CALLS = 50;
 
 function cmp(a, b) {
@@ -285,8 +285,8 @@ if (typeof document !== "undefined") {
 
   const SEV_ICON = { high: "▲", medium: "◆", low: "●" };
   const SEV_LABEL = { high: "High", medium: "Medium", low: "Low" };
-  const STATUS_ICON = { completed: "✓", error: "✕", recursion_limit: "↻", interrupted: "❚❚" };
-  const STATUS_LABEL = { completed: "Completed", error: "Error", recursion_limit: "Recursion limit", interrupted: "Interrupted" };
+  const STATUS_ICON = { completed: "✓", no_answer: "∅", error: "✕", recursion_limit: "↻", interrupted: "❚❚" };
+  const STATUS_LABEL = { completed: "Completed", no_answer: "No answer", error: "Error", recursion_limit: "Recursion limit", interrupted: "Interrupted" };
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const esc = (s) =>
@@ -305,7 +305,7 @@ if (typeof document !== "undefined") {
     return css({ high: "--sev-high", medium: "--sev-medium", low: "--sev-low" }[s]);
   }
   function statusColor(s) {
-    return css({ completed: "--status-good", error: "--status-critical", recursion_limit: "--status-serious", interrupted: "--status-warning" }[s]);
+    return css({ completed: "--status-good", no_answer: "--status-critical", error: "--status-critical", recursion_limit: "--status-serious", interrupted: "--status-warning" }[s]);
   }
   function seqColor(t) {
     // single-hue sequential ramp (blue), light -> dark; t in [0, 1]

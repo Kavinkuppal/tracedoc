@@ -1,9 +1,9 @@
 {
  "01_scorecard": {
-  "completion_rate": 0.8571,
+  "completion_rate": 0.7143,
   "findings_by_severity": {
-   "high": 2,
-   "low": 5,
+   "high": 3,
+   "low": 4,
    "medium": 3
   },
   "median_cost": null,
@@ -29,23 +29,28 @@
    "fetch_url"
   ],
   [
-   "design.loop",
-   "medium",
+   "design.empty_answer",
+   "high",
    1,
    "supervisor",
-   "supervisor -> researcher -> supervisor -> writer"
+   "supervisor"
   ]
  ],
  "03_failure_frequency": [
   {
    "check": "verification.unchecked_result",
-   "runs": 5,
+   "runs": 4,
    "severity": "low"
   },
   {
    "check": "design.loop",
    "runs": 2,
    "severity": "medium"
+  },
+  {
+   "check": "design.empty_answer",
+   "runs": 1,
+   "severity": "high"
   },
   {
    "check": "design.no_stop",
@@ -79,6 +84,12 @@
    ],
    [
     "research",
+    "design.empty_answer",
+    1,
+    0.25
+   ],
+   [
+    "research",
     "design.loop",
     1,
     0.25
@@ -86,8 +97,8 @@
    [
     "research",
     "verification.unchecked_result",
-    3,
-    0.75
+    2,
+    0.5
    ],
    [
     "writing",
@@ -117,6 +128,7 @@
   "checks": [
    "verification.unchecked_result",
    "design.loop",
+   "design.empty_answer",
    "design.no_stop",
    "tools.errors_retries",
    "tools.unused_output"
@@ -132,18 +144,21 @@
    "completed": 1,
    "error": 0,
    "interrupted": 0,
+   "no_answer": 0,
    "recursion_limit": 0
   },
   "research": {
-   "completed": 4,
+   "completed": 3,
    "error": 0,
    "interrupted": 0,
+   "no_answer": 1,
    "recursion_limit": 0
   },
   "writing": {
    "completed": 1,
    "error": 0,
    "interrupted": 0,
+   "no_answer": 0,
    "recursion_limit": 1
   }
  },
@@ -222,11 +237,6 @@
    [
     "researcher",
     "writer",
-    1
-   ],
-   [
-    "supervisor",
-    "__end__",
     1
    ],
    [
@@ -645,6 +655,14 @@
  ],
  "14_findings": [
   [
+   "design.empty_answer",
+   "high",
+   6,
+   "supervisor",
+   "supervisor",
+   false
+  ],
+  [
    "design.loop",
    "medium",
    0,
@@ -714,14 +732,6 @@
    4,
    "support_agent",
    "support_agent",
-   true
-  ],
-  [
-   "verification.unchecked_result",
-   "low",
-   6,
-   "supervisor",
-   "supervisor",
    true
   ]
  ]

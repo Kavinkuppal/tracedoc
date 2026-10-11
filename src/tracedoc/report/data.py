@@ -25,7 +25,7 @@ from ..messages import payload_text
 from ..schema import Finding, Report, Run, Step
 
 SEVERITIES = ("high", "medium", "low")
-STATUSES = ("completed", "error", "recursion_limit", "interrupted")
+STATUSES = ("completed", "no_answer", "error", "recursion_limit", "interrupted")
 CONTEXT_GROWTH_MAX_CALLS = 50
 SIGNAL_TITLES = {
     "good.error_recovery": "Recovered from a tool error",

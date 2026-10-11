@@ -15,7 +15,7 @@ from .classify.roles import RoleClassifier, map_role
 from .classify.task_type import TaskClassifier, classify_task
 from .config import Config
 from .ingest.base import RawSpan, RawTrace
-from .messages import payload_text
+from .messages import message_text, payload_text
 from .redact import Redactor
 from .schema import Role, Run, RunStatus, Step, Totals
 
@@ -66,6 +66,38 @@ def _output_preview(root: RawSpan, node_steps: list[Step], limit: int) -> str:
                 return _truncate(payload_text(messages[-1]), limit)
             return _truncate(_main_text(step.output), limit)
     return _truncate(_main_text(root.outputs), limit)
+
+
+def _has_text(text: str) -> bool:
+    return any(ch.isalnum() for ch in text)
+
+
+def _final_answer(root: RawSpan, node_steps: list[Step]) -> str | None:
+    """The text of the final reply, "" if it had none, or None if unknowable.
+
+    With a message list, the last message is the reply: an agent message counts only for its
+    text (not its tool calls); a final tool or user message means the agent never answered.
+    Without messages, the last step's state update is the reply, if it has any text fields.
+    """
+    messages = _messages(root.outputs)
+    if messages:
+        last = messages[-1]
+        if last.get("type") != "ai":
+            return ""
+        return message_text({"content": last.get("content", "")})
+    for step in reversed(node_steps):
+        if step.error is None and isinstance(step.output, Mapping):
+            messages = _messages(step.output)
+            if messages:
+                last = messages[-1]
+                return (
+                    message_text({"content": last.get("content", "")})
+                    if last.get("type") == "ai"
+                    else ""
+                )
+            strings = [v for v in step.output.values() if isinstance(v, str)]
+            return " ".join(strings) if strings else None
+    return None
 
 
 def _status(root: RawSpan) -> RunStatus:
@@ -305,15 +337,20 @@ def normalize(
         step_count=len(node_steps),
     )
     input_preview = _input_preview(root, config.preview_chars)
+    status = _status(root)
+    final = _final_answer(root, node_steps) if status == "completed" else None
+    if final is not None and not _has_text(final):
+        status = "no_answer"
     return Run(
         id=run_id,
         source=trace.source,
         started_at=root.started_at,
         ended_at=root.ended_at,
-        status=_status(root),
+        status=status,
         error=root.error,
         input_preview=input_preview,
         output_preview=_output_preview(root, node_steps, config.preview_chars),
+        final_answer=(final or "")[:4_000],
         task_type=classify_task(input_preview, fallback=task_classifier),
         steps=steps,
         totals=totals,

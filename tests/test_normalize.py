@@ -262,3 +262,57 @@ def test_judge_window_shows_each_acting_agents_instructions(source: str) -> None
     assert f"- supervisor: {SUPERVISOR_PROMPT}" in instructions
     assert "agent=research_agent" in text and "agent=supervisor" in text
     assert "agent=agent" not in text and "agent=tools" not in text
+
+
+# ---- final answer and the no_answer status ----------------------------------------------
+
+
+def _root_with(outputs: object):
+    from tracedoc.ingest.base import RawSpan
+
+    return RawSpan(id="r", parent_id=None, kind="chain", name="g", outputs=outputs, ended=True)
+
+
+@pytest.mark.parametrize(
+    ("outputs", "expected"),
+    [
+        (
+            {"messages": [{"type": "human", "content": "q"}, {"type": "ai", "content": "Paris."}]},
+            "Paris.",
+        ),
+        ({"messages": [{"type": "ai", "content": ""}]}, ""),
+        ({"messages": [{"type": "ai", "content": []}]}, ""),
+        ({"messages": [{"type": "ai", "content": "  \n …  "}]}, "…"),
+        (
+            {
+                "messages": [
+                    {"type": "ai", "content": "", "tool_calls": [{"name": "t", "args": {}}]}
+                ]
+            },
+            "",
+        ),
+        ({"messages": [{"type": "ai", "content": "x"}, {"type": "tool", "content": "done"}]}, ""),
+    ],
+)
+def test_final_answer_from_messages(outputs: object, expected: str) -> None:
+    from tracedoc.normalize import _final_answer
+
+    assert _final_answer(_root_with(outputs), []) == expected
+
+
+def test_final_answer_from_state_without_messages() -> None:
+    from tests.builders import build_run, step
+    from tracedoc.normalize import _final_answer
+
+    run = build_run("r", [step("node", "writer", output={"report": "", "draft": "  "})])
+    assert _final_answer(_root_with({"report": ""}), run.steps_of("node")) == "   "
+    unknown = build_run("u", [step("node", "flag", output={"done": True})])
+    assert _final_answer(_root_with({"done": True}), unknown.steps_of("node")) is None
+
+
+@pytest.mark.parametrize("source", SOURCES)
+def test_empty_final_reply_is_no_answer_not_completed(source: str) -> None:
+    run = load_fixture("nested_agents", source)
+    assert run.status == "no_answer"
+    assert run.final_answer == ""
+    assert load_fixture("healthy", source).final_answer.startswith("APPROVED")

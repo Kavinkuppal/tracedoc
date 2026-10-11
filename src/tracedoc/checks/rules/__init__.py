@@ -1,8 +1,18 @@
 """Rule-based checks. Importing this package registers them."""
 
-from . import latency, loop, no_stop, token_hotspot, tool_errors, unchecked_result, unused_output
+from . import (
+    empty_answer,
+    latency,
+    loop,
+    no_stop,
+    token_hotspot,
+    tool_errors,
+    unchecked_result,
+    unused_output,
+)
 
 __all__ = [
+    "empty_answer",
     "latency",
     "loop",
     "no_stop",

@@ -15,6 +15,7 @@ from tracedoc.checks.signals import find_signals
 from tracedoc.config import Config, Thresholds
 
 RULE_CHECKS = {
+    "design.empty_answer",
     "design.loop",
     "design.no_stop",
     "tools.errors_retries",
@@ -38,6 +39,7 @@ def test_registry_holds_all_rule_checks() -> None:
 
 def test_four_fixture_bugs_are_rule_detectable() -> None:
     assert set(RULE_BUGS) == {
+        "nested_agents",
         "researcher_repeat_search",
         "supervisor_no_end",
         "tool_retry_same_args",
@@ -260,3 +262,21 @@ def test_rules_on_100_runs_under_10_seconds() -> None:
     run_rule_checks(runs)
     find_signals(runs)
     assert time.perf_counter() - start < 10
+
+
+def test_empty_answer_is_high_severity_at_the_answering_agent() -> None:
+    run = load_fixture("nested_agents")
+    (f,) = [f for f in run_rule_checks([run]) if f.check_id == "design.empty_answer"]
+    assert f.severity == "high"
+    assert f.node == "supervisor"
+    assert f.evidence_step_ids == [run.steps_of("llm")[-1].id]
+
+
+def test_runs_without_an_answer_do_not_count_as_completed() -> None:
+    from tracedoc.analyze import analyze
+
+    runs = [load_fixture(n) for n in AGENTS]
+    report = analyze(runs, Config())
+    completed = sum(r.status == "completed" for r in runs)
+    assert completed == len(runs) - 2  # recursion limit + empty answer
+    assert report.scorecard["completion_rate"] == pytest.approx(completed / len(runs))
