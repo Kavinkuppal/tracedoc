@@ -57,11 +57,14 @@ def render_markdown(report: Report, html_name: str = "report.html") -> str:
         ]
     if meta.get("judged"):
         models = meta.get("analysis_models") or {}
+        cached = (
+            " (includes cached results, paid once)" if meta.get("analysis_answers_reused") else ""
+        )
         lines += [
             "---",
             "",
             f"Judged with {models.get('triage')} (triage) and {models.get('confirm')} "
-            f"(confirmation). Analysis cost: {_money(meta.get('analysis_cost'))}.",
+            f"(confirmation). Analysis cost: {_money(meta.get('analysis_cost'))}{cached}.",
         ]
     else:
         lines += ["---", "", "Rule checks only; no model was used."]

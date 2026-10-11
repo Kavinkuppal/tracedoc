@@ -400,8 +400,10 @@ def _analysis_cost(meta: dict[str, Any]) -> str:
         return label("cost_rules_only")
     if meta.get("analysis_unpriced_models"):
         return label("cost_unpriced")
-    answers = int(meta.get("analysis_calls", 0)) + int(meta.get("analysis_answers_reused", 0))
-    return label("cost_judged", cost=fmt_cost(meta.get("analysis_cost", 0.0)), answers=answers)
+    reused = int(meta.get("analysis_answers_reused", 0))
+    answers = int(meta.get("analysis_calls", 0)) + reused
+    key = "cost_judged_cached" if reused else "cost_judged"
+    return label(key, cost=fmt_cost(meta.get("analysis_cost", 0.0)), answers=answers)
 
 
 def _step_label(run: Run | None, step_id: str | None) -> str:

@@ -10,7 +10,7 @@
 <header class="top">
   <div>
     <h1>Agent trace diagnosis</h1>
-    <div class="meta">{{ runs }} runs · generated {{ generated_at }} · {{ name }} {{ version }}{% if models %} · judged with {{ models }}{% endif %}{% if analysis_cost is not none %} · analysis cost ${{ "%.2f"|format(analysis_cost) }}{% endif %}</div>
+    <div class="meta">{{ runs }} runs · generated {{ generated_at }} · {{ name }} {{ version }}{% if models %} · judged with {{ models }}{% endif %}{% if analysis_cost is not none %} · analysis cost ${{ "%.2f"|format(analysis_cost) }}{% if analysis_cost_cached %} (includes cached results, paid once){% endif %}{% endif %}</div>
   </div>
   <button id="theme" type="button" aria-label="Toggle light or dark theme">◐ Theme</button>
 </header>

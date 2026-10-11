@@ -28,6 +28,8 @@ header_cost = "Analysis cost"
 cost_rules_only = "$0.00 (rule checks only, no AI judge)"
 cost_unpriced = "unknown (no prices for these models)"
 cost_judged = "{cost} ({answers} AI judge answers)"
+# No-break spaces (\u00a0) keep "(includes cached results, paid once)" on one line.
+cost_judged_cached = "{cost} for {answers} AI judge answers (includes\u00a0cached\u00a0results,\u00a0paid\u00a0once)"
 models_more = "{models} and {n} more"
 model_calls = "{model} ({calls})"
 system_unnamed = "Unnamed system"
@@ -248,7 +250,7 @@ caps_handoffs = "{n} handoffs were not reviewed (at most {per_run} per run and {
 caps_sample = "{n} runs were not in the sample checked for whole-run problems (a sample of {sample} runs)."
 caps_budget = "The AI judge stopped early to stay within the spending limit: {reason}."
 cost_title = "Analysis cost"
-cost = "The model cost of the AI judge answers behind this report, at the configured prices. Answers reused from the cache are counted at what they cost when they were made, so running the analysis again gives the same figure."
+cost = "The model cost of the AI judge answers behind this report, at the configured prices. Answers reused from the cache are counted at what they cost when they were made, so running the analysis again gives the same figure. When it includes reused answers, the cost is labeled \"includes cached results, paid once\": you paid for those answers once, when they were first made, and nothing again this time."
 
 # ---------------------------------------------------------------------------------------------
 # Checks. title: one line, plain language. looks_for: what the check looks for. why: why it

@@ -62,6 +62,7 @@ def render_html(report: Report, runs: list[Run], findings: list[Finding]) -> str
         generated_at=escape(str(meta.get("generated_at", ""))[:16].replace("T", " ")),
         models=escape(" / ".join(models.values())) if models else "",
         analysis_cost=meta.get("analysis_cost") if meta.get("judged") else None,
+        analysis_cost_cached=bool(meta.get("analysis_answers_reused")),
         css=_asset(TEMPLATES / "report.css"),
         app_js=_script_safe(_asset(TEMPLATES / "app.js")),
         echarts_js=_script_safe(_asset(VENDOR / "echarts.min.js")),
