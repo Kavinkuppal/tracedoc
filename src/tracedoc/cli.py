@@ -10,6 +10,7 @@ import typer
 from .__about__ import NAME, __version__
 from .analyze import SourceName, classifier_calls, collect_traces, normalize_all, prepare
 from .analyze import analyze as run_analysis
+from .catalog import check_title
 from .config import Config, ConfigError, config_dir, load_config, user_config_path
 from .feedback import check_for, feedback_path, import_file, record
 from .feedback import load as load_votes
@@ -25,7 +26,7 @@ from .llm.client import (
     with_model_fallback,
 )
 from .llm.cost import Spend, price_of
-from .report import write_reports
+from .report import ReportFiles, write_reports
 from .schema import Report
 from .share.consent import (
     TERMS,
@@ -187,6 +188,12 @@ def analyze(
         None, help="Stop judging before spend passes this (USD)."
     ),
     out: Path = typer.Option(Path("tracedoc-report"), help="Output directory."),
+    name: str | None = typer.Option(
+        None, help="System name for the report (default: the graph name in the traces)."
+    ),
+    html: bool = typer.Option(
+        False, "--html", help="Also write the interactive report.html and report.md."
+    ),
     yes: bool = typer.Option(False, "--yes", "-y", help="Don't ask before spending."),
     no_judge: bool = typer.Option(False, help="Rule checks only; no model calls."),
     include_unvalidated: bool = typer.Option(
@@ -245,8 +252,8 @@ def analyze(
         raise fail(e) from None
     except ModelUnavailableError as e:  # a model that is neither triage nor confirmation
         raise fail(ValueError(f"{e}. Check the model names under [llm] in your config.")) from None
-    html_path = write_reports(report, runs, out)
-    _print_summary(report, out, html_path)
+    files = write_reports(report, runs, out, html=html, name=name, config=config)
+    _print_summary(report, files)
     if client is not None and client.fallback is not None:
         typer.echo(client.fallback.notice())
     _share_after_report(config, report, runs)
@@ -345,7 +352,7 @@ def share(
     typer.echo("Deletion requested and confirmed. Sharing is off; this install has a new ID.")
 
 
-def _print_summary(report: Report, out: Path, html_path: Path) -> None:
+def _print_summary(report: Report, files: ReportFiles) -> None:
     sc, meta = report.scorecard, report.metadata
     typer.echo(
         f"\n{sc['runs']} runs, {sc['completion_rate']:.0%} completed, "
@@ -361,8 +368,8 @@ def _print_summary(report: Report, out: Path, html_path: Path) -> None:
         f = group.representative
         unconfirmed = " (unconfirmed)" if f.needs_confirmation else ""
         typer.echo(
-            f"{i}. [{f.severity}] {group.check_id}{unconfirmed}: {group.runs_affected} run(s). "
-            f"{f.explanation}\n   Fix: {f.suggested_fix}"
+            f"{i}. [{f.severity}] {check_title(group.check_id)}{unconfirmed}: "
+            f"{group.runs_affected} run(s). {f.explanation}\n   Fix: {f.suggested_fix}"
         )
     if meta.get("judged"):
         reused = meta.get("analysis_answers_reused", 0)
@@ -376,7 +383,10 @@ def _print_summary(report: Report, out: Path, html_path: Path) -> None:
                 else ""
             )
         )
-    typer.echo(f"\nReport: {html_path}  (also report.md, report.json)")
+    typer.echo(f"\nReport: {files.summary}")
+    typer.echo(f"Evidence: {files.details}")
+    extra = [p.name for p in (files.json, files.html, files.markdown) if p is not None]
+    typer.echo(f"Also written: {', '.join(extra)}")
 
 
 @app.command()

@@ -267,7 +267,7 @@ def test_cli_finishes_with_a_one_line_notice_when_triage_is_retired(
     tried = [c["model"] for c in sdk.calls]
     assert 1 <= tried.count(config.triage_model) <= 4
     assert tried.count(config.confirm_model) > tried.count(config.triage_model)
-    assert (isolated / "out" / "report.html").is_file()
+    assert (isolated / "out" / "summary.pdf").is_file()
 
 
 @pytest.mark.parametrize("provider", PROVIDERS)

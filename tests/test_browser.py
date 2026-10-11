@@ -22,7 +22,9 @@ playwright = pytest.importorskip("playwright.sync_api")
 def report_url(tmp_path_factory: pytest.TempPathFactory) -> str:
     runs = [load_fixture(n) for n in AGENTS]
     out = tmp_path_factory.mktemp("report")
-    return (write_reports(analyze(runs, Config()), runs, out)).as_uri()
+    files = write_reports(analyze(runs, Config()), runs, out, html=True)
+    assert files.html is not None
+    return files.html.as_uri()
 
 
 @pytest.mark.parametrize("engine", ["chromium", "firefox", "webkit"])
@@ -70,13 +72,14 @@ def test_flow_map_renders_with_duplicate_names(tmp_path) -> None:
     top = next(s for s in run.steps if s.kind == "node" and s.parent_id is None)
     top.node = "__start__"
     runs[0] = run
-    html = write_reports(analyze(runs, Config()), runs, tmp_path)
+    files = write_reports(analyze(runs, Config()), runs, tmp_path, html=True)
+    assert files.html is not None
     with playwright.sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page(viewport={"width": 1280, "height": 900})
         errors: list[str] = []
         page.on("pageerror", lambda e: errors.append(str(e)))
-        page.goto(html.as_uri())
+        page.goto(files.html.as_uri())
         page.wait_for_timeout(500)
         assert page.locator("#c-flow svg").count() == 1
         assert not errors, errors

@@ -1,6 +1,6 @@
 # tracedoc
 
-tracedoc reads traces from your LangGraph agents and writes a diagnosis report: what went wrong (loops, runs that never finish, failing tools, ignored tool results, slow or expensive steps), what went right, and the three fixes most likely to help. It runs on your machine. The optional model-based checks use **your own** model API key, so their cost is billed to your account.
+tracedoc reads traces from your LangGraph agents and writes a short PDF diagnosis report: what went wrong (empty answers, loops, runs that never finish, failing tools, ignored tool results, slow or expensive steps), where and how often, what went right, and the three fixes most likely to help. It runs on your machine. The optional model-based checks use **your own** model API key, so their cost is billed to your account.
 
 > Status: pre-release. `tracedoc` is a working name.
 
@@ -13,7 +13,7 @@ git clone https://github.com/Kavinkuppal/tracedoc.git && cd tracedoc
 python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\Activate.ps1
 pip install .
 tracedoc analyze tests/fixtures/traces/capture --no-judge
-open tracedoc-report/report.html                      # Linux: xdg-open · Windows: start
+open tracedoc-report/summary.pdf                      # Linux: xdg-open · Windows: start
 ```
 
 To analyze your own agent, [capture its runs](#capture-runs), [set up your API key](#set-up-your-api-key), then run `tracedoc estimate ./runs` and `tracedoc analyze ./runs`.
@@ -127,25 +127,36 @@ The file can be a JSON list of runs, `{"runs": [...]}`, or JSONL with one run pe
 ## Run an analysis
 
 ```bash
-tracedoc estimate ./runs              # what analysis would cost; no model calls, no key needed
-tracedoc analyze ./runs               # shows the estimate, asks, then analyzes
-tracedoc analyze ./runs --max-cost 2  # stop judging before $2 of spend
-tracedoc analyze ./runs --no-judge    # rule checks only: no model, no key, no cost
+tracedoc estimate ./runs                # what analysis would cost; no model calls, no key needed
+tracedoc analyze ./runs                 # shows the estimate, asks, then analyzes
+tracedoc analyze ./runs --max-cost 2    # stop judging before $2 of spend
+tracedoc analyze ./runs --no-judge      # rule checks only: no model, no key, no cost
+tracedoc analyze ./runs-a ./runs-b      # several folders at once; sub-folders are searched too
+tracedoc analyze ./runs --name "Support bot"   # system name on the report (default: the graph name)
 ```
 
 Reports go to `./tracedoc-report/` (change it with `--out`):
 
-- `report.html` is a single file that works offline. Open it in any browser. Filter by task type, node, and severity; click any finding's evidence to open it in the run replay; and vote on whether findings were useful.
-- `report.md` holds the scorecard and top three fixes.
-- `report.json` holds the full results, for scripts and CI.
+- **`summary.pdf`** is the report: two pages, US Letter.
+  - Page 1, *What to fix*, makes sense on its own: the system, dates, runs and models; a one-sentence verdict; a scorecard (runs with a serious problem, median cost, time and steps per run, and the share of cost spent in runs with a serious problem); and the top three fixes. Each fix says where (agent and step), what happened, why it matters, what to change, how confident the finding is, and where its evidence is in `details.pdf`.
+  - Page 2, *Where and how often*: a map of your agents and their handoffs, shaded by how often each had a serious problem; a table of agents; the other findings; and what's working.
+- **`details.pdf`** is the evidence, with no page limit: how to read the report, every finding with excerpts from the trace (the request, the tool calls and results, the agent's output), an index of every run, and a catalog of every check.
+- **`report.json`** holds the full results, for scripts and CI.
+- With `--html`, also `report.html` (the older interactive report, kept as is) and `report.md`.
 
 Reports include excerpts of your traces (after redaction), so share them only with people who may see that data.
+
+**How the report is built.** The layout, headings, labels, check titles and explanations are fixed in advance, in a reviewed catalog ([`src/tracedoc/catalog.toml`](src/tracedoc/catalog.toml)). Rule findings are sentences from that catalog, filled with facts from your traces. A model writes only three short parts of each AI judge finding: what happened (at most 200 characters), what to change (at most 200 characters, naming a prompt instruction, a tool, a graph edge or a setting) and one quote copied from the trace (at most 120 characters). Its answers are checked against those limits and asked again once if they break them, then cut at a word boundary; a quote that isn't word for word in the trace is replaced by an excerpt.
+
+**Same traces, same report.** AI judge calls ask for temperature 0 (models that accept only their default, such as Claude Sonnet 5.5, run at their default), and every answer is cached on your disk, keyed by a hash of the trace window, the check's prompt and its version, the model and its settings. Running the analysis again on the same traces reuses those answers instead of calling the model, so the findings, the analysis cost shown, and the PDF files themselves come out byte for byte the same (with the same version of tracedoc). Ranking is fixed: severity first, then the number of runs affected, then the cost of those runs, then the check ID alphabetically. `--no-cache` asks the models again; `--cache-dir` moves the cache; `tracedoc paths` shows where it is.
+
+A *serious problem* is a high-severity finding found with high or medium confidence. Rule findings have high confidence; AI judge findings have high confidence at 0.8 or more and medium at 0.6 or more. Low-confidence findings (including rule candidates the AI judge did not review) appear only in `details.pdf`, never on page 1.
 
 **What the analysis does.** Rule checks always run, with no model: repeated steps, runs that never finish, tool errors and blind retries, ignored tool output, no verification before finishing, token hotspots, and slow steps. With a key, a cheap triage model and a stronger confirmation model (default `claude-haiku-4-5-20251001` and `claude-sonnet-5-5`) confirm or dismiss the uncertain rule findings. They see only a few steps around each finding.
 
 Eight further judge checks (ignored instructions, lost context, incomplete handoffs, ignored agent output, reasoning/action mismatch, guessing on ambiguous input, task drift, finishing early) stay **off** until their precision is measured on labeled examples. None have been measured yet. Turn them on anyway with `--include-unvalidated`, or measure them from a clone of this repository with `python evals/run_evals.py --write`, which uses your key.
 
-**Feedback on findings.** Each finding in the HTML report has thumbs up/down buttons. The page shows the command that records your vote, or exports all of your votes to a file:
+**Feedback on findings.** Each finding in `details.pdf` shows a reference ID; record whether it was useful with the command below. (The `--html` report also has thumbs up/down buttons, and can export all of your votes to a file.)
 
 ```bash
 tracedoc feedback <finding-id> up
@@ -158,7 +169,7 @@ Votes are stored locally (`tracedoc paths` shows where).
 
 - **Model calls, to the provider you configured, with your key.** Only when you run `analyze` without `--no-judge`. They contain short windows of trace content: the user's request, the agents' system prompts, and a few steps around each finding. They can also contain an input preview of up to 500 characters and node names, used to classify runs heuristics can't place. Redaction (below) runs before anything is sent.
 - **LangSmith requests**, only when you import with `--project`. These download your runs; no trace content is uploaded.
-- **Nothing else** by default. There are no analytics or telemetry, and captures and reports stay on your disk.
+- **Nothing else** by default. There are no analytics or telemetry, and captures, reports and the AI judge's cached answers stay on your disk (`tracedoc paths` shows where the cache is). The cache holds the judge's answers, which can quote your traces.
 
 ### Sharing anonymized statistics (opt-in, not yet enabled)
 
@@ -244,7 +255,7 @@ disabled = ["cost.latency_outlier"]
 
 ## License
 
-TODO: the license (MIT or Apache 2.0) has not been decided yet. Until it is, no license is granted. Third-party components are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); reports include Apache ECharts under the Apache License 2.0.
+TODO: the license (MIT or Apache 2.0) has not been decided yet. Until it is, no license is granted. Third-party components are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): PDF reports embed the Inter font (SIL Open Font License 1.1) and are drawn with ReportLab (BSD); HTML reports include Apache ECharts (Apache License 2.0).
 
 ## Development
 
@@ -253,7 +264,7 @@ pip install -e ".[dev]"
 ruff check . && ruff format --check . && pytest
 python -m tests.fixtures.generate_traces          # regenerate fixture traces
 UPDATE_SNAPSHOTS=1 pytest tests/test_report.py    # accept report-data snapshot changes
-pytest -m browser --browser                       # report in Chromium/Firefox/WebKit (pip install ".[browser-tests]")
+pytest -m browser --browser                       # --html report in Chromium/Firefox/WebKit (pip install ".[browser-tests]")
 pytest -m live --live -s                          # real-model acceptance test; uses your key and spends money
 python evals/run_evals.py --mock                  # eval harness without a model
 ```

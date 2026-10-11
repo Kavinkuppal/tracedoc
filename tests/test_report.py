@@ -242,8 +242,10 @@ def test_100_runs_under_5_mb() -> None:
 
 def test_write_reports_outputs_validate(analyzed, tmp_path: Path) -> None:
     report, runs = analyzed
-    html_path = write_reports(report.model_copy(deep=True), runs, tmp_path)
-    assert html_path == tmp_path / "report.html"
+    files = write_reports(report.model_copy(deep=True), runs, tmp_path, html=True)
+    assert files.html == tmp_path / "report.html"
+    assert files.summary == tmp_path / "summary.pdf" and files.summary.is_file()
+    assert files.details == tmp_path / "details.pdf" and files.details.is_file()
     parsed = Report.model_validate_json((tmp_path / "report.json").read_text())
     assert parsed.distributions["flow"]["nodes"]
     assert parsed.node_stats["writer"]["visits"] == 5  # pipeline 1, healthy 1, supervisor 3

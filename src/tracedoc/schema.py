@@ -87,6 +87,8 @@ class Totals(BaseModel):
 class Run(BaseModel):
     id: str
     source: Source
+    name: str = ""
+    """The top-level graph's name as the trace records it (LangGraph's default: "LangGraph")."""
     started_at: datetime | None = None
     ended_at: datetime | None = None
     status: RunStatus

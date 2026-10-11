@@ -13,3 +13,16 @@
   `src/tracedoc/report/vendor/ECHARTS_LICENSE-d3.txt`
 
 Generated reports credit Apache ECharts and its license in their footer.
+
+## Inter
+
+`src/tracedoc/report/fonts/Inter-*.ttf` are the static TrueType fonts of Inter (version in
+`src/tracedoc/report/fonts/INTER_VERSION`), from https://github.com/rsms/inter, Copyright (c)
+2016 The Inter Project Authors. They are embedded (subset) in every PDF report.
+
+- License: SIL Open Font License 1.1, full text in `src/tracedoc/report/fonts/Inter-OFL.txt`
+
+## ReportLab
+
+The PDF reports are drawn with ReportLab (https://www.reportlab.com/opensource/), installed as
+a dependency, not bundled. License: BSD.

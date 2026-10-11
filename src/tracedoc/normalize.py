@@ -344,6 +344,7 @@ def normalize(
     return Run(
         id=run_id,
         source=trace.source,
+        name=root.name or "",
         started_at=root.started_at,
         ended_at=root.ended_at,
         status=status,

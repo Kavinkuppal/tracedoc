@@ -49,7 +49,8 @@ def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
     result = runner.invoke(cli.app, ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path)])
     assert result.exit_code == 0, result.output
     report = json.loads((tmp_path / "report.json").read_text())
-    assert (tmp_path / "report.html").is_file() and (tmp_path / "report.md").is_file()
+    assert (tmp_path / "summary.pdf").is_file() and (tmp_path / "details.pdf").is_file()
+    assert not (tmp_path / "report.html").exists()  # HTML only with --html
     assert report["metadata"]["judged"] is False
     assert report["groups"][0]["representative"]["severity"] == "high"
     assert report["scorecard"]["runs"] == 7

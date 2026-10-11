@@ -17,6 +17,9 @@ dependencies = [
     "anthropic>=0.40",
     "openai>=1.50",
     "langchain-core>=0.3",
+    # PDF report. Pure Python wheel, BSD license; output is checked byte for byte against
+    # this major version, so a new major version is opted into deliberately.
+    "reportlab>=5.0,<6",
     "tomli>=2.0; python_version < '3.11'",
 ]
 
@@ -29,6 +32,7 @@ dev = [
     "langgraph>=0.2",
     "langsmith>=0.2",
     "markdown-it-py>=3",
+    "pypdf>=5",
 ]
 
 [project.scripts]
