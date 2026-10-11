@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+from collections import defaultdict
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -96,6 +98,35 @@ def _dedupe_traces(result: LoadResult) -> LoadResult:
         unique.append(trace)
     result.traces = unique
     return result
+
+
+def system_name(trace: RawTrace) -> str:
+    """What a system is called in its traces: the name of its top-level graph."""
+    root = trace.root
+    return (root.name if root is not None else "") or ""
+
+
+def split_systems(traces: list[RawTrace]) -> dict[str, list[RawTrace]]:
+    """Traces grouped by system (top-level graph name), in name order. Each system gets its
+    own analysis and report, so every percentage is out of that system's runs."""
+    systems: dict[str, list[RawTrace]] = defaultdict(list)
+    for trace in traces:
+        systems[system_name(trace)].append(trace)
+    return dict(sorted(systems.items()))
+
+
+def system_folders(names: Sequence[str]) -> dict[str, str]:
+    """A safe, unique sub-folder name for each system's report."""
+    used: set[str] = set()
+    folders = {}
+    for name in names:
+        base = re.sub(r"[^A-Za-z0-9._-]+", "_", name).strip("._-")[:80] or "unnamed_system"
+        folder, n = base, 2
+        while folder.lower() in used:
+            folder, n = f"{base}-{n}", n + 1
+        used.add(folder.lower())
+        folders[name] = folder
+    return folders
 
 
 def load_traces(
@@ -229,15 +260,23 @@ def analyze(
     client: LLMClient | None = None,
     spend: Spend | None = None,
     progress: Callable[[int, int], None] | None = None,
+    spend_start: Spend | None = None,
 ) -> Report:
-    """Run everything on already-normalized runs. Without a client, rules only."""
+    """Run everything on already-normalized runs. Without a client, rules only.
+
+    A shared `spend` may carry earlier work (other systems analyzed in the same session); the
+    report counts only what was spent since `spend_start` (default: now)."""
+    start = spend_start or (spend.snapshot() if spend is not None else None)
     prepared = prepare(runs, config, client)
     outcome = None
     if client is not None:
         if spend is not None:
             prepared.judge.spend = spend
         outcome = prepared.judge.run(prepared.plan, prepared.rule_findings, progress)
-    report = build_report(prepared, config, outcome, prepared.judge.spend if client else spend)
+    used = spend.since(start) if spend is not None and start is not None else None
+    report = build_report(
+        prepared, config, outcome, used or (prepared.judge.spend if client else None)
+    )
     fallback = getattr(client, "fallback", None)
     if fallback is not None:
         report.metadata["model_fallback"] = {

@@ -115,7 +115,7 @@ def fmt_date(d: datetime) -> str:
 
 
 def runs_of(n: int, total: int) -> str:
-    return fill(catalog()["units"]["runs_of"], n=f"{n:,}", total=f"{total:,}")
+    return fill(catalog()["units"]["runs_of"], n=f"{n:,}", total_runs=units("runs", total))
 
 
 def _median(values: Iterable[float | None]) -> float | None:
@@ -488,15 +488,23 @@ def _card(rank: int, problem: ProblemView, runs_by_id: dict[str, Run]) -> Card:
     texts = {squash(v.finding.explanation) for v in problem.findings}
     clause = _sentence(rep.finding.explanation)
     if problem.runs == 1:
-        what = text("card", "what_happened_one", total=total, run=rep.run_id, text=clause)
+        what = text(
+            "card",
+            "what_happened_one",
+            total_runs=units("runs", total),
+            run=rep.run_id,
+            text=clause,
+        )
     elif len(texts) == 1 and rep.finding.method == "rule":
-        what = text("card", "what_happened", runs=problem.runs, total=total, text=clause)
+        what = text(
+            "card", "what_happened", runs=problem.runs, total_runs=units("runs", total), text=clause
+        )
     else:
         what = text(
             "card",
             "what_happened_example",
             runs=problem.runs,
-            total=total,
+            total_runs=units("runs", total),
             run=rep.run_id,
             text=clause,
         )
@@ -505,7 +513,7 @@ def _card(rank: int, problem: ProblemView, runs_by_id: dict[str, Run]) -> Card:
     why_values = {
         "why": check_entry(problem.group.check_id)["why"],
         "runs": problem.runs,
-        "total": total,
+        "total_runs": units("runs", total),
         "pct": fmt_pct(problem.runs / total if total else None),
         "time": fmt_time(problem.group.impact.latency_s),
     }
@@ -599,7 +607,7 @@ def _working(signals: list[Finding], total: int) -> list[str]:
                 check_entry(check_id)["line"],
                 agent=agent or label("unknown_agent"),
                 runs=len(affected),
-                total=total,
+                total_runs=units("runs", total),
             )
         )
     return lines
@@ -695,17 +703,23 @@ def build_view(
             "verdict",
             "serious",
             n=len(serious_runs),
-            total=total,
+            total_runs=units("runs", total),
             title=top.title,
             k=units("runs", top.runs),
         )
     elif main:
         top = min(main, key=lambda p: -p.runs)
         verdict = text(
-            "verdict", "none_other", total=total, title=top.title, k=units("runs", top.runs)
+            "verdict",
+            "none_other_one" if total == 1 else "none_other",
+            total_runs=units("runs", total),
+            title=top.title,
+            k=units("runs", top.runs),
         )
     else:
-        verdict = text("verdict", "none", total=total)
+        verdict = text(
+            "verdict", "none_one" if total == 1 else "none", total_runs=units("runs", total)
+        )
 
     costs = [r.totals.cost for r in runs]
     total_cost = _sum(costs)
@@ -718,7 +732,7 @@ def build_view(
                 pct=fmt_pct(len(serious_runs) / total if total else None),
             ),
             label("tile_serious"),
-            label("tile_serious_detail", total=total),
+            label("tile_serious_detail", total_runs=units("runs", total)),
         ),
         Tile(fmt_cost(_median(costs)), label("tile_median_cost")),
         Tile(fmt_time(_median(r.totals.duration_s for r in runs)), label("tile_median_time")),

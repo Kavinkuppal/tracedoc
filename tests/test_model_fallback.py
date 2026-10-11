@@ -4,7 +4,6 @@ stand-in SDK objects that raise the SDKs' own "model not found" errors. No netwo
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
@@ -16,7 +15,7 @@ import pytest
 from typer.testing import CliRunner
 
 from tests.fakes import FakeLLM, always, verdict
-from tests.helpers import TRACES
+from tests.helpers import TRACES, reports_in
 from tracedoc import cli
 from tracedoc.config import LLMConfig
 from tracedoc.llm.client import (
@@ -257,8 +256,7 @@ def test_cli_finishes_with_a_one_line_notice_when_triage_is_retired(
         f"{config.confirm_model} instead. To set a different default, change [llm] "
         "triage_model in your config file (`tracedoc paths` shows where)."
     ]
-    report = json.loads((isolated / "out" / "report.json").read_text())
-    meta = report["metadata"]
+    meta = reports_in(isolated / "out")[0]["metadata"]
     assert meta["model_fallback"]["unavailable"] == config.triage_model
     assert meta["model_fallback"]["used_instead"] == config.confirm_model
     assert meta["analysis_models"]["triage"] == config.confirm_model
@@ -267,7 +265,7 @@ def test_cli_finishes_with_a_one_line_notice_when_triage_is_retired(
     tried = [c["model"] for c in sdk.calls]
     assert 1 <= tried.count(config.triage_model) <= 4
     assert tried.count(config.confirm_model) > tried.count(config.triage_model)
-    assert (isolated / "out" / "summary.pdf").is_file()
+    assert list((isolated / "out").glob("*/summary.pdf"))  # one report per fixture system
 
 
 @pytest.mark.parametrize("provider", PROVIDERS)

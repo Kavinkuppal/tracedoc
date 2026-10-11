@@ -6,14 +6,14 @@ tracedoc reads traces from your LangGraph agents and writes a short PDF diagnosi
 
 ## Quickstart
 
-From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing:
+From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing. They come from seven small test agents, so tracedoc writes one report per agent, each in its own folder:
 
 ```bash
 git clone https://github.com/Kavinkuppal/tracedoc.git && cd tracedoc
 python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\Activate.ps1
 pip install .
 tracedoc analyze tests/fixtures/traces/capture --no-judge
-open tracedoc-report/summary.pdf                      # Linux: xdg-open · Windows: start
+open tracedoc-report/supervisor_no_end/summary.pdf    # Linux: xdg-open · Windows: start
 ```
 
 To analyze your own agent, [capture its runs](#capture-runs), [set up your API key](#set-up-your-api-key), then run `tracedoc estimate ./runs` and `tracedoc analyze ./runs`.
@@ -135,7 +135,13 @@ tracedoc analyze ./runs-a ./runs-b      # several folders at once; sub-folders a
 tracedoc analyze ./runs --name "Support bot"   # system name on the report (default: the graph name)
 ```
 
-Reports go to `./tracedoc-report/` (change it with `--out`):
+**One report per system.** A system is identified by its top-level graph name in the traces. When the traces come from several systems, each is analyzed separately (its own judge sample, caps and cost) and gets its own sub-folder of `./tracedoc-report/`, named after the system, with its own `summary.pdf`, `details.pdf` and `report.json`. Every percentage in a report is out of that system's runs. `--name` applies when there is one system.
+
+```bash
+tracedoc analyze ./runs   # graphs named support_bot and research_team -> tracedoc-report/support_bot/ and tracedoc-report/research_team/
+```
+
+Reports go to `./tracedoc-report/` (change it with `--out`), one sub-folder per system when there are several:
 
 - **`summary.pdf`** is the report: two pages, US Letter.
   - Page 1, *What to fix*, makes sense on its own: the system, dates, runs and models; a one-sentence verdict; a scorecard (runs with a serious problem, median cost, time and steps per run, and the share of cost spent in runs with a serious problem); and the top three fixes. Each fix says where (agent and step), what happened, why it matters, what to change, how confident the finding is, and where its evidence is in `details.pdf`.

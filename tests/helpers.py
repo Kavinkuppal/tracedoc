@@ -24,3 +24,17 @@ def raw_fixture(name: str, source: str) -> RawTrace:
 
 def load_fixture(name: str, source: str = "capture", config: Config | None = None) -> Run:
     return normalize(raw_fixture(name, source), config)
+
+
+def reports_in(out: Path) -> list[dict]:
+    """The report.json files an analysis wrote: the one in `out`, or, when the traces came from
+    several systems, one per system sub-folder (the fixtures are seven systems)."""
+    import json
+
+    paths = (
+        [out / "report.json"]
+        if (out / "report.json").is_file()
+        else sorted(out.glob("*/report.json"))
+    )
+    assert paths, f"no report.json under {out}"
+    return [json.loads(p.read_text()) for p in paths]

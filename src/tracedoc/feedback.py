@@ -63,12 +63,17 @@ def import_file(source: Path, path: Path | None = None) -> int:
 
 
 def check_for(finding_id: str, report_json: Path) -> str | None:
-    """Look up a finding's check in a report.json, if available."""
-    if not report_json.is_file():
-        return None
-    report = json.loads(report_json.read_text(encoding="utf-8"))
-    for group in report.get("groups", []):
-        for f in group.get("findings", []):
-            if f.get("id") == finding_id:
-                return f.get("check_id")
+    """Look up a finding's check in a report.json. When the traces came from several systems,
+    each system's report.json is in its own sub-folder, so those are searched too."""
+    paths = (
+        [report_json]
+        if report_json.is_file()
+        else sorted(report_json.parent.glob(f"*/{report_json.name}"))
+    )
+    for path in paths:
+        report = json.loads(path.read_text(encoding="utf-8"))
+        for group in report.get("groups", []):
+            for f in group.get("findings", []):
+                if f.get("id") == finding_id:
+                    return f.get("check_id")
     return None

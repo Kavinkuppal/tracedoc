@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import TYPE_CHECKING
 
 from ..config import Price
@@ -93,6 +93,23 @@ class Spend:
             self.record_reused(result.model, result.tokens_in, result.tokens_out)
         else:
             self.record(result.model, result.tokens_in, result.tokens_out)
+
+    def snapshot(self) -> Spend:
+        return replace(self, unpriced_models=set(self.unpriced_models))
+
+    def since(self, start: Spend) -> Spend:
+        """What was spent after `start` (an earlier snapshot of this Spend) was taken."""
+        return Spend(
+            prices=self.prices,
+            max_cost=self.max_cost,
+            cost=self.cost - start.cost,
+            tokens_in=self.tokens_in - start.tokens_in,
+            tokens_out=self.tokens_out - start.tokens_out,
+            calls=self.calls - start.calls,
+            unpriced_models=set(self.unpriced_models),
+            reused_cost=self.reused_cost - start.reused_cost,
+            reused_calls=self.reused_calls - start.reused_calls,
+        )
 
     @property
     def report_cost(self) -> float:

@@ -8,7 +8,15 @@ from pathlib import Path
 import typer
 
 from .__about__ import NAME, __version__
-from .analyze import SourceName, classifier_calls, collect_traces, normalize_all, prepare
+from .analyze import (
+    SourceName,
+    classifier_calls,
+    collect_traces,
+    normalize_all,
+    prepare,
+    split_systems,
+    system_folders,
+)
 from .analyze import analyze as run_analysis
 from .config import Config, ConfigError, config_dir, load_config, user_config_path
 from .feedback import check_for, feedback_path, import_file, record
@@ -114,7 +122,44 @@ def _money(value: float | None) -> str:
     return "unknown (model not in price table)" if value is None else f"${value:,.2f}"
 
 
-def _print_estimate(config: Config, runs: list, prepared) -> float | None:  # noqa: ANN001
+def _print_estimates(config: Config, runs_by: dict[str, list]) -> float | None:
+    """Print the estimate for each system (and the total when there are several)."""
+    prepared = {name: prepare(runs, config) for name, runs in runs_by.items()}
+    if len(runs_by) == 1:
+        ((name, runs),) = runs_by.items()
+        return _print_estimate(config, runs, prepared[name])
+    labels = ", ".join(f"{_system(n)} ({len(r)} runs)" for n, r in runs_by.items())
+    typer.echo(f"{len(runs_by)} systems, each analyzed and reported separately: {labels}")
+    totals: list[float | None] = []
+    for name, runs in runs_by.items():
+        typer.echo(f"\n--- {_system(name)} ---")
+        totals.append(_print_estimate(config, runs, prepared[name], show_disabled=False))
+    total = None if any(t is None for t in totals) else sum(totals)  # type: ignore[arg-type]
+    n_runs = sum(len(r) for r in runs_by.values())
+    typer.echo(f"\nAll {len(runs_by)} systems: Runs: {n_runs}   Estimated cost: {_money(total)}")
+    _print_disabled(next(iter(prepared.values())))
+    return total
+
+
+def _system(name: str) -> str:
+    return name or "Unnamed system"
+
+
+def _print_disabled(prepared) -> None:  # noqa: ANN001
+    if prepared.disabled_judges:
+        typer.echo(
+            f"Judge checks disabled ({len(prepared.disabled_judges)}): "
+            + ", ".join(sorted(prepared.disabled_judges))
+            + ". Run evals/run_evals.py, or pass --include-unvalidated."
+        )
+
+
+def _print_estimate(
+    config: Config,
+    runs: list,
+    prepared,  # noqa: ANN001
+    show_disabled: bool = True,
+) -> float | None:
     est = prepared.estimate()
     calls = classifier_calls(runs)
     classify_cost = price_of(
@@ -142,12 +187,8 @@ def _print_estimate(config: Config, runs: list, prepared) -> float | None:  # no
     caps = prepared.plan.unreviewed_summary(config)
     if caps:
         typer.echo(caps)
-    if prepared.disabled_judges:
-        typer.echo(
-            f"Judge checks disabled ({len(prepared.disabled_judges)}): "
-            + ", ".join(sorted(prepared.disabled_judges))
-            + ". Run evals/run_evals.py, or pass --include-unvalidated."
-        )
+    if show_disabled:
+        _print_disabled(prepared)
     return total
 
 
@@ -168,10 +209,11 @@ def estimate(
     """Print what analysis would cost, without calling any model. Needs no API key."""
     try:
         config = _config(config_path, model, triage_model, include_unvalidated)
-        runs = normalize_all(_load(path, source, project), config)  # no model calls, no key
+        systems = split_systems(_load(path, source, project))
+        runs_by = {n: normalize_all(t, config) for n, t in systems.items()}  # no model calls
     except USER_ERRORS as e:
         raise _fail(e) from None
-    _print_estimate(config, runs, prepare(runs, config))
+    _print_estimates(config, runs_by)
 
 
 @app.command()
@@ -208,7 +250,7 @@ def analyze(
     ),
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
-    """Analyze traces and write a report."""
+    """Analyze traces and write a report (one per system when the traces come from several)."""
     try:
         config = _config(config_path, model, triage_model, include_unvalidated)
         use_model = not no_judge
@@ -217,11 +259,14 @@ def analyze(
         traces = _load(path, source, project)
     except USER_ERRORS as e:
         raise _fail(e) from None
-    runs = normalize_all(traces, config)
+    systems = split_systems(traces)
+    several = len(systems) > 1
+    if name and several:
+        typer.echo("Note: --name applies to one system; each report is named after its system.")
+    runs_by = {n: normalize_all(t, config) for n, t in systems.items()}
     client = spend = None
     if use_model:
-        prepared = prepare(runs, config)
-        estimated = _print_estimate(config, runs, prepared)
+        estimated = _print_estimates(config, runs_by)
         if max_cost is not None and estimated is not None and estimated > max_cost:
             typer.echo(f"Estimate is above --max-cost {_money(max_cost)}; judging will stop there.")
         if not yes and not typer.confirm("Proceed?", default=False):
@@ -238,24 +283,44 @@ def analyze(
             typer.echo("")  # end the progress line so the error starts on its own line
         return _fail(error)
 
+    results: dict[str, tuple[Report, list]] = {}
     try:
         if use_model:
             base = make_client(config.llm)
             cache = None if no_cache else CachingClient(base, cache_dir or default_cache_dir())
             client = with_model_fallback(cache or base, config.llm)
             spend = Spend(prices=config.prices, max_cost=max_cost)
-            if classifier_calls(runs):
-                runs = normalize_all(traces, config, client=client, spend=spend)
-        report = run_analysis(runs, config, client=client, spend=spend, progress=progress)
+        for system, system_traces in systems.items():
+            runs = runs_by[system]
+            start = spend.snapshot() if spend is not None else None
+            if client is not None and classifier_calls(runs):
+                runs = normalize_all(system_traces, config, client=client, spend=spend)
+            if several and client is not None:
+                typer.echo(f"{_system(system)}:")
+            report = run_analysis(
+                runs, config, client=client, spend=spend, progress=progress, spend_start=start
+            )
+            results[system] = (report, runs)
     except (MissingKeyError, KeyRejectedError, ConfirmModelUnavailableError) as e:
         raise fail(e) from None
     except ModelUnavailableError as e:  # a model that is neither triage nor confirmation
         raise fail(ValueError(f"{e}. Check the model names under [llm] in your config.")) from None
-    files = write_reports(report, runs, out, html=html, name=name, config=config)
-    _print_summary(report, files)
+    folders = system_folders(list(results))
+    for system, (report, runs) in results.items():
+        target = out / folders[system] if several else out
+        files = write_reports(
+            report, runs, target, html=html, name=None if several else name, config=config
+        )
+        if several:
+            typer.echo(f"\n=== {_system(system)} ===")
+        _print_summary(report, files)
     if client is not None and client.fallback is not None:
         typer.echo(client.fallback.notice())
-    _share_after_report(config, report, runs)
+    _share_after_report(
+        config,
+        [f for report, _ in results.values() for g in report.groups for f in g.findings],
+        [run for _, runs in results.values() for run in runs],
+    )
 
 
 def _interactive() -> bool:
@@ -263,7 +328,7 @@ def _interactive() -> bool:
     return sys.stdin.isatty()
 
 
-def _share_after_report(config, report: Report, runs: list) -> None:  # noqa: ANN001
+def _share_after_report(config, findings: list, runs: list) -> None:  # noqa: ANN001
     """Save the would-be payload for `share --preview`; ask and upload only when enabled."""
     state = load_state()  # creates the random install ID on first run
     votes = [
@@ -272,7 +337,6 @@ def _share_after_report(config, report: Report, runs: list) -> None:  # noqa: AN
         if v.get("check_id")
         and (state.votes_sent_until is None or v["ts"] > state.votes_sent_until)
     ]
-    findings = [f for g in report.groups for f in g.findings]
     payload = serialize(
         build_contribution(
             state.install_id,

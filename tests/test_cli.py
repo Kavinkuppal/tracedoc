@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
 from typer.testing import CliRunner
 
 from tests.fakes import FakeLLM, always, verdict
-from tests.helpers import TRACES
+from tests.helpers import TRACES, reports_in
 from tracedoc import cli
 
 runner = CliRunner()
@@ -48,12 +47,15 @@ def test_estimate_langsmith_export() -> None:
 def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
     result = runner.invoke(cli.app, ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path)])
     assert result.exit_code == 0, result.output
-    report = json.loads((tmp_path / "report.json").read_text())
-    assert (tmp_path / "summary.pdf").is_file() and (tmp_path / "details.pdf").is_file()
-    assert not (tmp_path / "report.html").exists()  # HTML only with --html
-    assert report["metadata"]["judged"] is False
-    assert report["groups"][0]["representative"]["severity"] == "high"
-    assert report["scorecard"]["runs"] == 7
+    folders = sorted(p for p in tmp_path.iterdir() if p.is_dir())
+    assert len(folders) == 7  # the fixtures are seven systems: one report each
+    for folder in folders:
+        assert (folder / "summary.pdf").is_file() and (folder / "details.pdf").is_file()
+        assert not (folder / "report.html").exists()  # HTML only with --html
+    reports = reports_in(tmp_path)
+    assert all(r["metadata"]["judged"] is False for r in reports)
+    assert any(g["representative"]["severity"] == "high" for r in reports for g in r["groups"])
+    assert sum(r["scorecard"]["runs"] for r in reports) == 7
 
 
 def _with_fake(monkeypatch: pytest.MonkeyPatch, client: FakeLLM) -> None:
@@ -73,15 +75,15 @@ def test_analyze_with_model_asks_then_judges(tmp_path: Path, monkeypatch) -> Non
     args = ["analyze", CAPTURES, "--out", str(tmp_path), "--yes", "--include-unvalidated"]
     result = runner.invoke(cli.app, args)
     assert result.exit_code == 0, result.output
-    report = json.loads((tmp_path / "report.json").read_text())
-    meta = report["metadata"]
-    assert meta["judged"] is True
-    assert meta["analysis_cost"] > 0
-    assert meta["analysis_models"] == {
-        "triage": "claude-haiku-4-5-20251001",
-        "confirm": "claude-sonnet-5-5",
-    }
-    checks = {g["check_id"] for g in report["groups"]}
+    reports = reports_in(tmp_path)
+    assert all(r["metadata"]["judged"] is True for r in reports)
+    assert sum(r["metadata"]["analysis_cost"] for r in reports) > 0
+    assert all(
+        r["metadata"]["analysis_models"]
+        == {"triage": "claude-haiku-4-5-20251001", "confirm": "claude-sonnet-5-5"}
+        for r in reports
+    )
+    checks = {g["check_id"] for r in reports for g in r["groups"]}
     assert "agents.ignored_output" in checks
 
 
@@ -99,9 +101,9 @@ def test_analyze_max_cost_stops_early(tmp_path: Path, monkeypatch) -> None:
     ]
     result = runner.invoke(cli.app, args)
     assert result.exit_code == 0, result.output
-    report = json.loads((tmp_path / "report.json").read_text())
-    assert report["metadata"]["stopped_for_budget"]
-    assert report["metadata"]["analysis_cost"] <= 0.01
+    reports = reports_in(tmp_path)
+    assert any(r["metadata"]["stopped_for_budget"] for r in reports)
+    assert sum(r["metadata"]["analysis_cost"] for r in reports) <= 0.01
     assert "Judging stopped early" in result.output
 
 
@@ -120,8 +122,8 @@ def test_model_flags_override_config(tmp_path: Path, monkeypatch) -> None:
         "claude-haiku-4-5",
     ]
     assert runner.invoke(cli.app, args).exit_code == 0
-    report = json.loads((tmp_path / "report.json").read_text())
-    assert report["metadata"]["analysis_models"]["confirm"] == "claude-sonnet-5"
+    reports = reports_in(tmp_path)
+    assert all(r["metadata"]["analysis_models"]["confirm"] == "claude-sonnet-5" for r in reports)
 
 
 # ---- missing, rejected, and misplaced keys: one line, exit 2, no traceback -----------------
@@ -198,10 +200,10 @@ def test_paths_command(tmp_path: Path) -> None:
 
 def test_estimate_reports_judge_caps(tmp_path: Path) -> None:
     config = tmp_path / "caps.toml"
-    config.write_text("[judge]\nmax_windows_per_signature = 1\nsample_runs = 2\n")
+    config.write_text("[judge]\nmax_windows_per_signature = 1\nsample_runs = 0\n")
     result = runner.invoke(
         cli.app, ["estimate", CAPTURES, "--include-unvalidated", "--config", str(config)]
     )
     assert result.exit_code == 0, result.output
     assert "AI judge caps:" in result.output
-    assert "run(s) were not sampled for whole-run checks (sample of 2)" in result.output
+    assert "run(s) were not sampled for whole-run checks (sample of 0)" in result.output

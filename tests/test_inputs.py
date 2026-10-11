@@ -8,7 +8,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from tests.helpers import TRACES
+from tests.helpers import TRACES, reports_in
 from tracedoc import cli
 from tracedoc.analyze import collect_traces
 
@@ -82,5 +82,4 @@ def test_cli_accepts_several_paths(tmp_path: Path, monkeypatch) -> None:
     )
     assert result.exit_code == 0, result.output
     assert f"Read {len(FILES)} run(s) from {len(FILES)} file(s)" in result.output
-    report = json.loads((out / "report.json").read_text())
-    assert report["scorecard"]["runs"] == len(FILES)
+    assert sum(r["scorecard"]["runs"] for r in reports_in(out)) == len(FILES)
