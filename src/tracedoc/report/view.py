@@ -28,6 +28,7 @@ from typing import Any, Literal
 
 from ..catalog import catalog, check_entry, check_title, fill, label, limit, text, units
 from ..checks.judges.slots import squash, truncate_words
+from ..checks.rules.run_error import is_control_flow, without_traceback
 from ..checks.util import is_handoff_tool
 from ..group import SEVERITY_RANK, group_findings
 from ..messages import payload_text
@@ -197,6 +198,8 @@ class FindingView:
     request: str
     tools: list[ToolCall]
     output: str
+    error: str
+    """The error the cited step (or, failing that, the run) ended with; "" when none."""
     what_happened: str
     quote: str
     what_to_change: str
@@ -384,9 +387,11 @@ def _step_label(run: Run | None, step_id: str | None) -> str:
         return steps_text["whole_run"]
     if step.kind == "llm":
         llms = run.steps_of("llm")
+        mine = [s.id for s in llms if s.node == step.node]
+        if step.error:
+            return fill(steps_text["failed_call"], k=mine.index(step.id) + 1)
         if llms and llms[-1].id == step.id:
             return steps_text["final_reply"]
-        mine = [s.id for s in llms if s.node == step.node]
         return fill(steps_text["reply"], k=mine.index(step.id) + 1)
     if step.kind == "tool":
         same = [s.id for s in run.steps_of("tool") if s.name == step.name]
@@ -395,8 +400,25 @@ def _step_label(run: Run | None, step_id: str | None) -> str:
 
 
 def _step_text(step: Step) -> str:
-    value = step.input if step.kind == "handoff" else (step.error or step.output)
-    return squash(payload_text(value))
+    return squash(payload_text(step.input if step.kind == "handoff" else step.output))
+
+
+def _anchor(f: Finding, run: Run) -> Step | None:
+    """The step a finding is shown at: its first cited step at the finding's own agent, else
+    its first cited step. (A finding can cite another agent's step as the cause, for example
+    the reply that handed off too early; "Where" and "Agent's output" are the agent's own.)"""
+    by_id = {s.id: s for s in run.steps}
+    cited = [by_id[i] for i in f.evidence_step_ids if i in by_id]
+    return next((s for s in cited if s.node == f.node), cited[0] if cited else None)
+
+
+def _error(f: Finding, run: Run | None, anchor: Step | None) -> str:
+    error = anchor.error if anchor is not None else None
+    if not error and run is not None and f.check_id == "design.run_error":
+        error = run.error
+    if not error or is_control_flow(error):
+        return ""
+    return truncate_words(squash(without_traceback(payload_text(error))), 600)
 
 
 def _tool_calls(f: Finding, run: Run, anchor: Step | None) -> list[ToolCall]:
@@ -426,10 +448,7 @@ def _finding_view(
 ) -> FindingView:
     entry = check_entry(f.check_id)
     level = confidence_level(f)
-    anchor = None
-    if run is not None:
-        by_id = {s.id: s for s in run.steps}
-        anchor = next((by_id[i] for i in f.evidence_step_ids if i in by_id), None)
+    anchor = _anchor(f, run) if run is not None else None
     rid = run_ids.get(f.run_id, f.run_id)
     template = "finding_what_happened_judge" if f.method == "judge" else "finding_what_happened"
     output = ""
@@ -452,6 +471,7 @@ def _finding_view(
         request=truncate_words(run.input_preview, 600) if run else "",
         tools=_tool_calls(f, run, anchor) if run else [],
         output=truncate_words(output, 500) or label("no_output"),
+        error=_error(f, run, anchor),
         what_happened=text("card", template, run=rid, text=_sentence(f.explanation)),
         quote=f.evidence_quote,
         what_to_change=_sentence(f.suggested_fix),

@@ -80,7 +80,8 @@ def generate(names: list[str] | None = None) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             capture = TraceCapture(tmp)
             tracer = CollectingTracer()
-            with contextlib.suppress(GraphRecursionError):
+            expected = getattr(AGENTS[name], "ERROR", GraphRecursionError)
+            with contextlib.suppress(GraphRecursionError, expected):
                 run_agent(name, callbacks=[capture, tracer])
             (written,) = capture.files_written
             (capture_dir / f"{name}.jsonl").write_text(scrub_local_paths(written.read_text()))

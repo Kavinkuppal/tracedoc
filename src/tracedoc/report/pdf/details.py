@@ -144,6 +144,8 @@ def _finding(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]
         ("f_tools", _tools(f, s)),
         ("f_output", f.output),
     ]
+    if f.error:
+        rows.append(("f_error", f.error))
     if f.quote:
         rows.append(("f_quote", f"“{f.quote}”"))
     change = f.what_to_change + (f"  ({f.change_kind})" if f.change_kind else "")

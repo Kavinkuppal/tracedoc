@@ -12,7 +12,9 @@ from langgraph.errors import GraphRecursionError
 
 from tests.fixtures.agents import AGENTS, run_agent
 
-COMPLETING = [name for name in AGENTS if name != "supervisor_no_end"]
+COMPLETING = [
+    name for name in AGENTS if name != "supervisor_no_end" and not hasattr(AGENTS[name], "ERROR")
+]
 
 
 def _tool_calls(result: dict[str, Any]) -> list[dict[str, Any]]:
@@ -46,6 +48,7 @@ def test_every_agent_declares_its_bug() -> None:
         "tools.errors_retries",
         "tools.unused_output",
         "design.empty_answer",
+        "design.run_error",
         None,
     }
 
@@ -57,6 +60,8 @@ def test_agent_runs_under_one_second(name: str) -> None:
         run_agent(name)
     except GraphRecursionError:
         assert name == "supervisor_no_end"
+    except Exception as error:
+        assert isinstance(error, getattr(AGENTS[name], "ERROR", ()))
     assert time.perf_counter() - start < 1.0
 
 
@@ -112,3 +117,10 @@ def test_fake_model_reports_token_usage() -> None:
     result = run_agent("healthy")
     usages = [m.usage_metadata for m in result["messages"] if isinstance(m, AIMessage)]
     assert all(u and u["input_tokens"] > 0 and u["output_tokens"] > 0 for u in usages)
+
+
+def test_swarm_handoff_drops_the_other_tool_result_and_the_run_fails() -> None:
+    from tests.fixtures.agents._fake import InvalidRequestError
+
+    with pytest.raises(InvalidRequestError, match=r"without `tool_result` blocks.*toolu_1"):
+        run_agent("swarm_parallel_handoff")

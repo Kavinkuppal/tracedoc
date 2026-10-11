@@ -1,16 +1,16 @@
 {
  "01_scorecard": {
-  "completion_rate": 0.7143,
+  "completion_rate": 0.625,
   "findings_by_severity": {
-   "high": 3,
+   "high": 4,
    "low": 1,
-   "medium": 3
+   "medium": 4
   },
   "median_cost": null,
-  "median_latency_s": 0.0072,
+  "median_latency_s": 0.0077,
   "median_steps": 5.0,
-  "runs": 7,
-  "tokens": 2588,
+  "runs": 8,
+  "tokens": 2649,
   "total_cost": null
  },
  "02_top_fixes": [
@@ -29,16 +29,21 @@
    "supervisor"
   ],
   [
-   "tools.errors_retries",
+   "design.run_error",
    "high",
    1,
-   "agent",
-   "fetch_url"
+   "hotel_assistant",
+   "hotel_assistant"
   ]
  ],
  "03_failure_frequency": [
   {
    "check": "design.loop",
+   "runs": 2,
+   "severity": "medium"
+  },
+  {
+   "check": "tools.unused_output",
    "runs": 2,
    "severity": "medium"
   },
@@ -53,14 +58,14 @@
    "severity": "high"
   },
   {
-   "check": "tools.errors_retries",
+   "check": "design.run_error",
    "runs": 1,
    "severity": "high"
   },
   {
-   "check": "tools.unused_output",
+   "check": "tools.errors_retries",
    "runs": 1,
-   "severity": "medium"
+   "severity": "high"
   },
   {
    "check": "verification.unchecked_result",
@@ -72,6 +77,18 @@
   "cells": [
    [
     "customer_support",
+    "tools.unused_output",
+    1,
+    1.0
+   ],
+   [
+    "other",
+    "design.run_error",
+    1,
+    1.0
+   ],
+   [
+    "other",
     "tools.unused_output",
     1,
     1.0
@@ -115,14 +132,16 @@
   ],
   "checks": [
    "design.loop",
+   "tools.unused_output",
    "design.empty_answer",
    "design.no_stop",
+   "design.run_error",
    "tools.errors_retries",
-   "tools.unused_output",
    "verification.unchecked_result"
   ],
   "tasks": [
    "customer_support",
+   "other",
    "research",
    "writing"
   ]
@@ -131,6 +150,13 @@
   "customer_support": {
    "completed": 1,
    "error": 0,
+   "interrupted": 0,
+   "no_answer": 0,
+   "recursion_limit": 0
+  },
+  "other": {
+   "completed": 0,
+   "error": 1,
    "interrupted": 0,
    "no_answer": 0,
    "recursion_limit": 0
@@ -160,6 +186,11 @@
    [
     "__start__",
     "analyst",
+    1
+   ],
+   [
+    "__start__",
+    "flight_assistant",
     1
    ],
    [
@@ -195,6 +226,16 @@
    [
     "critic",
     "__end__",
+    1
+   ],
+   [
+    "flight_assistant",
+    "flight_assistant",
+    1
+   ],
+   [
+    "flight_assistant",
+    "hotel_assistant",
     1
    ],
    [
@@ -285,6 +326,16 @@
     0.0
    ],
    [
+    "flight_assistant",
+    2,
+    1.0
+   ],
+   [
+    "hotel_assistant",
+    1,
+    1.0
+   ],
+   [
     "research_agent",
     3,
     0.0
@@ -315,6 +366,12 @@
   [
    "analyst",
    "writer",
+   1,
+   0.0
+  ],
+  [
+   "flight_assistant",
+   "hotel_assistant",
    1,
    0.0
   ],
@@ -372,62 +429,76 @@
    "cost": 0.0,
    "cost_share": null,
    "node": "researcher",
-   "token_share": 0.3327,
+   "token_share": 0.325,
    "tokens": 861
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "supervisor",
-   "token_share": 0.2191,
+   "token_share": 0.214,
    "tokens": 567
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "writer",
-   "token_share": 0.1712,
+   "token_share": 0.1672,
    "tokens": 443
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "agent",
-   "token_share": 0.1368,
+   "token_share": 0.1336,
    "tokens": 354
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "critic",
-   "token_share": 0.0464,
+   "token_share": 0.0453,
    "tokens": 120
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "research_agent",
-   "token_share": 0.0348,
+   "token_share": 0.034,
    "tokens": 90
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "support_agent",
-   "token_share": 0.0328,
+   "token_share": 0.0321,
    "tokens": 85
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "analyst",
-   "token_share": 0.0263,
+   "token_share": 0.0257,
    "tokens": 68
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "flight_assistant",
+   "token_share": 0.023,
+   "tokens": 61
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
+   "node": "hotel_assistant",
+   "token_share": 0.0,
+   "tokens": 0
   }
  ],
  "09_context_growth": {
   "median": [
-   24.0,
+   26.0,
    52.0,
    71.0,
    103.0,
@@ -455,7 +526,7 @@
   ],
   [
    3,
-   1
+   2
   ],
   [
    5,
@@ -483,6 +554,16 @@
   ],
   [
    "critic",
+   5,
+   1
+  ],
+  [
+   "flight_assistant",
+   5,
+   2
+  ],
+  [
+   "hotel_assistant",
    5,
    1
   ],
@@ -665,6 +746,14 @@
    false
   ],
   [
+   "design.run_error",
+   "high",
+   7,
+   "hotel_assistant",
+   "hotel_assistant",
+   false
+  ],
+  [
    "tools.errors_retries",
    "high",
    3,
@@ -678,6 +767,14 @@
    4,
    "support_agent",
    "lookup_order",
+   true
+  ],
+  [
+   "tools.unused_output",
+   "medium",
+   7,
+   "flight_assistant",
+   "book_flight",
    true
   ],
   [

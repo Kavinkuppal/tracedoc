@@ -181,7 +181,7 @@ def test_payload_has_only_allow_listed_fields() -> None:
     report = analyze(runs, Config())
     data = json.loads(serialize(build_contribution(uuid.uuid4(), HASH, runs, all_findings(report))))
     assert _keys(data) <= ALLOWED_KEYS
-    assert len(data["runs"]) == 7
+    assert len(data["runs"]) == 8
     shapes = {(r["graph"]["agent_count"], r["graph"]["tool_count"]) for r in data["runs"]}
     assert (3, 1) in shapes  # healthy: researcher, writer, critic; one tool
 

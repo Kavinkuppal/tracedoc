@@ -1,9 +1,10 @@
 """A scripted chat model for deterministic fixture agents.
 
-Extends LangChain's fake-model idea with two things the fixtures need:
-`bind_tools` (so agents can be written the normal way) and `usage_metadata`
-(so traces carry token counts). Token counts are derived from text length,
-so they are deterministic and grow with context like a real model's would.
+Extends LangChain's fake-model idea with what the fixtures need:
+`bind_tools` (so agents can be written the normal way), `usage_metadata`
+(so traces carry token counts), and, on request, the provider-side check that
+every tool call in the history has a result. Token counts are derived from text
+length, so they are deterministic and grow with context like a real model's would.
 """
 
 from __future__ import annotations
@@ -13,7 +14,7 @@ from typing import Any
 
 from langchain_core.callbacks import CallbackManagerForLLMRun
 from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import AIMessage, BaseMessage
+from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.runnables import Runnable
 from langchain_core.tools import BaseTool
@@ -32,6 +33,20 @@ def _message_text(message: BaseMessage) -> str:
     return text
 
 
+class InvalidRequestError(Exception):
+    """What a provider's API raises for a malformed request (an HTTP 400)."""
+
+
+def _unanswered_calls(messages: list[BaseMessage]) -> list[str]:
+    pending: list[str] = []
+    for message in messages:
+        if isinstance(message, AIMessage):
+            pending += [call["id"] for call in message.tool_calls if call.get("id")]
+        elif isinstance(message, ToolMessage) and message.tool_call_id in pending:
+            pending.remove(message.tool_call_id)
+    return pending
+
+
 def ai(content: str = "", tool_calls: list[dict[str, Any]] | None = None) -> AIMessage:
     """Build a scripted reply. Tool calls are given as {"name", "args", "id"}."""
     calls = [{"type": "tool_call", **call} for call in tool_calls or []]
@@ -39,10 +54,13 @@ def ai(content: str = "", tool_calls: list[dict[str, Any]] | None = None) -> AIM
 
 
 class ScriptedChatModel(BaseChatModel):
-    """Returns `responses` in order. With `cycle=True` it loops forever."""
+    """Returns `responses` in order. With `cycle=True` it loops forever. With
+    `require_tool_results=True` it rejects a history with a tool call that has no result, as
+    Anthropic's API does."""
 
     responses: list[AIMessage]
     cycle: bool = False
+    require_tool_results: bool = False
     model_name: str = MODEL_NAME
     i: int = 0
 
@@ -53,6 +71,14 @@ class ScriptedChatModel(BaseChatModel):
         run_manager: CallbackManagerForLLMRun | None = None,
         **kwargs: Any,
     ) -> ChatResult:
+        unanswered = _unanswered_calls(messages) if self.require_tool_results else []
+        if unanswered:
+            raise InvalidRequestError(
+                "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', "
+                "'message': '`tool_use` ids were found without `tool_result` blocks immediately "
+                f"after: {', '.join(unanswered)}. Each `tool_use` block must have a corresponding "
+                "`tool_result` block in the next message.'}}"
+            )
         if self.i >= len(self.responses):
             if not self.cycle:
                 raise RuntimeError(f"ScriptedChatModel ran out of responses after {self.i}")

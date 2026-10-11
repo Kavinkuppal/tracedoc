@@ -75,10 +75,10 @@ def test_one_system_writes_straight_into_the_output_folder(tmp_path: Path) -> No
 def test_estimate_is_per_system_with_a_total() -> None:
     result = runner.invoke(cli.app, ["estimate", str(TRACES / "capture")])
     assert result.exit_code == 0, result.output
-    assert result.output.startswith("Read 7 run(s)")
-    assert "7 systems, each analyzed and reported separately" in result.output
+    assert result.output.startswith("Read 8 run(s)")
+    assert "8 systems, each analyzed and reported separately" in result.output
     assert "--- healthy ---" in result.output
-    assert "All 7 systems: Runs: 7" in result.output
+    assert "All 8 systems: Runs: 8" in result.output
 
 
 def test_systems_split_by_top_level_graph_name() -> None:

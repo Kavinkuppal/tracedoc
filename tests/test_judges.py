@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+from collections import Counter
 
 import pytest
 
@@ -167,10 +168,13 @@ def test_plan_caps_windows_per_signature_and_is_deterministic() -> None:
     findings = run_rule_checks(runs)
     judge = _judge(_config(max_windows_per_signature=2))
     plan = judge.plan(runs, findings)
-    unused = [
-        t for t in plan.tasks if t.confirmation and t.confirmation.id == "tools.unused_output"
-    ]
-    assert len(unused) == 2
+    unused = Counter(
+        (t.window.candidate.node, t.window.candidate.key)
+        for t in plan.tasks
+        if t.confirmation and t.confirmation.id == "tools.unused_output"
+    )
+    assert len(unused) == 2  # two fixtures leave a tool result unused, at different agents
+    assert set(unused.values()) == {2}
     again = judge.plan(runs, findings)
     assert [t.window.key for t in plan.tasks] == [t.window.key for t in again.tasks]
 

@@ -1,0 +1,1273 @@
+[
+ {
+  "id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "name": "swarm_parallel_handoff",
+  "start_time": "2026-10-11T21:06:49.022906Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.079647Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": "InvalidRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\")Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3978, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<11 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"<repo>/tests/fixtures/agents/swarm_parallel_handoff.py\", line 79, in hotel_agent\n    return {\"messages\": [hotel_model.invoke([SystemMessage(HOTEL_PROMPT), *state[\"messages\"]])]}\n                         ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 488, in invoke\n    self.generate_prompt(\n    ~~~~~~~~~~~~~~~~~~~~^\n        [self._convert_input(input)],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ).generations[0][0],\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1877, in generate_prompt\n    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1684, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 2022, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n\n\n  File \"<repo>/tests/fixtures/agents/_fake.py\", line 76, in _generate\n    raise InvalidRequestError(\n    ...<4 lines>...\n    )\n\n\ntests.fixtures.agents._fake.InvalidRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\n\n\nDuring task with name 'agent' and id '2d0e35d7-bb61-4998-efe6-b32e9b2e87f1'\n\n\nDuring task with name 'hotel_assistant' and id 'f4da058a-a4ee-e1d4-9ff4-3311a0560563'",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.022906Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.079647Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a41-75e0-9492-069109c0efe2",
+  "name": "flight_assistant",
+  "start_time": "2026-10-11T21:06:49.025197Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.051758Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "flight_assistant",
+    "langgraph_triggers": [
+     "branch:to:flight_assistant"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "flight_assistant"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": "ParentCommand(Command(graph='flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3978, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<11 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.025197Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.051758Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a41-75e0-9492-06a9544e6646",
+  "name": "flight_assistant",
+  "start_time": "2026-10-11T21:06:49.025727Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.046295Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "flight_assistant",
+    "langgraph_triggers": [
+     "branch:to:flight_assistant"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "flight_assistant"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": "ParentCommand(Command(graph='flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.025727Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.046295Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a41-75e0-9492-069109c0efe2",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a42-76f0-948b-5f8a48b0af74",
+  "name": "agent",
+  "start_time": "2026-10-11T21:06:49.027000Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.029838Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|agent:eba90507-219a-c31d-5252-7571d378cc6c",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.027000Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T21:06:49.029838Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a41-75e0-9492-06a9544e6646",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649027000Z01a12cca-2a42-76f0-948b-5f8a48b0af74",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a43-7270-9ca9-afd59ce49269",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T21:06:49.027788Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T21:06:49.029009Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|agent:eba90507-219a-c31d-5252-7571d378cc6c",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    },
+    "usage_metadata": {
+     "input_tokens": 30,
+     "output_tokens": 31,
+     "total_tokens": 61
+    }
+   },
+   "tool_call_count": 2
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[])], require_tool_results=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.027788Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T21:06:49.029009Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You book flights. Hand hotel requests to hotel_assistant.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+       "type": "human",
+       "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Booking flight BA117 and passing you to the hotel assistant.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Booking flight BA117 and passing you to the hotel assistant.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+        "tool_calls": [
+         {
+          "name": "book_flight",
+          "args": {
+           "flight_id": "BA117"
+          },
+          "id": "toolu_1",
+          "type": "tool_call"
+         },
+         {
+          "name": "transfer_to_hotel_assistant",
+          "args": {},
+          "id": "toolu_2",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 30,
+         "output_tokens": 31,
+         "total_tokens": 61
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a42-76f0-948b-5f8a48b0af74",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649027000Z01a12cca-2a42-76f0-948b-5f8a48b0af74.20261011T210649027788Z01a12cca-2a43-7270-9ca9-afd59ce49269",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 30,
+  "completion_tokens": 31
+ },
+ {
+  "id": "01a12cca-2a45-7b32-a1cc-b45f071e83ee",
+  "name": "tools_condition",
+  "start_time": "2026-10-11T21:06:49.029392Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.029745Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|agent:eba90507-219a-c31d-5252-7571d378cc6c",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.029392Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T21:06:49.029745Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    },
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    }
+   ]
+  },
+  "outputs": {
+   "output": "tools"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a42-76f0-948b-5f8a48b0af74",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649027000Z01a12cca-2a42-76f0-948b-5f8a48b0af74.20261011T210649029392Z01a12cca-2a45-7b32-a1cc-b45f071e83ee",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a46-7b33-8a0e-7cd8ec8eb548",
+  "name": "tools",
+  "start_time": "2026-10-11T21:06:49.030489Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.040168Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|tools:8b2cad6c-75c0-43e7-b3a6-c87c3afdfdf5",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": "ParentCommand(Command(graph='__parent__', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='__parent__', update={'messages': [HumanMessage(content='Book flight BA117 to London and a hotel near Heathrow for 2 nights.', additional_kwargs={}, response_metadata={}, id='138d713a-3dd1-4239-bca3-76221adf1a95'), AIMessage(content='Booking flight BA117 and passing you to the hotel assistant.', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0', tool_calls=[{'name': 'book_flight', 'args': {'flight_id': 'BA117'}, 'id': 'toolu_1', 'type': 'tool_call'}, {'name': 'transfer_to_hotel_assistant', 'args': {}, 'id': 'toolu_2', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 31, 'total_tokens': 61}), ToolMessage(content='Transferred to hotel_assistant.', name='transfer_to_hotel_assistant', tool_call_id='toolu_2')]}, goto='hotel_assistant')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.030489Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.040168Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    },
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a41-75e0-9492-06a9544e6646",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649030489Z01a12cca-2a46-7b33-8a0e-7cd8ec8eb548",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a48-7e62-a68a-e7f61b1fdf48",
+  "name": "book_flight",
+  "start_time": "2026-10-11T21:06:49.032119Z",
+  "run_type": "tool",
+  "end_time": "2026-10-11T21:06:49.033094Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "toolu_1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|tools:8b2cad6c-75c0-43e7-b3a6-c87c3afdfdf5",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "book_flight",
+   "description": "Book a flight by its ID."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.032119Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T21:06:49.033094Z"
+   }
+  ],
+  "inputs": {
+   "flight_id": "BA117"
+  },
+  "outputs": {
+   "output": {
+    "content": "Booked flight BA117, confirmation K7Q2LM.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "book_flight",
+    "id": null,
+    "tool_call_id": "toolu_1",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a46-7b33-8a0e-7cd8ec8eb548",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649030489Z01a12cca-2a46-7b33-8a0e-7cd8ec8eb548.20261011T210649032119Z01a12cca-2a48-7e62-a68a-e7f61b1fdf48",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a4a-7ca3-93a1-1429e3ab6d3d",
+  "name": "transfer_to_hotel_assistant",
+  "start_time": "2026-10-11T21:06:49.034096Z",
+  "run_type": "tool",
+  "end_time": "2026-10-11T21:06:49.034871Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "toolu_2",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "branch:to:tools"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "tools"
+    ],
+    "langgraph_checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f|tools:8b2cad6c-75c0-43e7-b3a6-c87c3afdfdf5",
+    "checkpoint_ns": "flight_assistant:5819b604-1d5b-d231-0538-6c6c37dfd60f"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "transfer_to_hotel_assistant",
+   "description": "Hand the conversation to the hotel assistant."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.034096Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T21:06:49.034871Z"
+   }
+  ],
+  "inputs": {},
+  "outputs": {
+   "output": {
+    "graph": "__parent__",
+    "update": {
+     "messages": [
+      {
+       "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+       "additional_kwargs": {},
+       "response_metadata": {},
+       "type": "human",
+       "name": null,
+       "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+      },
+      {
+       "content": "Booking flight BA117 and passing you to the hotel assistant.",
+       "additional_kwargs": {},
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "name": null,
+       "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+       "tool_calls": [
+        {
+         "name": "book_flight",
+         "args": {
+          "flight_id": "BA117"
+         },
+         "id": "toolu_1",
+         "type": "tool_call"
+        },
+        {
+         "name": "transfer_to_hotel_assistant",
+         "args": {},
+         "id": "toolu_2",
+         "type": "tool_call"
+        }
+       ],
+       "invalid_tool_calls": [],
+       "usage_metadata": {
+        "input_tokens": 30,
+        "output_tokens": 31,
+        "total_tokens": 61
+       }
+      },
+      {
+       "content": "Transferred to hotel_assistant.",
+       "additional_kwargs": {},
+       "response_metadata": {},
+       "type": "tool",
+       "name": "transfer_to_hotel_assistant",
+       "id": null,
+       "tool_call_id": "toolu_2",
+       "artifact": null,
+       "status": "success"
+      }
+     ]
+    },
+    "resume": null,
+    "goto": "hotel_assistant"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a46-7b33-8a0e-7cd8ec8eb548",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649025197Z01a12cca-2a41-75e0-9492-069109c0efe2.20261011T210649025727Z01a12cca-2a41-75e0-9492-06a9544e6646.20261011T210649030489Z01a12cca-2a46-7b33-8a0e-7cd8ec8eb548.20261011T210649034096Z01a12cca-2a4a-7ca3-93a1-1429e3ab6d3d",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a5c-7123-a064-fbef315c0378",
+  "name": "hotel_assistant",
+  "start_time": "2026-10-11T21:06:49.053054Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.073372Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "hotel_assistant",
+    "langgraph_triggers": [
+     "branch:to:hotel_assistant"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "hotel_assistant"
+    ],
+    "langgraph_checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563"
+   }
+  },
+  "error": "InvalidRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\")Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3978, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<11 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"<repo>/tests/fixtures/agents/swarm_parallel_handoff.py\", line 79, in hotel_agent\n    return {\"messages\": [hotel_model.invoke([SystemMessage(HOTEL_PROMPT), *state[\"messages\"]])]}\n                         ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 488, in invoke\n    self.generate_prompt(\n    ~~~~~~~~~~~~~~~~~~~~^\n        [self._convert_input(input)],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ).generations[0][0],\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1877, in generate_prompt\n    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1684, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 2022, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n\n\n  File \"<repo>/tests/fixtures/agents/_fake.py\", line 76, in _generate\n    raise InvalidRequestError(\n    ...<4 lines>...\n    )\n\n\ntests.fixtures.agents._fake.InvalidRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\n\n\nDuring task with name 'agent' and id '2d0e35d7-bb61-4998-efe6-b32e9b2e87f1'",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.053054Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.073372Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    },
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    },
+    {
+     "content": "Transferred to hotel_assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "transfer_to_hotel_assistant",
+     "id": "48212c42-d971-490f-ae7d-2e960f83002c",
+     "tool_call_id": "toolu_2",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649053054Z01a12cca-2a5c-7123-a064-fbef315c0378",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a5d-74b3-a7ca-e35055fbc5d3",
+  "name": "hotel_assistant",
+  "start_time": "2026-10-11T21:06:49.053815Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.068492Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "hotel_assistant",
+    "langgraph_triggers": [
+     "branch:to:hotel_assistant"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "hotel_assistant"
+    ],
+    "langgraph_checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563",
+    "checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563"
+   }
+  },
+  "error": "InvalidRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\")Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"<repo>/tests/fixtures/agents/swarm_parallel_handoff.py\", line 79, in hotel_agent\n    return {\"messages\": [hotel_model.invoke([SystemMessage(HOTEL_PROMPT), *state[\"messages\"]])]}\n                         ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 488, in invoke\n    self.generate_prompt(\n    ~~~~~~~~~~~~~~~~~~~~^\n        [self._convert_input(input)],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ).generations[0][0],\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1877, in generate_prompt\n    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1684, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 2022, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n\n\n  File \"<repo>/tests/fixtures/agents/_fake.py\", line 76, in _generate\n    raise InvalidRequestError(\n    ...<4 lines>...\n    )\n\n\ntests.fixtures.agents._fake.InvalidRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\n\n\nDuring task with name 'agent' and id '2d0e35d7-bb61-4998-efe6-b32e9b2e87f1'",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.053815Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.068492Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    },
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    },
+    {
+     "content": "Transferred to hotel_assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "transfer_to_hotel_assistant",
+     "id": "48212c42-d971-490f-ae7d-2e960f83002c",
+     "tool_call_id": "toolu_2",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a5c-7123-a064-fbef315c0378",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649053054Z01a12cca-2a5c-7123-a064-fbef315c0378.20261011T210649053815Z01a12cca-2a5d-74b3-a7ca-e35055fbc5d3",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a60-7870-9a2e-c7c04b022037",
+  "name": "agent",
+  "start_time": "2026-10-11T21:06:49.056810Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T21:06:49.064204Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563|agent:2d0e35d7-bb61-4998-efe6-b32e9b2e87f1",
+    "checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563"
+   }
+  },
+  "error": "InvalidRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\")Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"<repo>/tests/fixtures/agents/swarm_parallel_handoff.py\", line 79, in hotel_agent\n    return {\"messages\": [hotel_model.invoke([SystemMessage(HOTEL_PROMPT), *state[\"messages\"]])]}\n                         ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 488, in invoke\n    self.generate_prompt(\n    ~~~~~~~~~~~~~~~~~~~~^\n        [self._convert_input(input)],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ).generations[0][0],\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1877, in generate_prompt\n    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1684, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 2022, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n\n\n  File \"<repo>/tests/fixtures/agents/_fake.py\", line 76, in _generate\n    raise InvalidRequestError(\n    ...<4 lines>...\n    )\n\n\ntests.fixtures.agents._fake.InvalidRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.056810Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.064204Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+    },
+    {
+     "content": "Booking flight BA117 and passing you to the hotel assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+     "tool_calls": [
+      {
+       "name": "book_flight",
+       "args": {
+        "flight_id": "BA117"
+       },
+       "id": "toolu_1",
+       "type": "tool_call"
+      },
+      {
+       "name": "transfer_to_hotel_assistant",
+       "args": {},
+       "id": "toolu_2",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 31,
+      "total_tokens": 61
+     }
+    },
+    {
+     "content": "Transferred to hotel_assistant.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "transfer_to_hotel_assistant",
+     "id": "48212c42-d971-490f-ae7d-2e960f83002c",
+     "tool_call_id": "toolu_2",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a5d-74b3-a7ca-e35055fbc5d3",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649053054Z01a12cca-2a5c-7123-a064-fbef315c0378.20261011T210649053815Z01a12cca-2a5d-74b3-a7ca-e35055fbc5d3.20261011T210649056810Z01a12cca-2a60-7870-9a2e-c7c04b022037",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12cca-2a61-7770-90b9-98326ba18792",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T21:06:49.058000Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T21:06:49.061335Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563|agent:2d0e35d7-bb61-4998-efe6-b32e9b2e87f1",
+    "checkpoint_ns": "hotel_assistant:f4da058a-a4ee-e1d4-9ff4-3311a0560563",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    }
+   }
+  },
+  "error": "InvalidRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}\")Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 1684, in generate\n    self._generate_with_cache(\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        m,\n        ^^\n    ...<2 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langchain_core/language_models/chat_models.py\", line 2022, in _generate_with_cache\n    result = self._generate(\n        messages, stop=stop, run_manager=run_manager, **kwargs\n    )\n\n\n  File \"<repo>/tests/fixtures/agents/_fake.py\", line 76, in _generate\n    raise InvalidRequestError(\n    ...<4 lines>...\n    )\n\n\ntests.fixtures.agents._fake.InvalidRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`tool_use` ids were found without `tool_result` blocks immediately after: toolu_1. Each `tool_use` block must have a corresponding `tool_result` block in the next message.'}}",
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='Booked 2 nights at the Heathrow Lodge.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], require_tool_results=True)",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T21:06:49.058000Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-11T21:06:49.061335Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You book hotels.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Book flight BA117 to London and a hotel near Heathrow for 2 nights.",
+       "type": "human",
+       "id": "138d713a-3dd1-4239-bca3-76221adf1a95"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Booking flight BA117 and passing you to the hotel assistant.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a12cca-2a43-7270-9ca9-afd59ce49269-0",
+       "tool_calls": [
+        {
+         "name": "book_flight",
+         "args": {
+          "flight_id": "BA117"
+         },
+         "id": "toolu_1",
+         "type": "tool_call"
+        },
+        {
+         "name": "transfer_to_hotel_assistant",
+         "args": {},
+         "id": "toolu_2",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 30,
+        "output_tokens": 31,
+        "total_tokens": 61
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Transferred to hotel_assistant.",
+       "type": "tool",
+       "name": "transfer_to_hotel_assistant",
+       "id": "48212c42-d971-490f-ae7d-2e960f83002c",
+       "tool_call_id": "toolu_2",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    []
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12cca-2a60-7870-9a2e-c7c04b022037",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T210649022906Z01a12cca-2a3b-7411-8f46-fd3f9e7a8a83.20261011T210649053054Z01a12cca-2a5c-7123-a064-fbef315c0378.20261011T210649053815Z01a12cca-2a5d-74b3-a7ca-e35055fbc5d3.20261011T210649056810Z01a12cca-2a60-7870-9a2e-c7c04b022037.20261011T210649058000Z01a12cca-2a61-7770-90b9-98326ba18792",
+  "trace_id": "01a12cca-2a3b-7411-8f46-fd3f9e7a8a83",
+  "dangerously_allow_filesystem": false
+ }
+]

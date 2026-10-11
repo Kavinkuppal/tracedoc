@@ -6,7 +6,7 @@ tracedoc reads traces from your LangGraph agents and writes a short PDF diagnosi
 
 ## Quickstart
 
-From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing. They come from seven small test agents, so tracedoc writes one report per agent, each in its own folder:
+From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing. They come from eight small test agents, so tracedoc writes one report per agent, each in its own folder:
 
 ```bash
 git clone https://github.com/Kavinkuppal/tracedoc.git && cd tracedoc

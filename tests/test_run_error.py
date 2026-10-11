@@ -3,7 +3,12 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
+import pytest
+from pypdf import PdfReader
+
+from tests.helpers import SOURCES, load_fixture
 from tracedoc.checks.rules.run_error import RunError, error_summary, failed_step
 from tracedoc.config import Config
 from tracedoc.report.view import build_view, confidence_level, is_serious
@@ -132,3 +137,45 @@ def test_error_run_counts_as_serious_in_the_report() -> None:
     assert view.tiles[0].value == "1 (100%)"
     hotel = next(a for a in view.agents if a.name == "hotel_assistant")
     assert hotel.serious_runs == 1
+
+
+# ---- the swarm fixture: a real LangGraph run, driven by fake models, that ends in an error ----
+
+
+@pytest.mark.parametrize("source", SOURCES)
+def test_fixture_run_that_ends_in_an_error(source: str) -> None:
+    run = load_fixture("swarm_parallel_handoff", source)
+    assert run.status == "error"
+    (finding,) = RunError(Config()).run([run])
+    assert finding.severity == "high" and confidence_level(finding) == "high"
+    assert finding.node == "hotel_assistant"  # its model call is the one that failed
+    assert finding.explanation.startswith(
+        "flight_assistant called book_flight and transfer_to_hotel_assistant in one reply."
+    )
+    assert "InvalidRequestError: `tool_use` ids were found without `tool_result`" in (
+        finding.explanation
+    )
+    assert "parallel_tool_calls=False" in finding.suggested_fix
+    (error,) = [e for e in finding.evidence_excerpts if e.startswith("Error: ")]
+    assert "toolu_1" in error and "Traceback" not in error
+
+
+def test_fixture_error_evidence_in_the_pdfs(tmp_path: Path) -> None:
+    from tracedoc.analyze import analyze
+    from tracedoc.report import write_reports
+
+    run = load_fixture("swarm_parallel_handoff")
+    files = write_reports(analyze([run], Config()), [run], tmp_path)
+    (card,) = files.view.cards
+    assert card.title == "Run ended in an error"
+    assert card.where == "hotel_assistant, model call 1, which failed"
+    f = next(f for f in files.view.findings if f.finding.check_id == "design.run_error")
+    assert f.error.startswith("InvalidRequestError: Error code: 400")
+    assert [(t.name, t.result) for t in f.tools] == [
+        ("book_flight", "Booked flight BA117, confirmation K7Q2LM.")
+    ]
+    details = " ".join(
+        " ".join((p.extract_text() or "").split()) for p in PdfReader(files.details).pages
+    )
+    assert "Error message InvalidRequestError: Error code: 400" in details
+    assert "returned: Booked flight BA117, confirmation K7Q2LM." in details

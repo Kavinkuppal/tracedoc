@@ -25,16 +25,25 @@ _UNANSWERED_CALL = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 _API_MESSAGE = re.compile(r"""['"]message['"]:\s*(['"])(?P<message>.+?)\1""", re.DOTALL)
+_ERROR_CLASS = re.compile(r"\s*(?P<kind>[A-Za-z_][\w.]*)\s*[:(]")
+"""The error's class, as LangGraph's callbacks record it ("Kind: message") or as LangSmith does
+("Kind('message')")."""
 
 
 def is_control_flow(error: str | None) -> bool:
     return bool(error) and error.lstrip().startswith(CONTROL_FLOW)  # type: ignore[union-attr]
 
 
+def without_traceback(error: str) -> str:
+    return error.split("Traceback (most recent call last)", 1)[0].strip()
+
+
 def error_summary(error: str) -> str:
     """The error's class and its message, without the API's surrounding JSON."""
-    head = error.strip().splitlines()[0] if error.strip() else ""
-    kind = head.split(":", 1)[0] if ":" in head else ""
+    error = without_traceback(error)
+    head = error.splitlines()[0] if error else ""
+    named = _ERROR_CLASS.match(head)
+    kind = named["kind"] if named else ""
     found = _API_MESSAGE.search(error)
     if found:
         return f"{kind}: {found['message']}" if kind else found["message"]
@@ -102,7 +111,7 @@ class RunError(Check):
                     evidence_step_ids=evidence,
                     evidence_excerpts=[
                         f"Request: {excerpt(run.input_preview, 120)}",
-                        f"Error: {excerpt(payload_text(error), 300)}",
+                        f"Error: {excerpt(without_traceback(payload_text(error)), 300)}",
                     ],
                     facts=facts,
                     variant=variant,

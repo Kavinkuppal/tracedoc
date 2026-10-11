@@ -41,21 +41,21 @@ def test_estimate_langsmith_export() -> None:
         cli.app, ["estimate", str(TRACES / "langsmith"), "--source", "langsmith"]
     )
     assert result.exit_code == 0, result.output
-    assert "Runs: 7" in result.output
+    assert "Runs: 8" in result.output
 
 
 def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
     result = runner.invoke(cli.app, ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path)])
     assert result.exit_code == 0, result.output
     folders = sorted(p for p in tmp_path.iterdir() if p.is_dir())
-    assert len(folders) == 7  # the fixtures are seven systems: one report each
+    assert len(folders) == 8  # the fixtures are eight systems: one report each
     for folder in folders:
         assert (folder / "summary.pdf").is_file() and (folder / "details.pdf").is_file()
         assert not (folder / "report.html").exists()  # HTML only with --html
     reports = reports_in(tmp_path)
     assert all(r["metadata"]["judged"] is False for r in reports)
     assert any(g["representative"]["severity"] == "high" for r in reports for g in r["groups"])
-    assert sum(r["scorecard"]["runs"] for r in reports) == 7
+    assert sum(r["scorecard"]["runs"] for r in reports) == 8
 
 
 def _with_fake(monkeypatch: pytest.MonkeyPatch, client: FakeLLM) -> None:

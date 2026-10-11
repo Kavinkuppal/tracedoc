@@ -39,11 +39,12 @@ def test_registry_holds_all_rule_checks() -> None:
         assert cls.id.split(".")[0] in {"design", "agents", "verification", "tools", "cost"}
 
 
-def test_four_fixture_bugs_are_rule_detectable() -> None:
+def test_fixture_bugs_are_rule_detectable() -> None:
     assert set(RULE_BUGS) == {
         "nested_agents",
         "researcher_repeat_search",
         "supervisor_no_end",
+        "swarm_parallel_handoff",
         "tool_retry_same_args",
         "tool_output_unused",
     }
@@ -358,7 +359,7 @@ def test_runs_without_an_answer_do_not_count_as_completed() -> None:
     runs = [load_fixture(n) for n in AGENTS]
     report = analyze(runs, Config())
     completed = sum(r.status == "completed" for r in runs)
-    assert completed == len(runs) - 2  # recursion limit + empty answer
+    assert completed == len(runs) - 3  # recursion limit, empty answer, error
     assert report.scorecard["completion_rate"] == pytest.approx(completed / len(runs))
 
 
