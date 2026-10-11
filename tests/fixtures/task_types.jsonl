@@ -1,0 +1,59 @@
+{"text": "What are the main differences between PostgreSQL and MySQL replication?", "label": "research"}
+{"text": "Who founded Netflix and when?", "label": "research"}
+{"text": "How many employees did Microsoft have at the end of 2023?", "label": "research"}
+{"text": "Compare the battery life of the last three iPhone models.", "label": "research"}
+{"text": "Find recent studies on intermittent fasting and sleep quality.", "label": "research"}
+{"text": "What's the combined market cap of the three largest chip makers?", "label": "research"}
+{"text": "Why did the Roman Republic collapse?", "label": "research"}
+{"text": "Look up the current population of Lisbon.", "label": "research"}
+{"text": "How does LangGraph persist state between turns?", "label": "research"}
+{"text": "Which of Apple or Google had more employees in 2022, and by how many?", "label": "research"}
+{"text": "Fix the off-by-one error in this Python loop.", "label": "coding"}
+{"text": "Write a SQL query that returns the top 5 customers by revenue.", "label": "coding"}
+{"text": "Why does my React component render twice?", "label": "coding"}
+{"text": "Refactor this function to use async/await.", "label": "coding"}
+{"text": "Add unit tests for the date parser module.", "label": "coding"}
+{"text": "My Go program panics with a nil pointer dereference, here's the stack trace.", "label": "coding"}
+{"text": "Write a regex that matches US phone numbers.", "label": "coding"}
+{"text": "Implement a binary search in TypeScript.", "label": "coding"}
+{"text": "Extract the invoice number, date and total from this PDF text.", "label": "data_extraction"}
+{"text": "Pull every email address out of these support tickets.", "label": "data_extraction"}
+{"text": "Convert this table of products into JSON with name, price and SKU fields.", "label": "data_extraction"}
+{"text": "Parse the attached resumes and list each candidate's skills.", "label": "data_extraction"}
+{"text": "Scrape the prices from these product pages into a CSV.", "label": "data_extraction"}
+{"text": "From this contract, extract the start date, end date and renewal terms.", "label": "data_extraction"}
+{"text": "Get the sender, subject and amount from each of these receipts.", "label": "data_extraction"}
+{"text": "Turn these meeting notes into structured action items with owner and due date fields.", "label": "data_extraction"}
+{"text": "Where is my package? Order number 88213.", "label": "customer_support"}
+{"text": "I was charged twice for my subscription this month.", "label": "customer_support"}
+{"text": "Please cancel my hotel reservation for Friday.", "label": "customer_support"}
+{"text": "Book me a flight from Denver to Austin next Tuesday.", "label": "customer_support"}
+{"text": "I need a hotel room in Chicago for three nights.", "label": "customer_support"}
+{"text": "Can you change my booking to an aisle seat?", "label": "customer_support"}
+{"text": "I can't log in to my account after resetting my password.", "label": "customer_support"}
+{"text": "Find me a flight from Miami to Boston on May 2nd.", "label": "customer_support"}
+{"text": "What's my current reservation?", "label": "customer_support"}
+{"text": "I want a refund for the broken blender I received.", "label": "customer_support"}
+{"text": "Plan a three-day itinerary for Kyoto in April.", "label": "planning"}
+{"text": "Create a 12-week training schedule for a first marathon.", "label": "planning"}
+{"text": "Draft a product roadmap for the next two quarters.", "label": "planning"}
+{"text": "What are the steps to migrate our database to a new region with no downtime?", "label": "planning"}
+{"text": "Help me plan a weekly meal prep for a family of four.", "label": "planning"}
+{"text": "Break this project into milestones with dates.", "label": "planning"}
+{"text": "Organize a schedule for our offsite: sessions, breaks and dinner.", "label": "planning"}
+{"text": "Write a blog post about remote work burnout.", "label": "writing"}
+{"text": "Draft a polite email declining the vendor's offer.", "label": "writing"}
+{"text": "Summarize this article in three bullet points.", "label": "writing"}
+{"text": "Rewrite this paragraph to sound more formal.", "label": "writing"}
+{"text": "Write a one-paragraph brief on solid-state batteries.", "label": "writing"}
+{"text": "Translate this announcement into Spanish.", "label": "writing"}
+{"text": "Give me a catchy tagline for a coffee shop.", "label": "writing"}
+{"text": "Proofread my cover letter.", "label": "writing"}
+{"text": "What's 48 multiplied by 365?", "label": "other"}
+{"text": "Compute 2 to the power of 20.", "label": "other"}
+{"text": "What's the square root of 1,764?", "label": "other"}
+{"text": "Add 1,250 and 3,875.", "label": "other"}
+{"text": "Tell me a joke about cats.", "label": "other"}
+{"text": "Hi there!", "label": "other"}
+{"text": "Convert 30 degrees Celsius to Fahrenheit.", "label": "other"}
+{"text": "What's 15% of 240?", "label": "other"}

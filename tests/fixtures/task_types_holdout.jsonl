@@ -1,0 +1,21 @@
+{"text": "What year did the Berlin Wall fall?", "label": "research"}
+{"text": "How much did Tesla spend on R&D last year?", "label": "research"}
+{"text": "Is there evidence that standing desks improve productivity?", "label": "research"}
+{"text": "Explain why my Python script raises KeyError on line 12.", "label": "coding"}
+{"text": "Write a Bash script that backs up my home folder every night.", "label": "coding"}
+{"text": "Optimize this slow SQL join.", "label": "coding"}
+{"text": "List the names and phone numbers found in this email thread as a table.", "label": "data_extraction"}
+{"text": "Extract all dates mentioned in these court filings.", "label": "data_extraction"}
+{"text": "Read these bank statements and give me each transaction's date, payee and amount.", "label": "data_extraction"}
+{"text": "My order arrived damaged, what can I do?", "label": "customer_support"}
+{"text": "Reserve a table for two at 7pm tonight.", "label": "customer_support"}
+{"text": "Upgrade my plan to the annual subscription.", "label": "customer_support"}
+{"text": "Make a study plan for the bar exam over 10 weeks.", "label": "planning"}
+{"text": "Outline the launch checklist and timeline for our app release.", "label": "planning"}
+{"text": "Plan a road trip from Denver to Seattle with stops.", "label": "planning"}
+{"text": "Write a wedding toast for my brother.", "label": "writing"}
+{"text": "Shorten this press release to 100 words.", "label": "writing"}
+{"text": "Draft a LinkedIn post announcing our seed round.", "label": "writing"}
+{"text": "What's 7 times 8?", "label": "other"}
+{"text": "How are you today?", "label": "other"}
+{"text": "Divide 1,000 by 7.", "label": "other"}
