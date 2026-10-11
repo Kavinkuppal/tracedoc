@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from ..schema import Role, TaskType
 from .client import LLMClient, LLMError, LLMResult
-from .cost import Spend, estimate_tokens
+from .cost import BudgetExceededError, Spend, estimate_tokens
 
 _SYSTEM = "You classify LLM agent runs. Answer with the single best category."
 
@@ -16,6 +16,9 @@ _SYSTEM = "You classify LLM agent runs. Answer with the single best category."
 def _resolve(client: LLMClient, model: str) -> str:
     resolve = getattr(client, "resolve", None)
     return resolve(model) if resolve else model
+
+
+_MAX_TOKENS = 100
 
 
 def _ask(
@@ -26,15 +29,17 @@ def _ask(
     model: str,
     temperature: float | None,
 ) -> LLMResult | None:  # type: ignore[type-arg]
-    """A cached answer if there is one; otherwise a budget-checked call. None on model errors."""
-    settings = {"model": model, "max_tokens": 100, "temperature": temperature}
+    """A cached answer if there is one; otherwise a budget-checked call. None on model errors,
+    and when the call could cross --max-cost (the heuristics' answer stands)."""
+    settings = {"model": model, "max_tokens": _MAX_TOKENS, "temperature": temperature}
     lookup = getattr(client, "lookup", None)
     try:
         result = lookup(_SYSTEM, prompt, schema, **settings) if lookup else None
         if result is None:
-            spend.check(_resolve(client, model), estimate_tokens(prompt) + 50, 20)
+            # Priced at the most it can return, so the call can't push spend past --max-cost.
+            spend.check(_resolve(client, model), estimate_tokens(prompt) + 50, _MAX_TOKENS)
             result = client.complete_json(_SYSTEM, prompt, schema, **settings)
-    except LLMError:
+    except (LLMError, BudgetExceededError):
         return None
     spend.record_result(result)
     return result

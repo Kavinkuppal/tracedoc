@@ -58,3 +58,23 @@ def test_default_models_are_priced_and_public() -> None:
     for model in (llm.triage_model, llm.confirm_model):
         assert model in DEFAULT_PRICES
         assert public_model_name(model) == model
+
+
+def test_classifier_never_spends_past_the_budget() -> None:
+    """A classifier call is priced at the most it can return (its max_tokens), so a budget with
+    room only for a short answer skips the call instead of crossing --max-cost or failing."""
+    from tests.fakes import FakeLLM
+    from tracedoc.llm.classify import task_classifier
+
+    model = "claude-haiku-4-5"
+    preview = "Book flight BA117 to London."
+    prompt_in = len(f"What kind of task is this user request?\n\nREQUEST: {preview}") // 4 + 50
+    fits_a_short_answer = price_of(DEFAULT_PRICES, model, prompt_in, 20) * 1.01  # type: ignore[operator]
+    client = FakeLLM()  # answers with 60 output tokens
+    spend = Spend(prices=DEFAULT_PRICES, max_cost=fits_a_short_answer)
+    assert task_classifier(client, model, spend)(preview) is None
+    assert client.calls == [] and spend.cost == 0.0
+
+    roomy = Spend(prices=DEFAULT_PRICES, max_cost=1.0)
+    assert task_classifier(client, model, roomy)(preview) is not None
+    assert 0 < roomy.cost <= 1.0
