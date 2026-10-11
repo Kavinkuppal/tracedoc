@@ -83,3 +83,14 @@ def test_fewer_qualifying_problems_mean_fewer_cards_never_padding(tmp_path: Path
     assert "1. Final answer was empty" in page1
     assert "2." not in page1.split("Top three fixes", 1)[1].split("Only serious", 1)[0]
     assert "Only serious or moderate problems are listed here" in page1
+
+
+def test_nothing_to_highlight_when_nothing_qualifies(tmp_path: Path) -> None:
+    """What's working: no clean handoff or efficient path qualifies in these runs (the senders
+    wrote almost nothing of their own, and every run took the same number of steps)."""
+    runs = _runs(10, AGENTS)
+    report = _report(runs, [])
+    assert build_view(report, runs).working == []
+    files = write_reports(report, runs, tmp_path)
+    page2 = " ".join(PdfReader(files.summary).pages[1].extract_text().split())
+    assert "What's working Nothing to highlight yet." in page2
