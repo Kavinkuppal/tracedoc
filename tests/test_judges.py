@@ -320,3 +320,13 @@ def test_results_do_not_depend_on_concurrency(concurrency: int) -> None:
         .run(judge.plan(runs, findings), findings)
         .findings
     )
+
+
+def test_premature_finish_allows_clarification_after_mismatched_tool_data() -> None:
+    prompt = judge_prompts()["verification.premature_finish"]
+    assert prompt.version >= 2
+    assert "Asking for clarification there is correct behavior" in prompt.confirm
+    assert (
+        "did not\n  match the request" in prompt.confirm
+        or "did not match the request" in prompt.confirm
+    )
