@@ -28,10 +28,11 @@ from typing import Any, Literal
 
 from ..catalog import catalog, check_entry, check_title, fill, label, limit, text, units
 from ..checks.judges.slots import squash, truncate_words
+from ..checks.rules.empty_answer import lost_answer
 from ..checks.rules.run_error import is_control_flow, without_traceback
 from ..checks.util import is_handoff_tool
 from ..group import SEVERITY_RANK, group_findings
-from ..messages import payload_text
+from ..messages import payload_text, reply_text
 from ..schema import Finding, FindingGroup, Report, Run, Step
 
 Level = Literal["high", "medium", "low"]
@@ -199,6 +200,9 @@ class FindingView:
     output: str
     error: str
     """The error the cited step (or, failing that, the run) ended with; "" when none."""
+    lost_answer: str | None
+    """For an empty final answer: the last real answer an agent wrote before it, labeled with
+    the agent and step ("" when no agent wrote one). None for other findings."""
     what_happened: str
     quote: str
     what_to_change: str
@@ -442,6 +446,20 @@ def _anchor(f: Finding, run: Run) -> Step | None:
     return next((s for s in cited if s.node == f.node), cited[0] if cited else None)
 
 
+def _lost_answer(f: Finding, run: Run | None, anchor: Step | None) -> str | None:
+    if f.check_id != "design.empty_answer" or run is None:
+        return None
+    step = lost_answer(run, anchor)
+    if step is None:
+        return label("lost_answer_none")
+    return label(
+        "lost_answer_value",
+        text=truncate_words(squash(reply_text(step.output)), 500),
+        agent=step.node or label("unknown_agent"),
+        step=_step_label(run, step.id),
+    )
+
+
 def _error(f: Finding, run: Run | None, anchor: Step | None) -> str:
     error = anchor.error if anchor is not None else None
     if not error and run is not None and f.check_id == "design.run_error":
@@ -501,6 +519,7 @@ def _finding_view(
         tools=_tool_calls(f, run, anchor) if run else [],
         output=truncate_words(output, 500) or label("no_output"),
         error=_error(f, run, anchor),
+        lost_answer=_lost_answer(f, run, anchor),
         what_happened=text("card", template, run=rid, text=_sentence(f.explanation)),
         quote=f.evidence_quote,
         what_to_change=_sentence(f.suggested_fix),

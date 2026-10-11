@@ -149,6 +149,8 @@ def _example(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]
         ("f_tools", _tools(f, s)),
         ("f_output", f.output),
     ]
+    if f.lost_answer is not None:
+        rows.append(("f_lost_answer", f.lost_answer))
     if f.error:
         rows.append(("f_error", f.error))
     if f.quote:

@@ -350,7 +350,8 @@ def test_empty_answer_is_high_severity_at_the_answering_agent() -> None:
     (f,) = [f for f in run_rule_checks([run]) if f.check_id == "design.empty_answer"]
     assert f.severity == "high"
     assert f.node == "supervisor"
-    assert f.evidence_step_ids == [run.steps_of("llm")[-1].id]
+    llms = run.steps_of("llm")
+    assert f.evidence_step_ids == [llms[-1].id, llms[-2].id]  # the empty reply, the lost answer
 
 
 def test_runs_without_an_answer_do_not_count_as_completed() -> None:
