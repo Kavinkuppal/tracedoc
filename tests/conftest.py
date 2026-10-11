@@ -46,6 +46,7 @@ def isolated_user_dirs(
     monkeypatch.setattr("tracedoc.config.user_config_dir", lambda *a, **k: str(base / "config"))
     monkeypatch.setattr("tracedoc.feedback.user_data_dir", lambda *a, **k: str(base / "data"))
     monkeypatch.setattr("tracedoc.share.upload.user_data_dir", lambda *a, **k: str(base / "data"))
+    monkeypatch.setattr("tracedoc.llm.cache.user_cache_dir", lambda *a, **k: str(base / "cache"))
 
 
 @pytest.fixture(autouse=True)

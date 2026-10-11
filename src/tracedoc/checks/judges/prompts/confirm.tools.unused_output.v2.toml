@@ -1,6 +1,5 @@
 id = "tools.unused_output"
-version = 1
-title = "Tool output ignored"
+version = 2
 group = "tools_cost"
 default_severity = "medium"
 scope = ["candidate"]

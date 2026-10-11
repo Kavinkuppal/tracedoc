@@ -29,7 +29,13 @@ from tracedoc.checks.judges.prompts import (
     confirmation_prompts,
     judge_prompts,
 )
-from tracedoc.checks.judges.runner import Judge, TriageItem, TriageResult, Verdict
+from tracedoc.checks.judges.runner import (
+    Confirmation,
+    Judge,
+    TriageItem,
+    TriageResult,
+    Verdict,
+)
 from tracedoc.config import Config, load_config
 from tracedoc.llm.client import LLMClient, LLMResult, make_client
 from tracedoc.llm.cost import Spend
@@ -90,13 +96,17 @@ class OracleLLM:
             value: Any = TriageResult(
                 items=[TriageItem(check_id=i, flagged=label, confidence=0.9) for i in ids]
             )
+        elif schema is Confirmation:
+            value = Confirmation(verdict=label, confidence=0.9, evidence_step_ids=["S1"])
         else:
             value = Verdict(
                 verdict=label,
                 confidence=0.9,
                 evidence_step_ids=["S1"],
-                explanation="oracle",
-                suggested_fix="oracle",
+                what_happened="oracle" if label else "",
+                what_to_change="oracle" if label else "",
+                change_type="prompt instruction",
+                evidence_quote=prompt.splitlines()[0][:60] if label else "",
             )
         return LLMResult(value=value, model=kwargs["model"], tokens_in=0, tokens_out=0)
 

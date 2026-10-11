@@ -1,6 +1,5 @@
 id = "agents.reason_action_mismatch"
-version = 1
-title = "Reasons toward one action, takes another"
+version = 2
 group = "agents"
 default_severity = "medium"
 scope = ["run"]

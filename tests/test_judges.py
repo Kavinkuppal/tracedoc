@@ -87,7 +87,10 @@ def test_gating_by_precision_and_version() -> None:
     v = judge_prompts()["agents.ignored_output"].version
     precision = {
         "agents.ignored_output": {"precision": 0.9, "prompt_version": v},
-        "agents.task_drift": {"precision": 0.6, "prompt_version": 1},
+        "agents.task_drift": {
+            "precision": 0.6,
+            "prompt_version": judge_prompts()["agents.task_drift"].version,
+        },
         "design.lost_context": {"precision": 0.95, "prompt_version": 999},
     }
     enabled, disabled = enabled_judges(Config(), precision)
@@ -256,9 +259,14 @@ def test_candidates_confirmed_dropped_or_left_unconfirmed() -> None:
     judge = _judge(Config(), FakeLLM(triage=always(True), confirm=confirm))
     out = judge.run(judge.plan(runs, findings), findings)
     by_check = {f.check_id: f for f in out.findings}
-    assert not by_check["tools.unused_output"].needs_confirmation
-    assert by_check["tools.unused_output"].confidence == 0.8
-    assert "judge explanation" in by_check["tools.unused_output"].explanation
+    confirmed = by_check["tools.unused_output"]
+    assert not confirmed.needs_confirmation
+    assert confirmed.confirmed_by_judge
+    assert confirmed.confidence == 0.8
+    # The rule's catalog sentences stay; the judge only confirms and sets the confidence.
+    unconfirmed = next(f for f in findings if f.check_id == "tools.unused_output")
+    assert confirmed.explanation == unconfirmed.explanation
+    assert confirmed.suggested_fix == unconfirmed.suggested_fix
     assert "verification.unchecked_result" not in by_check  # rejected by the judge
 
     judge = _judge(Config(), FakeLLM(triage=always(False)))

@@ -1,6 +1,5 @@
 id = "design.lost_context"
-version = 1
-title = "Loses earlier context or decisions"
+version = 2
 group = "design"
 default_severity = "medium"
 scope = ["run"]

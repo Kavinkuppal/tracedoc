@@ -1,6 +1,5 @@
 id = "verification.unchecked_result"
-version = 1
-title = "No checking before finishing"
+version = 2
 group = "verification"
 default_severity = "low"
 scope = ["candidate"]

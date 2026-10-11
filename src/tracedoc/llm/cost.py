@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from ..config import Price
+
+if TYPE_CHECKING:
+    from .client import LLMResult
 
 
 class BudgetExceededError(RuntimeError):
@@ -44,6 +48,9 @@ class Spend:
     tokens_out: int = 0
     calls: int = 0
     unpriced_models: set[str] = field(default_factory=set)
+    reused_cost: float = 0.0
+    """What answers reused from the cache cost when they were first made (nothing now)."""
+    reused_calls: int = 0
 
     def check(
         self, model: str, projected_in: int, projected_out: int, *, reserved: float = 0.0
@@ -71,3 +78,23 @@ class Spend:
             self.unpriced_models.add(model)
         else:
             self.cost += cost
+
+    def record_reused(self, model: str, tokens_in: int, tokens_out: int) -> None:
+        """An answer taken from the cache: free now, but part of what the report cost."""
+        self.reused_calls += 1
+        cost = price_of(self.prices, model, tokens_in, tokens_out)
+        if cost is None:
+            self.unpriced_models.add(model)
+        else:
+            self.reused_cost += cost
+
+    def record_result(self, result: LLMResult) -> None:  # type: ignore[type-arg]
+        if result.cached:
+            self.record_reused(result.model, result.tokens_in, result.tokens_out)
+        else:
+            self.record(result.model, result.tokens_in, result.tokens_out)
+
+    @property
+    def report_cost(self) -> float:
+        """The cost of every model answer behind the report, whether made now or reused."""
+        return self.cost + self.reused_cost

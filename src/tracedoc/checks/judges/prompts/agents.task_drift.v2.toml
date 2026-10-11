@@ -1,6 +1,5 @@
 id = "agents.task_drift"
-version = 1
-title = "Drifts off the assigned task"
+version = 2
 group = "agents"
 default_severity = "medium"
 scope = ["run"]

@@ -1,6 +1,5 @@
 id = "agents.incomplete_handoff"
-version = 1
-title = "Handoff missing information the next agent needed"
+version = 2
 group = "agents"
 default_severity = "high"
 scope = ["handoff"]

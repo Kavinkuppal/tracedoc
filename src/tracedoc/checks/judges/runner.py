@@ -7,6 +7,14 @@ Candidates come from three places:
 
 Triage asks one cheap call per window about every judge check in scope for that window.
 Each (window, check) the triage flags goes to one confirmation call with that check's prompt.
+
+A confirmed judge finding carries three short texts written by the model (what happened, what
+to change, one quote from the window), checked against the limits in slots.py. Everything else
+about it (title, explanation, why it matters) comes from the catalog. A confirmed rule
+candidate keeps the rule's catalog text; the judge only confirms it and sets its confidence.
+
+Every call is answered from the judge cache when possible (see llm/cache.py), so the same traces
+give the same findings. Cached answers cost nothing now and skip the budget check.
 """
 
 from __future__ import annotations
@@ -17,9 +25,11 @@ from collections import Counter
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
+from typing import Any, Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+from ...catalog import limit
 from ...config import Config
 from ...llm.client import (
     ConfirmModelUnavailableError,
@@ -29,9 +39,10 @@ from ...llm.client import (
     ModelUnavailableError,
 )
 from ...llm.cost import BudgetExceededError, Spend, estimate_tokens, price_of
-from ...schema import Finding, Run
+from ...schema import Finding, Run, Step
 from ..util import excerpt
 from .prompts import JudgePrompt, confirmation_prompts
+from .slots import fitted, slot_problems
 from .windows import Window, run_end_window, window_around
 
 SYSTEM = """You review traces of LLM agent runs to diagnose specific failure modes.
@@ -55,12 +66,39 @@ class TriageResult(BaseModel):
     items: list[TriageItem]
 
 
+ChangeType = Literal["prompt instruction", "tool", "graph edge", "setting"]
+
+
 class Verdict(BaseModel):
+    """The answer to a judge check. The three text fields are the only text a model writes
+    into a report."""
+
     verdict: bool
     confidence: float
     evidence_step_ids: list[str]
-    explanation: str
-    suggested_fix: str
+    what_happened: str = Field(
+        description="What went wrong in this run: specific, with names and numbers from the "
+        f"steps. At most {limit('what_happened')} characters. Empty if verdict is false."
+    )
+    what_to_change: str = Field(
+        description="One concrete change to the developer's system that would prevent this: "
+        "a prompt instruction (quote the words to add), a tool, a graph edge, or a setting. "
+        f"At most {limit('what_to_change')} characters. Empty if verdict is false."
+    )
+    change_type: ChangeType = Field(description="Which kind of change what_to_change is.")
+    evidence_quote: str = Field(
+        description="One quote copied exactly, character for character, from the steps shown, "
+        f"that shows the problem. At most {limit('evidence_quote')} characters. Empty if "
+        "verdict is false."
+    )
+
+
+class Confirmation(BaseModel):
+    """The answer when confirming a rule candidate: the rule's catalog text stays as it is."""
+
+    verdict: bool
+    confidence: float
+    evidence_step_ids: list[str]
 
 
 @dataclass
@@ -131,6 +169,8 @@ class JudgeOutcome:
     findings: list[Finding]
     """Judge findings plus rule findings, with candidates confirmed or dropped."""
     calls: int = 0
+    reused: int = 0
+    """Answers taken from the judge cache instead of a model call."""
     errors: list[str] = field(default_factory=list)
     stopped_for_budget: str | None = None
 
@@ -149,12 +189,36 @@ def _triage_prompt(window_text: str, checks: list[JudgePrompt]) -> str:
 
 def _confirm_prompt(window_text: str, prompt: JudgePrompt, rule_explanation: str | None) -> str:
     context = f"\nRULE FINDING TO CONFIRM: {rule_explanation}\n" if rule_explanation else ""
-    return (
-        f"{window_text}\n{context}\nCHECK: {prompt.title} ({prompt.id})\n{prompt.confirm.strip()}"
+    ask = (
         "\n\nReturn verdict=true only if the problem is present. Cite evidence by step label "
-        "(for example S3). If verdict is true, give a one-paragraph explanation and a concrete, "
-        "actionable suggested_fix for the developer of this agent."
+        "(for example S3)."
     )
+    if not prompt.confirms:
+        ask += (
+            " If verdict is true, also write: what_happened (what went wrong, specific, with "
+            f"names and numbers; at most {limit('what_happened')} characters), what_to_change "
+            "(one concrete change to the developer's system: a prompt instruction, quoting the "
+            "words to add, or a change to a tool, a graph edge or a setting; name the agent or "
+            f"tool; at most {limit('what_to_change')} characters), change_type, and "
+            "evidence_quote (one quote copied exactly from the steps above; at most "
+            f"{limit('evidence_quote')} characters)."
+        )
+    return (
+        f"{window_text}\n{context}\nCHECK: {prompt.id} (prompt v{prompt.version})\n"
+        f"{prompt.confirm.strip()}{ask}"
+    )
+
+
+def _retry_prompt(prompt: str, answer: Verdict, problems: list[str]) -> str:
+    """The same question again, with the previous answer and what was wrong with it."""
+    return (
+        f"{prompt}\n\nYOUR PREVIOUS ANSWER:\n{answer.model_dump_json()}\n\nIt broke these "
+        "rules:\n" + "\n".join(f"- {p}" for p in problems) + "\nReturn a corrected answer."
+    )
+
+
+def _step_text(step: Step) -> Any:
+    return step.input if step.kind == "handoff" else (step.error or step.output)
 
 
 class Judge:
@@ -297,6 +361,18 @@ class Judge:
 
     def _call(self, model: str, prompt: str, schema: type, max_tokens: int, effort: str | None):  # noqa: ANN202
         assert self.client is not None
+        settings: dict[str, Any] = {
+            "model": model,
+            "max_tokens": max_tokens,
+            "effort": effort,
+            "temperature": self.config.llm.temperature,
+        }
+        lookup = getattr(self.client, "lookup", None)
+        hit = lookup(SYSTEM, prompt, schema, **settings) if lookup else None
+        if hit is not None:  # reused: free now, so no budget check
+            with self._lock:
+                self.spend.record_result(hit)
+            return hit.value
         projected_in = estimate_tokens(SYSTEM) + estimate_tokens(prompt)
         projected_out = (
             TRIAGE_OUT_PER_CHECK * 8
@@ -310,15 +386,40 @@ class Judge:
             reserve = price_of(self.config.prices, priced_as, projected_in, projected_out) or 0.0
             self._reserved += reserve
         try:
-            result = self.client.complete_json(
-                SYSTEM, prompt, schema, model=model, max_tokens=max_tokens, effort=effort
-            )
+            result = self.client.complete_json(SYSTEM, prompt, schema, **settings)
         finally:
             with self._lock:
                 self._reserved -= reserve
         with self._lock:
-            self.spend.record(result.model, result.tokens_in, result.tokens_out)
+            self.spend.record_result(result)
         return result.value
+
+    def _confirm(
+        self, text: str, prompt: JudgePrompt, rule_explanation: str | None
+    ) -> Verdict | Confirmation:
+        """One confirmation call. A judge finding whose texts break a limit is asked again once;
+        then its texts are cut to fit (see slots.py)."""
+        llm = self.config.llm
+        question = _confirm_prompt(text, prompt, rule_explanation)
+        if prompt.confirms:
+            return self._call(
+                llm.confirm_model, question, Confirmation, CONFIRM_MAX_TOKENS, llm.confirm_effort
+            )
+        answer: Verdict = self._call(
+            llm.confirm_model, question, Verdict, CONFIRM_MAX_TOKENS, llm.confirm_effort
+        )
+        problems = slot_problems(answer, text) if answer.verdict else []
+        if problems:
+            answer = self._call(
+                llm.confirm_model,
+                _retry_prompt(question, answer, problems),
+                Verdict,
+                CONFIRM_MAX_TOKENS,
+                llm.confirm_effort,
+            )
+        if not answer.verdict:
+            return answer
+        return answer.model_copy(update=fitted(answer, text))
 
     def judge_text(
         self,
@@ -327,7 +428,7 @@ class Judge:
         *,
         rule_explanation: str | None = None,
         stop: threading.Event | None = None,
-    ) -> dict[str, Verdict | None]:
+    ) -> dict[str, Verdict | Confirmation | None]:
         """Triage `text` on all `checks`, then confirm each flagged one.
 
         Returns {check_id: Verdict} for confirmed calls and {check_id: None} for checks the
@@ -342,20 +443,14 @@ class Judge:
             for i in triage.items
             if i.flagged and _clamp(i.confidence) >= jc.triage_min_confidence
         }
-        results: dict[str, Verdict | None] = {}
+        results: dict[str, Verdict | Confirmation | None] = {}
         for prompt in checks:
             if prompt.id not in flagged:
                 results[prompt.id] = None
                 continue
             if stop is not None and stop.is_set():
                 continue
-            results[prompt.id] = self._call(
-                llm.confirm_model,
-                _confirm_prompt(text, prompt, rule_explanation),
-                Verdict,
-                CONFIRM_MAX_TOKENS,
-                llm.confirm_effort,
-            )
+            results[prompt.id] = self._confirm(text, prompt, rule_explanation)
         return results
 
     def run(
@@ -366,7 +461,7 @@ class Judge:
     ) -> JudgeOutcome:
         jc = self.config.judge
         outcome = JudgeOutcome(findings=[])
-        verdicts: dict[str, Verdict | None] = {}  # candidate finding id -> verdict
+        verdicts: dict[str, Verdict | Confirmation | None] = {}  # candidate id -> answer
         judged: list[Finding] = []
         stop = threading.Event()
         fatal: list[Exception] = []
@@ -407,7 +502,11 @@ class Judge:
                     v = results[prompt.id]
                     if cand is not None:
                         verdicts[cand.id] = v
-                    elif v and v.verdict and _clamp(v.confidence) >= jc.confirm_min_confidence:
+                    elif (
+                        isinstance(v, Verdict)
+                        and v.verdict
+                        and _clamp(v.confidence) >= jc.confirm_min_confidence
+                    ):
                         judged.append(self._finding(task.window, prompt, v))
 
         with ThreadPoolExecutor(max_workers=max(1, jc.concurrency)) as pool:
@@ -415,6 +514,7 @@ class Judge:
         if fatal:
             raise fatal[0]
         outcome.calls = self.spend.calls
+        outcome.reused = self.spend.reused_calls
 
         # Confirm or drop rule candidates. Candidates never judged (no prompt, budget, error)
         # stay as unconfirmed.
@@ -429,9 +529,8 @@ class Judge:
                 f.model_copy(
                     update={
                         "needs_confirmation": False,
+                        "confirmed_by_judge": True,
                         "confidence": round(_clamp(v.confidence), 2),
-                        "explanation": f"{f.explanation} {v.explanation}".strip(),
-                        "suggested_fix": v.suggested_fix or f.suggested_fix,
                     }
                 )
             )
@@ -457,11 +556,13 @@ class Judge:
             run_id=window.run.id,
             key=key,
             evidence_step_ids=[s.id for s in evidence],
-            evidence_excerpts=[
-                excerpt(s.output if s.kind != "handoff" else s.input, 160) for s in evidence[:3]
-            ],
-            explanation=v.explanation,
-            suggested_fix=v.suggested_fix,
+            evidence_excerpts=[excerpt(_step_text(s), 160) for s in evidence[:3]],
+            explanation=v.what_happened,
+            suggested_fix=v.what_to_change,
+            change_type=v.change_type,
+            # A quote the model didn't copy exactly is replaced by the start of the cited step.
+            evidence_quote=v.evidence_quote
+            or (excerpt(_step_text(evidence[0]), limit("evidence_quote")) if evidence else ""),
             confidence=round(_clamp(v.confidence), 2),
             node=(handoff.handoff_to if handoff else anchor.node if anchor else None),
             role=(handoff.role if handoff else anchor.role if anchor else None),
@@ -469,10 +570,9 @@ class Judge:
 
 
 def _dedupe(findings: list[Finding]) -> list[Finding]:
-    """The same check can fire on overlapping windows of one run; keep the most confident."""
+    """The same check can fire on overlapping windows of one run; keep the most confident.
+    Ties are broken by content, never by which call finished first."""
     best: dict[tuple[str, str, str], Finding] = {}
-    for f in findings:
-        k = (f.check_id, f.run_id, f.key)
-        if k not in best or f.confidence > best[k].confidence:
-            best[k] = f
-    return list(best.values())
+    for f in sorted(findings, key=lambda f: (-f.confidence, f.evidence_step_ids, f.id)):
+        best.setdefault((f.check_id, f.run_id, f.key), f)
+    return [best[k] for k in sorted(best)]

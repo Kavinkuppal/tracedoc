@@ -2,6 +2,7 @@
 
 Prompt files live in `prompts/`: `<check_id>.v<N>.toml` for judge checks and
 `confirm.<check_id>.v<N>.toml` for confirming rule candidates. The highest version wins.
+Check titles and explanations are not here: they live in the reviewed catalog (catalog.toml).
 
 `precision.json` (written by `evals/run_evals.py`) records measured precision per check and
 prompt version. A judge check is disabled by default unless it was measured at or above
@@ -35,7 +36,6 @@ _NAME = re.compile(r"^(?P<confirm>confirm\.)?(?P<id>.+)\.v(?P<version>\d+)\.toml
 class JudgePrompt:
     id: str
     version: int
-    title: str
     group: Group
     default_severity: Severity
     scope: tuple[str, ...]

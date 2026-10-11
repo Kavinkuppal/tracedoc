@@ -113,8 +113,8 @@ def normalize_all(
 ) -> list[Run]:
     task_fn = role_fn = None
     if client is not None and spend is not None:
-        task_fn = task_classifier(client, config.llm.triage_model, spend)
-        role_fn = role_classifier(client, config.llm.triage_model, spend)
+        task_fn = task_classifier(client, config.llm.triage_model, spend, config.llm.temperature)
+        role_fn = role_classifier(client, config.llm.triage_model, spend, config.llm.temperature)
 
     def price(model: str | None, tokens_in: int, tokens_out: int) -> float | None:
         return price_of(config.prices, model, tokens_in, tokens_out)
@@ -201,8 +201,12 @@ def build_report(
             "analysis_models": (
                 {"triage": llm.triage_model, "confirm": llm.confirm_model} if outcome else None
             ),
-            "analysis_cost": round(spend.cost, 4) if spend else 0.0,
+            # What the model answers behind this report cost, including answers reused from
+            # the judge cache (so a re-run reports the same figure); spent_now is this run only.
+            "analysis_cost": round(spend.report_cost, 4) if spend else 0.0,
+            "analysis_cost_spent_now": round(spend.cost, 4) if spend else 0.0,
             "analysis_calls": spend.calls if spend else 0,
+            "analysis_answers_reused": spend.reused_calls if spend else 0,
             "analysis_unpriced_models": sorted(spend.unpriced_models) if spend else [],
             "judge_errors": outcome.errors if outcome else [],
             "stopped_for_budget": outcome.stopped_for_budget if outcome else None,

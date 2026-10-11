@@ -1,6 +1,5 @@
 id = "design.loop"
-version = 1
-title = "Repeated steps"
+version = 2
 group = "design"
 default_severity = "medium"
 scope = ["candidate"]

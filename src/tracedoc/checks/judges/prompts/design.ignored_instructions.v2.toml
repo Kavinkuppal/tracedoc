@@ -1,6 +1,5 @@
 id = "design.ignored_instructions"
-version = 1
-title = "Ignores task or role instructions"
+version = 2
 group = "design"
 default_severity = "medium"
 scope = ["run"]

@@ -1,6 +1,5 @@
 id = "agents.no_clarification"
-version = 1
-title = "Guesses instead of asking on ambiguous input"
+version = 2
 group = "agents"
 default_severity = "low"
 scope = ["run"]

@@ -109,6 +109,9 @@ class LLMConfig(BaseModel):
     confirm_model: str = "claude-sonnet-5-5"
     confirm_effort: Literal["low", "medium", "high", "xhigh", "max"] | None = "low"
     """Anthropic effort for the confirmation model; ignored by other providers."""
+    temperature: float | None = 0.0
+    """Sent with every analysis call. Models that accept only their default (for example Claude
+    Sonnet 5.5) run without it; the judge cache is what makes re-runs identical."""
     base_url: str | None = None
     """Endpoint for openai_compatible providers (for example a local server)."""
     api_key_env: str | None = None

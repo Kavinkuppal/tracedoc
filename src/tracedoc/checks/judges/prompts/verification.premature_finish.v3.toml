@@ -1,6 +1,5 @@
 id = "verification.premature_finish"
-version = 2
-title = "Finishes before the task is done"
+version = 3
 group = "verification"
 default_severity = "high"
 scope = ["run"]

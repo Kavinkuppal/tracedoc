@@ -8,6 +8,10 @@ decoding varies between servers.
 
 HTTP-level retries with backoff (429, 5xx, timeouts, connection errors) are done by
 the SDKs, configured with `max_retries`. Invalid JSON is retried here.
+
+`temperature` is sent when given. Some models accept only their default (Claude Sonnet 5.5
+returns a 400 for any other value; so do OpenAI reasoning models): when a model rejects it, the
+call is repeated without it once, and that model gets no temperature for the rest of the run.
 """
 
 from __future__ import annotations
@@ -86,6 +90,22 @@ def is_model_unavailable(error: Any) -> bool:
     return False
 
 
+_TEMPERATURE = re.compile(r"temperature|sampling param", re.IGNORECASE)
+
+
+def rejects_temperature(error: Any) -> bool:
+    """A 400 whose error is about the temperature setting (the model runs only at its default)."""
+    if getattr(error, "status_code", None) != 400:
+        return False
+    body = getattr(error, "body", None)
+    text = f"{getattr(error, 'message', '')} {getattr(error, 'param', '') or ''} {body}"
+    return bool(_TEMPERATURE.search(text))
+
+
+class TemperatureRejectedError(LLMError):
+    """The model does not accept a temperature setting; retried without one."""
+
+
 class KeyRejectedError(RuntimeError):
     """The provider rejected the key (401/403). Fatal: stop instead of retrying every call."""
 
@@ -102,6 +122,8 @@ class LLMResult(Generic[T]):
     model: str
     tokens_in: int
     tokens_out: int
+    cached: bool = False
+    """Reused from the judge cache: nothing was spent now; tokens are what it cost originally."""
 
 
 class LLMClient(Protocol):
@@ -114,6 +136,7 @@ class LLMClient(Protocol):
         model: str,
         max_tokens: int = 2_000,
         effort: str | None = None,
+        temperature: float | None = None,
     ) -> LLMResult[T]: ...
 
 
@@ -134,8 +157,24 @@ def require_key(config: LLMConfig) -> str | None:
     return key
 
 
-class AnthropicClient:
+class _TemperatureMemory:
+    """Remembers models that rejected a temperature setting, and calls them without one."""
+
+    def __init__(self) -> None:
+        self.no_temperature: set[str] = set()
+
+    def _with_temperature(self, model: str, temperature: float | None, call: Any) -> Any:
+        if temperature is not None and model not in self.no_temperature:
+            try:
+                return call(temperature)
+            except TemperatureRejectedError:
+                self.no_temperature.add(model)
+        return call(None)
+
+
+class AnthropicClient(_TemperatureMemory):
     def __init__(self, config: LLMConfig, client: Any = None) -> None:
+        super().__init__()
         self.env_var = key_env_var(config)
         if client is None:
             import anthropic
@@ -156,12 +195,32 @@ class AnthropicClient:
         model: str,
         max_tokens: int = 2_000,
         effort: str | None = None,
+        temperature: float | None = None,
+    ) -> LLMResult[T]:
+        return self._with_temperature(
+            model,
+            temperature,
+            lambda t: self._complete(system, prompt, schema, model, max_tokens, effort, t),
+        )
+
+    def _complete(
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        model: str,
+        max_tokens: int,
+        effort: str | None,
+        temperature: float | None,
     ) -> LLMResult[T]:
         import anthropic
 
         kwargs: dict[str, Any] = {}
         if effort is not None:
             kwargs["output_config"] = {"effort": effort}
+        if temperature is not None:
+            # The SDK (1.x) has no temperature argument; models that take one read it from the body.
+            kwargs["extra_body"] = {"temperature": temperature}
         try:
             response = self.client.messages.parse(
                 model=model,
@@ -174,6 +233,8 @@ class AnthropicClient:
         except (anthropic.AuthenticationError, anthropic.PermissionDeniedError) as e:
             raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except anthropic.APIStatusError as e:
+            if temperature is not None and rejects_temperature(e):
+                raise TemperatureRejectedError(_status_error_detail(e)) from e
             if is_model_unavailable(e):
                 raise ModelUnavailableError(model, _status_error_detail(e)) from e
             raise LLMError(f"Anthropic API error: {e}") from e
@@ -191,8 +252,9 @@ class AnthropicClient:
         )
 
 
-class OpenAIClient:
+class OpenAIClient(_TemperatureMemory):
     def __init__(self, config: LLMConfig, client: Any = None) -> None:
+        super().__init__()
         self.native = config.provider == "openai"
         self.env_var = key_env_var(config)
         if client is None:
@@ -216,16 +278,35 @@ class OpenAIClient:
         model: str,
         max_tokens: int = 2_000,
         effort: str | None = None,
+        temperature: float | None = None,
+    ) -> LLMResult[T]:
+        return self._with_temperature(
+            model,
+            temperature,
+            lambda t: self._complete(system, prompt, schema, model, max_tokens, t),
+        )
+
+    def _complete(
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        model: str,
+        max_tokens: int,
+        temperature: float | None,
     ) -> LLMResult[T]:
         import openai
 
+        sampling = {} if temperature is None else {"temperature": temperature}
         try:
             if self.native:
-                return self._native(system, prompt, schema, model, max_tokens)
-            return self._compatible(system, prompt, schema, model, max_tokens)
+                return self._native(system, prompt, schema, model, max_tokens, sampling)
+            return self._compatible(system, prompt, schema, model, max_tokens, sampling)
         except (openai.AuthenticationError, openai.PermissionDeniedError) as e:
             raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except openai.APIStatusError as e:
+            if sampling and rejects_temperature(e):
+                raise TemperatureRejectedError(_status_error_detail(e)) from e
             if is_model_unavailable(e):
                 raise ModelUnavailableError(model, _status_error_detail(e)) from e
             raise LLMError(f"OpenAI API error: {e}") from e
@@ -233,13 +314,20 @@ class OpenAIClient:
             raise LLMError(f"OpenAI API error: {e}") from e
 
     def _native(
-        self, system: str, prompt: str, schema: type[T], model: str, max_tokens: int
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        model: str,
+        max_tokens: int,
+        sampling: dict[str, float],
     ) -> LLMResult[T]:
         completion = self.client.chat.completions.parse(
             model=model,
             messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
             response_format=schema,
             max_completion_tokens=max_tokens,
+            **sampling,
         )
         message = completion.choices[0].message
         if getattr(message, "refusal", None) or message.parsed is None:
@@ -253,7 +341,13 @@ class OpenAIClient:
         )
 
     def _compatible(
-        self, system: str, prompt: str, schema: type[T], model: str, max_tokens: int
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        model: str,
+        max_tokens: int,
+        sampling: dict[str, float],
     ) -> LLMResult[T]:
         instructions = (
             f"{system}\n\nRespond with only a JSON object (no prose, no code fences) that "
@@ -267,7 +361,7 @@ class OpenAIClient:
         last_error = ""
         for _ in range(2):
             completion = self.client.chat.completions.create(
-                model=model, messages=messages, max_tokens=max_tokens
+                model=model, messages=messages, max_tokens=max_tokens, **sampling
             )
             if completion.usage:
                 tokens_in += completion.usage.prompt_tokens
@@ -358,7 +452,13 @@ class FallbackClient:
         return model
 
     def _confirm_call(
-        self, system: str, prompt: str, schema: type[T], max_tokens: int, effort: str | None
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        max_tokens: int,
+        effort: str | None,
+        temperature: float | None,
     ) -> LLMResult[T]:
         try:
             return self.client.complete_json(
@@ -368,9 +468,48 @@ class FallbackClient:
                 model=self.confirm_model,
                 max_tokens=max_tokens,
                 effort=effort,
+                temperature=temperature,
             )
         except ModelUnavailableError as e:
             raise ConfirmModelUnavailableError(self.confirm_model, e.detail) from None
+
+    def _routed(
+        self, model: str, max_tokens: int, effort: str | None
+    ) -> tuple[str, int, str | None]:
+        """Where a call for `model` goes once the triage model has been replaced."""
+        if self.fallback is not None and model == self.triage_model != self.confirm_model:
+            return (
+                self.confirm_model,
+                max(max_tokens, self.fallback_min_tokens),
+                effort or self.confirm_effort,
+            )
+        return model, max_tokens, effort
+
+    def lookup(
+        self,
+        system: str,
+        prompt: str,
+        schema: type[T],
+        *,
+        model: str,
+        max_tokens: int = 2_000,
+        effort: str | None = None,
+        temperature: float | None = None,
+    ) -> LLMResult[T] | None:
+        """A cached answer for this call, if the wrapped client keeps a cache."""
+        lookup = getattr(self.client, "lookup", None)
+        if lookup is None:
+            return None
+        model, max_tokens, effort = self._routed(model, max_tokens, effort)
+        return lookup(
+            system,
+            prompt,
+            schema,
+            model=model,
+            max_tokens=max_tokens,
+            effort=effort,
+            temperature=temperature,
+        )
 
     def complete_json(
         self,
@@ -381,21 +520,25 @@ class FallbackClient:
         model: str,
         max_tokens: int = 2_000,
         effort: str | None = None,
+        temperature: float | None = None,
     ) -> LLMResult[T]:
         is_triage = model == self.triage_model and model != self.confirm_model
         if model == self.confirm_model:
-            return self._confirm_call(system, prompt, schema, max_tokens, effort)
+            return self._confirm_call(system, prompt, schema, max_tokens, effort, temperature)
         if is_triage and self.fallback is not None:
+            _, routed_tokens, routed_effort = self._routed(model, max_tokens, effort)
             return self._confirm_call(
-                system,
-                prompt,
-                schema,
-                max(max_tokens, self.fallback_min_tokens),
-                effort or self.confirm_effort,
+                system, prompt, schema, routed_tokens, routed_effort, temperature
             )
         try:
             return self.client.complete_json(
-                system, prompt, schema, model=model, max_tokens=max_tokens, effort=effort
+                system,
+                prompt,
+                schema,
+                model=model,
+                max_tokens=max_tokens,
+                effort=effort,
+                temperature=temperature,
             )
         except ModelUnavailableError as e:
             if not is_triage:
@@ -403,12 +546,9 @@ class FallbackClient:
             with self._lock:
                 if self.fallback is None:
                     self.fallback = ModelFallback(model, self.confirm_model, e.detail)
+            _, routed_tokens, routed_effort = self._routed(model, max_tokens, effort)
             return self._confirm_call(
-                system,
-                prompt,
-                schema,
-                max(max_tokens, self.fallback_min_tokens),
-                effort or self.confirm_effort,
+                system, prompt, schema, routed_tokens, routed_effort, temperature
             )
 
 

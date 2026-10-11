@@ -14,6 +14,7 @@ from .config import Config, ConfigError, config_dir, load_config, user_config_pa
 from .feedback import check_for, feedback_path, import_file, record
 from .feedback import load as load_votes
 from .ingest.jsonl import CaptureFormatError
+from .llm.cache import CachingClient, default_cache_dir
 from .llm.client import (
     ConfirmModelUnavailableError,
     KeyRejectedError,
@@ -191,6 +192,14 @@ def analyze(
     include_unvalidated: bool = typer.Option(
         False, help="Include judge checks below the precision bar."
     ),
+    cache_dir: Path | None = typer.Option(
+        None,
+        help="Where AI judge answers are cached (default: your user cache folder; "
+        "`tracedoc paths` shows it).",
+    ),
+    no_cache: bool = typer.Option(
+        False, "--no-cache", help="Ask the models again instead of reusing cached answers."
+    ),
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
     """Analyze traces and write a report."""
@@ -225,7 +234,9 @@ def analyze(
 
     try:
         if use_model:
-            client = with_model_fallback(make_client(config.llm), config.llm)
+            base = make_client(config.llm)
+            cache = None if no_cache else CachingClient(base, cache_dir or default_cache_dir())
+            client = with_model_fallback(cache or base, config.llm)
             spend = Spend(prices=config.prices, max_cost=max_cost)
             if classifier_calls(runs):
                 runs = normalize_all(traces, config, client=client, spend=spend)
@@ -354,8 +365,16 @@ def _print_summary(report: Report, out: Path, html_path: Path) -> None:
             f"{f.explanation}\n   Fix: {f.suggested_fix}"
         )
     if meta.get("judged"):
+        reused = meta.get("analysis_answers_reused", 0)
         typer.echo(
-            f"\nAnalysis cost: ${meta['analysis_cost']:.2f} over {meta['analysis_calls']} calls"
+            f"\nAnalysis cost: ${meta['analysis_cost_spent_now']:.2f} now, over "
+            f"{meta['analysis_calls']} model calls"
+            + (
+                f"; {reused} answers reused from the cache (they cost "
+                f"${meta['analysis_cost'] - meta['analysis_cost_spent_now']:.2f} when made)"
+                if reused
+                else ""
+            )
         )
     typer.echo(f"\nReport: {html_path}  (also report.md, report.json)")
 
@@ -368,6 +387,7 @@ def paths() -> None:
     typer.echo(f"Feedback votes: {feedback_path()}")
     typer.echo(f"Share state:    {state_path()}")
     typer.echo(f"Upload log:     {upload_log_path()}")
+    typer.echo(f"Judge cache:    {default_cache_dir()}")
 
 
 @app.command()

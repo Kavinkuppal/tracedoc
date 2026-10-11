@@ -207,7 +207,9 @@ def test_unavailable_confirm_model_is_fatal(provider: str, which: str) -> None:
     base, _ = _client(provider, gone)
     client = with_model_fallback(base, config)
     with pytest.raises(ConfirmModelUnavailableError, match=config.confirm_model):
-        client.complete_json("s", "CHECK: t (design.loop)", Verdict, model=config.confirm_model)
+        client.complete_json(
+            "s", "CHECK: design.loop (prompt v2)", Verdict, model=config.confirm_model
+        )
     if which == "both":
         with pytest.raises(ConfirmModelUnavailableError):
             client.complete_json("s", "- design.loop: q?", TriageResult, model=config.triage_model)
