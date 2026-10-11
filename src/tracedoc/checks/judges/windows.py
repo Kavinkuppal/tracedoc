@@ -78,16 +78,20 @@ class Window:
         return actions[-1] if actions else None
 
     def _system_prompts(self) -> dict[str, str]:
+        """Each acting agent's own instructions: the latest system prompt it ran with in the
+        window, keyed by the agent's name (never an inner LangGraph node name)."""
         prompts: dict[str, str] = {}
         for step in self.steps:
-            for m in _messages(step.input if step.kind == "llm" else None):
-                if m["type"] == "system" and step.node and step.node not in prompts:
-                    prompts[step.node] = payload_text(m)
-        return prompts
+            if step.kind != "llm" or not step.node:
+                continue
+            system = [m for m in _messages(step.input) if m["type"] == "system"]
+            if system:
+                prompts[step.node] = payload_text(system[-1])
+        return dict(sorted(prompts.items()))
 
     def _render_step(self, label: str, step: Step, focused: bool, limit: int) -> str:
         mark = "  <-- focus" if focused else ""
-        where = f"node={step.node}" + (f" (role {step.role})" if step.role else "")
+        where = f"agent={step.node}"
         if step.kind == "llm":
             recent = [m for m in _messages(step.input) if m["type"] != "system"][-2:]
             lines = [f"[{label}] MODEL CALL · {where}{mark}", "  latest input messages:"]

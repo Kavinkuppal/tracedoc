@@ -47,6 +47,10 @@ class Step(BaseModel):
     name: str
     role: Role | None = None
     node: str | None = None
+    """The agent this step belongs to: the outermost LangGraph node, named as in the code.
+    Steps of a shared tool node are credited to the agent that asked for the tool."""
+    graph_node: str | None = None
+    """The LangGraph node path the step ran in, outermost first, e.g. "research_agent/tools"."""
     graph_step: int | None = None
     """LangGraph superstep number, when known."""
     started_at: datetime | None = None

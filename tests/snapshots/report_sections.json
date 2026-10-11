@@ -1,16 +1,16 @@
 {
  "01_scorecard": {
-  "completion_rate": 0.8333,
+  "completion_rate": 0.8571,
   "findings_by_severity": {
    "high": 2,
-   "low": 4,
+   "low": 5,
    "medium": 3
   },
   "median_cost": null,
-  "median_latency_s": 0.0057,
-  "median_steps": 6.0,
-  "runs": 6,
-  "tokens": 2414,
+  "median_latency_s": 0.0072,
+  "median_steps": 5.0,
+  "runs": 7,
+  "tokens": 2588,
   "total_cost": null
  },
  "02_top_fixes": [
@@ -25,7 +25,7 @@
    "tools.errors_retries",
    "high",
    1,
-   "tools",
+   "agent",
    "fetch_url"
   ],
   [
@@ -39,7 +39,7 @@
  "03_failure_frequency": [
   {
    "check": "verification.unchecked_result",
-   "runs": 4,
+   "runs": 5,
    "severity": "low"
   },
   {
@@ -81,13 +81,13 @@
     "research",
     "design.loop",
     1,
-    0.3333
+    0.25
    ],
    [
     "research",
     "verification.unchecked_result",
-    2,
-    0.6667
+    3,
+    0.75
    ],
    [
     "writing",
@@ -135,7 +135,7 @@
    "recursion_limit": 0
   },
   "research": {
-   "completed": 3,
+   "completed": 4,
    "error": 0,
    "interrupted": 0,
    "recursion_limit": 0
@@ -167,7 +167,7 @@
    [
     "__start__",
     "supervisor",
-    1
+    2
    ],
    [
     "__start__",
@@ -181,8 +181,8 @@
    ],
    [
     "agent",
-    "tools",
-    3
+    "agent",
+    6
    ],
    [
     "analyst",
@@ -195,19 +195,29 @@
     1
    ],
    [
+    "research_agent",
+    "research_agent",
+    2
+   ],
+   [
+    "research_agent",
+    "supervisor",
+    1
+   ],
+   [
     "researcher",
     "__end__",
     1
    ],
    [
     "researcher",
-    "supervisor",
-    3
+    "researcher",
+    8
    ],
    [
     "researcher",
-    "tools",
-    4
+    "supervisor",
+    3
    ],
    [
     "researcher",
@@ -216,6 +226,16 @@
    ],
    [
     "supervisor",
+    "__end__",
+    1
+   ],
+   [
+    "supervisor",
+    "research_agent",
+    1
+   ],
+   [
+    "supervisor",
     "researcher",
     3
    ],
@@ -231,23 +251,8 @@
    ],
    [
     "support_agent",
-    "tools",
-    1
-   ],
-   [
-    "tools",
-    "agent",
-    3
-   ],
-   [
-    "tools",
-    "researcher",
-    4
-   ],
-   [
-    "tools",
     "support_agent",
-    1
+    2
    ],
    [
     "writer",
@@ -268,7 +273,7 @@
   "nodes": [
    [
     "agent",
-    4,
+    7,
     1.0
    ],
    [
@@ -282,24 +287,24 @@
     0.0
    ],
    [
+    "research_agent",
+    3,
+    0.0
+   ],
+   [
     "researcher",
-    9,
+    13,
     0.3333
    ],
    [
     "supervisor",
-    6,
+    8,
     1.0
    ],
    [
     "support_agent",
-    2,
+    3,
     1.0
-   ],
-   [
-    "tools",
-    8,
-    0.75
    ],
    [
     "writer",
@@ -316,6 +321,12 @@
    0.0
   ],
   [
+   "research_agent",
+   "supervisor",
+   1,
+   0.0
+  ],
+  [
    "researcher",
    "supervisor",
    3,
@@ -324,6 +335,12 @@
   [
    "researcher",
    "writer",
+   1,
+   0.0
+  ],
+  [
+   "supervisor",
+   "research_agent",
    1,
    0.0
   ],
@@ -357,58 +374,65 @@
    "cost": 0.0,
    "cost_share": null,
    "node": "researcher",
-   "token_share": 0.3567,
+   "token_share": 0.3327,
    "tokens": 861
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "supervisor",
-   "token_share": 0.2001,
-   "tokens": 483
+   "token_share": 0.2191,
+   "tokens": 567
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "writer",
-   "token_share": 0.1835,
+   "token_share": 0.1712,
    "tokens": 443
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "agent",
-   "token_share": 0.1466,
+   "token_share": 0.1368,
    "tokens": 354
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "critic",
-   "token_share": 0.0497,
+   "token_share": 0.0464,
    "tokens": 120
   },
   {
    "cost": 0.0,
    "cost_share": null,
+   "node": "research_agent",
+   "token_share": 0.0348,
+   "tokens": 90
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
    "node": "support_agent",
-   "token_share": 0.0352,
+   "token_share": 0.0328,
    "tokens": 85
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "analyst",
-   "token_share": 0.0282,
+   "token_share": 0.0263,
    "tokens": 68
   }
  ],
  "09_context_growth": {
   "median": [
-   25.0,
-   55.0,
-   83.5,
-   118.5,
+   24.0,
+   52.0,
+   71.0,
+   103.0,
    71.0,
    47.0,
    87.0,
@@ -437,7 +461,7 @@
   ],
   [
    5,
-   1
+   2
   ],
   [
    7,
@@ -452,7 +476,7 @@
   [
    "agent",
    5,
-   4
+   7
   ],
   [
    "analyst",
@@ -465,24 +489,24 @@
    1
   ],
   [
+   "research_agent",
+   5,
+   3
+  ],
+  [
    "researcher",
    5,
-   9
+   13
   ],
   [
    "supervisor",
    5,
-   6
+   8
   ],
   [
    "support_agent",
    5,
-   2
-  ],
-  [
-   "tools",
-   5,
-   8
+   3
   ],
   [
    "writer",
@@ -504,7 +528,7 @@
   [
    "tool",
    "web_search",
-   "tools",
+   "researcher",
    null,
    null,
    false,
@@ -524,7 +548,7 @@
   [
    "tool",
    "web_search",
-   "tools",
+   "researcher",
    null,
    null,
    false,
@@ -544,7 +568,7 @@
   [
    "tool",
    "web_search",
-   "tools",
+   "researcher",
    null,
    null,
    false,
@@ -604,6 +628,16 @@
    "writer->critic"
   ],
   [
+   "good.clean_handoff",
+   6,
+   "research_agent->supervisor"
+  ],
+  [
+   "good.clean_handoff",
+   6,
+   "supervisor->research_agent"
+  ],
+  [
    "good.verified",
    5,
    "critic"
@@ -614,7 +648,7 @@
    "design.loop",
    "medium",
    0,
-   "tools",
+   "researcher",
    "web_search",
    false
   ],
@@ -638,7 +672,7 @@
    "tools.errors_retries",
    "high",
    3,
-   "tools",
+   "agent",
    "fetch_url",
    false
   ],
@@ -646,7 +680,7 @@
    "tools.unused_output",
    "medium",
    4,
-   "tools",
+   "support_agent",
    "lookup_order",
    true
   ],
@@ -680,6 +714,14 @@
    4,
    "support_agent",
    "support_agent",
+   true
+  ],
+  [
+   "verification.unchecked_result",
+   "low",
+   6,
+   "supervisor",
+   "supervisor",
    true
   ]
  ]

@@ -42,7 +42,7 @@ def test_estimate_langsmith_export() -> None:
         cli.app, ["estimate", str(TRACES / "langsmith"), "--source", "langsmith"]
     )
     assert result.exit_code == 0, result.output
-    assert "Runs: 6" in result.output
+    assert "Runs: 7" in result.output
 
 
 def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
@@ -52,7 +52,7 @@ def test_no_judge_runs_rules_only_without_a_key(tmp_path: Path) -> None:
     assert (tmp_path / "report.html").is_file() and (tmp_path / "report.md").is_file()
     assert report["metadata"]["judged"] is False
     assert report["groups"][0]["representative"]["severity"] == "high"
-    assert report["scorecard"]["runs"] == 6
+    assert report["scorecard"]["runs"] == 7
 
 
 def _with_fake(monkeypatch: pytest.MonkeyPatch, client: FakeLLM) -> None:

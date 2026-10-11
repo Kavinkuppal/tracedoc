@@ -69,13 +69,22 @@ EXPECTED = {
 CASES = [(name, source) for name in EXPECTED for source in SOURCES]
 
 
+def _agents_for(graph_nodes: list[str]) -> list[str]:
+    """Steps of a shared "tools" node are credited to the agent that called the tools."""
+    agents: list[str] = []
+    for node in graph_nodes:
+        agents.append(agents[-1] if node == "tools" and agents else node)
+    return agents
+
+
 @pytest.mark.parametrize(("name", "source"), CASES)
 def test_status_nodes_tokens_task(name: str, source: str) -> None:
     status, nodes, _, tokens_in, tokens_out, task = EXPECTED[name]
     run = load_fixture(name, source)
     assert run.source == source
     assert run.status == status
-    assert [s.node for s in run.steps_of("node")] == nodes
+    assert [s.graph_node for s in run.steps_of("node")] == nodes
+    assert [s.node for s in run.steps_of("node")] == _agents_for(nodes)
     assert run.totals.step_count == len(nodes)
     assert run.totals.tokens_in == tokens_in
     assert run.totals.tokens_out == tokens_out
@@ -161,16 +170,22 @@ def test_recursion_limit_run_keeps_error_and_last_output(source: str) -> None:
 
 
 def test_roles() -> None:
-    roles = {(s.node, s.role) for name in EXPECTED for s in load_fixture(name).steps_of("node")}
+    roles = {
+        (s.graph_node, s.node, s.role)
+        for name in EXPECTED
+        for s in load_fixture(name).steps_of("node")
+    }
     assert roles == {
-        ("researcher", "researcher"),
-        ("tools", "tool_executor"),
-        ("writer", "writer"),
-        ("critic", "critic"),
-        ("analyst", "researcher"),
-        ("supervisor", "supervisor"),
-        ("agent", "other"),
-        ("support_agent", "other"),
+        ("researcher", "researcher", "researcher"),
+        ("tools", "researcher", "tool_executor"),
+        ("writer", "writer", "writer"),
+        ("critic", "critic", "critic"),
+        ("analyst", "analyst", "researcher"),
+        ("supervisor", "supervisor", "supervisor"),
+        ("agent", "agent", "other"),
+        ("tools", "agent", "tool_executor"),
+        ("support_agent", "support_agent", "other"),
+        ("tools", "support_agent", "tool_executor"),
     }
 
 
@@ -208,3 +223,42 @@ def test_committed_traces_hold_no_local_paths() -> None:
     for path in TRACES.rglob("*.json*"):
         text = path.read_text()
         assert "/Users/" not in text and "/home/" not in text and "C:\\\\Users" not in text, path
+
+
+INNER_NAMES = {"agent", "model", "tools", "__start__", "__end__"}
+
+
+@pytest.mark.parametrize("source", SOURCES)
+def test_nested_agents_are_labeled_by_outermost_agent(source: str) -> None:
+    run = load_fixture("nested_agents", source)
+    assert {s.node for s in run.steps} == {"supervisor", "research_agent"}
+    assert not {s.node for s in run.steps} & INNER_NAMES
+    assert not any(s.name == "__start__" for s in run.steps)  # LangGraph internals dropped
+    # The inner LangGraph nodes survive only in graph_node, for internal logic.
+    assert {s.graph_node for s in run.steps_of("node")} == {
+        "supervisor",
+        "research_agent/agent",
+        "research_agent/tools",
+    }
+    assert [(h.handoff_from, h.handoff_to) for h in run.steps_of("handoff")] == [
+        ("supervisor", "research_agent"),
+        ("research_agent", "supervisor"),
+    ]
+    (tool,) = run.steps_of("tool")
+    assert tool.node == "research_agent" and tool.role == "tool_executor"
+    assert run.totals.step_count == 5  # supervisor, agent, tools, agent, supervisor
+
+
+@pytest.mark.parametrize("source", SOURCES)
+def test_judge_window_shows_each_acting_agents_instructions(source: str) -> None:
+    from tests.fixtures.agents.nested_agents import RESEARCH_PROMPT, SUPERVISOR_PROMPT
+    from tracedoc.checks.judges.windows import window_around
+
+    run = load_fixture("nested_agents", source)
+    (tool,) = run.steps_of("tool")
+    text = window_around(run, [tool.id], 3, "candidate").render(2000)
+    instructions = text[text.index("AGENT INSTRUCTIONS") : text.index("STEPS:")]
+    assert f"- research_agent: {RESEARCH_PROMPT}" in instructions
+    assert f"- supervisor: {SUPERVISOR_PROMPT}" in instructions
+    assert "agent=research_agent" in text and "agent=supervisor" in text
+    assert "agent=agent" not in text and "agent=tools" not in text

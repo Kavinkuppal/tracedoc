@@ -45,6 +45,7 @@ def test_every_agent_declares_its_bug() -> None:
         "design.no_stop",
         "tools.errors_retries",
         "tools.unused_output",
+        "design.empty_answer",
         None,
     }
 

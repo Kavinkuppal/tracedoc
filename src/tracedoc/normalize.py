@@ -80,11 +80,27 @@ def _status(root: RawSpan) -> RunStatus:
     return "completed"
 
 
+_INTERNAL_NODES = {"__start__", "__end__"}
+
+
+def _ns_path(span: RawSpan) -> list[str]:
+    """LangGraph node names from the outermost graph inward, e.g. ["research_agent", "agent"].
+
+    Read from the checkpoint namespace ("research_agent:<task>|agent:<task>"), which LangGraph
+    attaches to every event inside a node, including nested subgraphs.
+    """
+    ns = span.metadata.get("langgraph_checkpoint_ns") or span.metadata.get("checkpoint_ns")
+    if isinstance(ns, str) and ns:
+        return [seg.split(":", 1)[0] for seg in ns.split("|") if seg]
+    node = span.metadata.get("langgraph_node")
+    return [str(node)] if node else []
+
+
 def _is_node(span: RawSpan, kept_parent: RawSpan | None) -> bool:
     if span.kind != "chain":
         return False
     node = span.metadata.get("langgraph_node")
-    if node is None or node != span.name:
+    if node is None or node != span.name or node in _INTERNAL_NODES:
         return False
     # A runnable inside a node inherits the node's metadata; only the outermost counts.
     return not (
@@ -114,22 +130,21 @@ def _redact_span(span: RawSpan, redact: Redactor) -> RawSpan:
     )
 
 
-def _infer_handoffs(run_id: str, node_steps: list[Step]) -> list[Step]:
-    """A handoff is control passing from one agent node to a different agent node.
+def _infer_handoffs(run_id: str, node_steps: list[Step], agents: set[str]) -> list[Step]:
+    """A handoff is control passing from one agent to a different agent.
 
-    Tool executor nodes are transparent (agent -> tools -> agent is not a handoff),
-    and nodes that contain other nodes (subgraph wrappers) are skipped.
+    Steps that only run tools, and steps of plain function nodes that never call a model,
+    are transparent: agent -> tools -> agent is not a handoff.
     """
-    parents = {s.parent_id for s in node_steps}
-    agents = [s for s in node_steps if s.role != "tool_executor" and s.id not in parents]
+    turns = [s for s in node_steps if s.role != "tool_executor" and s.node in agents]
     handoffs: list[Step] = []
-    for prev, cur in pairwise(agents):
+    for prev, cur in pairwise(turns):
         if prev.node == cur.node:
             continue
         handoffs.append(
             Step(
                 id=f"{run_id}:handoff:{len(handoffs)}",
-                parent_id=cur.parent_id,
+                parent_id=None,
                 run_id=run_id,
                 kind="handoff",
                 name=f"{prev.node} -> {cur.node}",
@@ -178,6 +193,8 @@ def normalize(
     parent_of: dict[str, RawSpan] = {}
     kept: list[RawSpan] = []
     is_node: set[str] = set()
+    has_direct_work: set[str] = set()  # node spans with model or tool calls directly inside
+    wrappers: set[str] = set()  # node spans that contain other node spans (nested subgraphs)
     for span in order:
         parent = nearest.get(span.parent_id or "", root)
         parent_of[span.id] = parent
@@ -185,13 +202,41 @@ def normalize(
             kept.append(span)
             if span.kind == "chain":
                 is_node.add(span.id)
+                if parent.id in is_node:
+                    wrappers.add(parent.id)
+            elif parent.id in is_node:
+                has_direct_work.add(parent.id)
             nearest[span.id] = span
         else:
             nearest[span.id] = parent
 
+    # A wrapper around a nested subgraph is not a step of its own; its inner steps are.
+    dropped = wrappers - has_direct_work
+    kept = [s for s in kept if s.id not in dropped]
+
     def parent_step_id(span: RawSpan) -> str | None:
         parent = parent_of[span.id]
+        while parent.id in dropped:
+            parent = parent_of[parent.id]
         return None if parent.id == root.id else parent.id
+
+    # Agents are the outermost graph nodes that made at least one model call. Outermost nodes
+    # that only run tools (a shared ToolNode) are credited to the agent that asked for the
+    # tool: the agent that acted most recently before them.
+    top_of = {s.id: (_ns_path(s) or [s.name])[0] for s in kept}
+    agents = {top_of[s.id] for s in kept if s.kind == "llm"}
+    tool_tops = {top_of[s.id] for s in kept if s.kind == "tool"} - agents
+    agent_of: dict[str, str] = {}
+    last_agent: str | None = None
+    for span in kept:
+        top = top_of[span.id]
+        if top in agents:
+            last_agent = top
+            agent_of[span.id] = top
+        elif top in tool_tops and last_agent is not None:
+            agent_of[span.id] = last_agent
+        else:
+            agent_of[span.id] = top
 
     run_id = trace.id
     steps: list[Step] = []
@@ -201,6 +246,7 @@ def normalize(
         if cost is None and price is not None and span.kind == "llm":
             cost = price(span.model, span.tokens_in or 0, span.tokens_out or 0)
         graph_step = span.metadata.get("langgraph_step")
+        path = _ns_path(span)
         steps.append(
             Step(
                 id=span.id,
@@ -208,7 +254,8 @@ def normalize(
                 run_id=run_id,
                 kind="node" if span.id in is_node else span.kind,  # type: ignore[arg-type]
                 name=span.name,
-                node=span.metadata.get("langgraph_node"),
+                node=agent_of[span.id],
+                graph_node="/".join(path) if path else None,
                 graph_step=int(graph_step) if graph_step is not None else None,
                 started_at=span.started_at,
                 ended_at=span.ended_at,
@@ -222,26 +269,25 @@ def normalize(
             )
         )
 
-    # Roles: structure first, then names, then the optional model fallback.
+    # Roles: steps that only run tools are tool executors; everything else takes the role of
+    # its agent, mapped from the agent's name (then the optional model fallback).
     node_steps = [s for s in steps if s.kind == "node"]
     children: dict[str, list[Step]] = {}
     for step in steps:
         if step.parent_id is not None:
             children.setdefault(step.parent_id, []).append(step)
-    role_of_node: dict[str, Role] = {}
-    for step in node_steps:
-        kids = children.get(step.id, [])
-        only_tools = bool(kids) and all(k.kind == "tool" for k in kids)
-        name = step.node or step.name
-        if name not in role_of_node or only_tools:
-            role_of_node[name] = map_role(
-                name, only_runs_tools=only_tools, fallback=role_classifier
-            )
+    role_of_agent: dict[str, Role] = {}
+    for name in sorted({s.node for s in steps if s.node}):
+        role_of_agent[name] = map_role(name, fallback=role_classifier)
     for step in steps:
-        if step.node is not None and step.node in role_of_node:
-            step.role = role_of_node[step.node]
+        kids = children.get(step.id, [])
+        tool_only_node = step.kind == "node" and bool(kids) and all(k.kind == "tool" for k in kids)
+        if step.kind == "tool" or tool_only_node:
+            step.role = "tool_executor"
+        elif step.node is not None:
+            step.role = role_of_agent[step.node]
 
-    steps.extend(_infer_handoffs(run_id, node_steps))
+    steps.extend(_infer_handoffs(run_id, node_steps, agents))
     steps.sort(key=lambda s: (s.started_at is None, s.started_at, s.kind != "handoff"))
 
     llm_steps = [s for s in steps if s.kind == "llm"]

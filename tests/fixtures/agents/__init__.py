@@ -13,6 +13,7 @@ from langchain_core.callbacks import BaseCallbackHandler
 
 from . import (
     healthy,
+    nested_agents,
     pipeline_dropped_caveat,
     researcher_repeat_search,
     supervisor_no_end,
@@ -27,6 +28,7 @@ AGENTS: dict[str, ModuleType] = {
     "tool_retry_same_args": tool_retry_same_args,
     "tool_output_unused": tool_output_unused,
     "healthy": healthy,
+    "nested_agents": nested_agents,
 }
 
 DEFAULT_RECURSION_LIMIT = 25

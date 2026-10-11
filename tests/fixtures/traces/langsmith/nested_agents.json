@@ -1,0 +1,3339 @@
+[
+ {
+  "id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "name": "nested_agents",
+  "start_time": "2026-10-11T00:57:28.748975Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.757238Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.748975Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.757238Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbb4-7761-96f9-30ebeba6b2a7-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 56,
+      "output_tokens": 1,
+      "total_tokens": 57
+     }
+    }
+   ],
+   "next": "FINISH"
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbad-7921-aeac-45c2cb0ede4f",
+  "name": "__start__",
+  "start_time": "2026-10-11T00:57:28.749665Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.750035Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 0,
+    "langgraph_node": "__start__",
+    "langgraph_triggers": [
+     "__start__"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "__start__"
+    ],
+    "langgraph_checkpoint_ns": "__start__:f600ce9f-acb4-77d5-0310-618872cea7e7"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.749665Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.750035Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "tags": [
+   "graph:step:0",
+   "langsmith:hidden"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728749665Z01a12876-fbad-7921-aeac-45c2cb0ede4f",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbad-7921-aeac-45d47e1f2969",
+  "name": "entry",
+  "start_time": "2026-10-11T00:57:28.749891Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.749985Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 0,
+    "langgraph_node": "__start__",
+    "langgraph_triggers": [
+     "__start__"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "__start__"
+    ],
+    "langgraph_checkpoint_ns": "__start__:f600ce9f-acb4-77d5-0310-618872cea7e7"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.749891Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.749985Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    }
+   ]
+  },
+  "outputs": {
+   "output": "supervisor"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbad-7921-aeac-45c2cb0ede4f",
+  "tags": [
+   "langsmith:hidden",
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728749665Z01a12876-fbad-7921-aeac-45c2cb0ede4f.20261011T005728749891Z01a12876-fbad-7921-aeac-45d47e1f2969",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbae-7fb2-9bf2-03c7292cec96",
+  "name": "supervisor",
+  "start_time": "2026-10-11T00:57:28.750265Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.751508Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:23a0d111-7ec2-794c-6afa-4eb0044080ad"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.750265Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.751508Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "next": "research_agent"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728750265Z01a12876-fbae-7fb2-9bf2-03c7292cec96",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbae-7fb2-9bf2-03d074b93343",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T00:57:28.750556Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T00:57:28.751213Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:23a0d111-7ec2-794c-6afa-4eb0044080ad",
+    "checkpoint_ns": "supervisor:23a0d111-7ec2-794c-6afa-4eb0044080ad",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 24,
+     "output_tokens": 3,
+     "total_tokens": 27
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='research_agent', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.750556Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.751213Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a supervisor. Send research questions to research_agent.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What was Apple's 2024 headcount?",
+       "type": "human",
+       "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "research_agent",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "research_agent",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+        "usage_metadata": {
+         "input_tokens": 24,
+         "output_tokens": 3,
+         "total_tokens": 27
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbae-7fb2-9bf2-03c7292cec96",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728750265Z01a12876-fbae-7fb2-9bf2-03c7292cec96.20261011T005728750556Z01a12876-fbae-7fb2-9bf2-03d074b93343",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 24,
+  "completion_tokens": 3
+ },
+ {
+  "id": "01a12876-fbaf-7991-89ea-1cb155b4f296",
+  "name": "route",
+  "start_time": "2026-10-11T00:57:28.751365Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.751467Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:23a0d111-7ec2-794c-6afa-4eb0044080ad"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.751365Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.751467Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "next": "research_agent"
+  },
+  "outputs": {
+   "output": "research_agent"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbae-7fb2-9bf2-03c7292cec96",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728750265Z01a12876-fbae-7fb2-9bf2-03c7292cec96.20261011T005728751365Z01a12876-fbaf-7991-89ea-1cb155b4f296",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbaf-7991-89ea-1cca91558809",
+  "name": "research_agent",
+  "start_time": "2026-10-11T00:57:28.751790Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.756240Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "research_agent",
+    "langgraph_triggers": [
+     "branch:to:research_agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "research_agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.751790Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.756240Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "next": "research_agent"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbaf-7991-89ea-1cda67ac28f1",
+  "name": "research_agent",
+  "start_time": "2026-10-11T00:57:28.751958Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.756181Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "research_agent",
+    "langgraph_triggers": [
+     "branch:to:research_agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "research_agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.751958Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.756181Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "next": "research_agent"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbaf-7991-89ea-1cca91558809",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb0-75f2-9ac5-4f1871e26a51",
+  "name": "agent",
+  "start_time": "2026-10-11T00:57:28.752478Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.753771Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.752478Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.753771Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbaf-7991-89ea-1cda67ac28f1",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced",
+  "name": "call_model",
+  "start_time": "2026-10-11T00:57:28.752570Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.753483Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.752570Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.753483Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb0-75f2-9ac5-4f1871e26a51",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51.20261011T005728752570Z01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb0-75f2-9ac5-4f3a097bb742",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-11T00:57:28.752740Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.753440Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.752740Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.753440Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": {
+    "content": "",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "fake-scripted-1"
+    },
+    "type": "ai",
+    "name": "research_agent",
+    "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+    "tool_calls": [
+     {
+      "name": "web_search",
+      "args": {
+       "query": "Apple 2024 headcount"
+      },
+      "id": "c1",
+      "type": "tool_call"
+     }
+    ],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 25,
+     "output_tokens": 11,
+     "total_tokens": 36
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51.20261011T005728752570Z01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced.20261011T005728752740Z01a12876-fbb0-75f2-9ac5-4f3a097bb742",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb0-75f2-9ac5-4f4bd812fccb",
+  "name": "Prompt",
+  "start_time": "2026-10-11T00:57:28.752837Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.752908Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.752837Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.752908Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You are a researcher with web search. Do not do any math.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb0-75f2-9ac5-4f3a097bb742",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51.20261011T005728752570Z01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced.20261011T005728752740Z01a12876-fbb0-75f2-9ac5-4f3a097bb742.20261011T005728752837Z01a12876-fbb0-75f2-9ac5-4f4bd812fccb",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb1-73e3-aeca-8190ce17f252",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T00:57:28.753132Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T00:57:28.753391Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 25,
+     "output_tokens": 11,
+     "total_tokens": 36
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'Apple 2024 headcount'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Apple had 164,000 employees in 2024.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.753132Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.753391Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a researcher with web search. Do not do any math.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What was Apple's 2024 headcount?",
+       "type": "human",
+       "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "research_agent",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 3,
+        "total_tokens": 27
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "Apple 2024 headcount"
+          },
+          "id": "c1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 25,
+         "output_tokens": 11,
+         "total_tokens": 36
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb0-75f2-9ac5-4f3a097bb742",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51.20261011T005728752570Z01a12876-fbb0-75f2-9ac5-4f2dd9cc0ced.20261011T005728752740Z01a12876-fbb0-75f2-9ac5-4f3a097bb742.20261011T005728753132Z01a12876-fbb1-73e3-aeca-8190ce17f252",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 25,
+  "completion_tokens": 11
+ },
+ {
+  "id": "01a12876-fbb1-73e3-aeca-81a7542abc6e",
+  "name": "should_continue",
+  "start_time": "2026-10-11T00:57:28.753579Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.753733Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:da389fa7-b6dc-b9f5-c9d0-20ae7c873b08",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.753579Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.753733Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    "Send(node='tools', arg={'__type': 'tool_call_with_context', 'tool_call': {'name': 'web_search', 'args': {'query': 'Apple 2024 headcount'}, 'id': 'c1', 'type': 'tool_call'}, 'state': {'messages': [HumanMessage(content=\"What was Apple's 2024 headcount?\", additional_kwargs={}, response_metadata={}, id='fb90d36c-884f-46f3-a9d0-cb9d9832f804'), AIMessage(content='research_agent', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, id='lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 3, 'total_tokens': 27}), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'fake-scripted-1'}, name='research_agent', id='lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0', tool_calls=[{'name': 'web_search', 'args': {'query': 'Apple 2024 headcount'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 25, 'output_tokens': 11, 'total_tokens': 36})], 'remaining_steps': 24}})"
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb0-75f2-9ac5-4f1871e26a51",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728752478Z01a12876-fbb0-75f2-9ac5-4f1871e26a51.20261011T005728753579Z01a12876-fbb1-73e3-aeca-81a7542abc6e",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb1-73e3-aeca-81bad942d7cd",
+  "name": "tools",
+  "start_time": "2026-10-11T00:57:28.753999Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.754751Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|tools:d10bd1fa-b924-8cf5-e780-debe76c3b6c0",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.753999Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.754751Z"
+   }
+  ],
+  "inputs": {
+   "__type": "tool_call_with_context",
+   "tool_call": {
+    "name": "web_search",
+    "args": {
+     "query": "Apple 2024 headcount"
+    },
+    "id": "c1",
+    "type": "tool_call"
+   },
+   "state": {
+    "messages": [
+     {
+      "content": "What was Apple's 2024 headcount?",
+      "additional_kwargs": {},
+      "response_metadata": {},
+      "type": "human",
+      "name": null,
+      "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+     },
+     {
+      "content": "research_agent",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "model_name": "fake-scripted-1"
+      },
+      "type": "ai",
+      "name": null,
+      "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+      "tool_calls": [],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+       "input_tokens": 24,
+       "output_tokens": 3,
+       "total_tokens": 27
+      }
+     },
+     {
+      "content": "",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "model_name": "fake-scripted-1"
+      },
+      "type": "ai",
+      "name": "research_agent",
+      "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+      "tool_calls": [
+       {
+        "name": "web_search",
+        "args": {
+         "query": "Apple 2024 headcount"
+        },
+        "id": "c1",
+        "type": "tool_call"
+       }
+      ],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+       "input_tokens": 25,
+       "output_tokens": 11,
+       "total_tokens": 36
+      }
+     }
+    ],
+    "remaining_steps": 24
+   }
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbaf-7991-89ea-1cda67ac28f1",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728753999Z01a12876-fbb1-73e3-aeca-81bad942d7cd",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb2-7930-ab84-5f6fe77af1b7",
+  "name": "web_search",
+  "start_time": "2026-10-11T00:57:28.754374Z",
+  "run_type": "tool",
+  "end_time": "2026-10-11T00:57:28.754621Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "c1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|tools:d10bd1fa-b924-8cf5-e780-debe76c3b6c0",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.754374Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.754621Z"
+   }
+  ],
+  "inputs": {
+   "query": "Apple 2024 headcount"
+  },
+  "outputs": {
+   "output": {
+    "content": "Apple had 164,000 employees in 2024.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+    "tool_call_id": "c1",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb1-73e3-aeca-81bad942d7cd",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728753999Z01a12876-fbb1-73e3-aeca-81bad942d7cd.20261011T005728754374Z01a12876-fbb2-7930-ab84-5f6fe77af1b7",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb2-7930-ab84-5f79be188632",
+  "name": "agent",
+  "start_time": "2026-10-11T00:57:28.754959Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.756053Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.754959Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.756053Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbaf-7991-89ea-1cda67ac28f1",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb3-7260-909e-7f14df79dde0",
+  "name": "call_model",
+  "start_time": "2026-10-11T00:57:28.755050Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.755871Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.755050Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.755871Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb2-7930-ab84-5f79be188632",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632.20261011T005728755050Z01a12876-fbb3-7260-909e-7f14df79dde0",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb3-7260-909e-7f24eea6147e",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-11T00:57:28.755237Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.755840Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.755237Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.755840Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": {
+    "content": "Apple had 164,000 employees in 2024.",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "fake-scripted-1"
+    },
+    "type": "ai",
+    "name": "research_agent",
+    "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+    "tool_calls": [],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 45,
+     "output_tokens": 9,
+     "total_tokens": 54
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb3-7260-909e-7f14df79dde0",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632.20261011T005728755050Z01a12876-fbb3-7260-909e-7f14df79dde0.20261011T005728755237Z01a12876-fbb3-7260-909e-7f24eea6147e",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb3-7260-909e-7f3e3e28fc18",
+  "name": "Prompt",
+  "start_time": "2026-10-11T00:57:28.755332Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.755410Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.755332Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.755410Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You are a researcher with web search. Do not do any math.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb3-7260-909e-7f24eea6147e",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632.20261011T005728755050Z01a12876-fbb3-7260-909e-7f14df79dde0.20261011T005728755237Z01a12876-fbb3-7260-909e-7f24eea6147e.20261011T005728755332Z01a12876-fbb3-7260-909e-7f3e3e28fc18",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb3-7260-909e-7f42f5458ef6",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T00:57:28.755541Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T00:57:28.755802Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 45,
+     "output_tokens": 9,
+     "total_tokens": 54
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': 'Apple 2024 headcount'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='Apple had 164,000 employees in 2024.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.755541Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.755802Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a researcher with web search. Do not do any math.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What was Apple's 2024 headcount?",
+       "type": "human",
+       "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "research_agent",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 3,
+        "total_tokens": 27
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "name": "research_agent",
+       "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "Apple 2024 headcount"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 25,
+        "output_tokens": 11,
+        "total_tokens": 36
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Apple had 164,000 employees in 2024.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "Apple had 164,000 employees in 2024.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "Apple had 164,000 employees in 2024.",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+        "usage_metadata": {
+         "input_tokens": 45,
+         "output_tokens": 9,
+         "total_tokens": 54
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb3-7260-909e-7f24eea6147e",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632.20261011T005728755050Z01a12876-fbb3-7260-909e-7f14df79dde0.20261011T005728755237Z01a12876-fbb3-7260-909e-7f24eea6147e.20261011T005728755541Z01a12876-fbb3-7260-909e-7f42f5458ef6",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 45,
+  "completion_tokens": 9
+ },
+ {
+  "id": "01a12876-fbb3-7260-909e-7f5e5760123c",
+  "name": "should_continue",
+  "start_time": "2026-10-11T00:57:28.755962Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.756027Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d|agent:6170e29a-b2fb-d15b-387e-3f0366003f81",
+    "checkpoint_ns": "research_agent:d9daa9f2-be52-6030-8104-8d7e7ad0483d"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.755962Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.756027Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb2-7930-ab84-5f79be188632",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728751790Z01a12876-fbaf-7991-89ea-1cca91558809.20261011T005728751958Z01a12876-fbaf-7991-89ea-1cda67ac28f1.20261011T005728754959Z01a12876-fbb2-7930-ab84-5f79be188632.20261011T005728755962Z01a12876-fbb3-7260-909e-7f5e5760123c",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb4-7761-96f9-30d3d4966b73",
+  "name": "supervisor",
+  "start_time": "2026-10-11T00:57:28.756418Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.757034Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d76e793b-ae10-7c79-ab34-f9518aa50cb6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.756418Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.757034Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    }
+   ],
+   "next": "research_agent"
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbb4-7761-96f9-30ebeba6b2a7-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 56,
+      "output_tokens": 1,
+      "total_tokens": 57
+     }
+    }
+   ],
+   "next": "FINISH"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728756418Z01a12876-fbb4-7761-96f9-30d3d4966b73",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a12876-fbb4-7761-96f9-30ebeba6b2a7",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-11T00:57:28.756571Z",
+  "run_type": "llm",
+  "end_time": "2026-10-11T00:57:28.756837Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "fake-scripted-1",
+    "_type": "scripted-fake",
+    "stop": null
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d76e793b-ae10-7c79-ab34-f9518aa50cb6",
+    "checkpoint_ns": "supervisor:d76e793b-ae10-7c79-ab34-f9518aa50cb6",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "fake-scripted-1",
+    "lc_versions": {
+     "langchain-core": "1.6.6"
+    },
+    "usage_metadata": {
+     "input_tokens": 56,
+     "output_tokens": 1,
+     "total_tokens": 57
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.6'}}, responses=[AIMessage(content='research_agent', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])])",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.756571Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.756837Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You are a supervisor. Send research questions to research_agent.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "What was Apple's 2024 headcount?",
+       "type": "human",
+       "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "research_agent",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 3,
+        "total_tokens": 27
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "name": "research_agent",
+       "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "Apple 2024 headcount"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 25,
+        "output_tokens": 11,
+        "total_tokens": 36
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Apple had 164,000 employees in 2024.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Apple had 164,000 employees in 2024.",
+       "response_metadata": {
+        "model_name": "fake-scripted-1"
+       },
+       "type": "ai",
+       "name": "research_agent",
+       "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+       "usage_metadata": {
+        "input_tokens": 45,
+        "output_tokens": 9,
+        "total_tokens": 54
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "fake-scripted-1"
+        },
+        "type": "ai",
+        "id": "lc_run--01a12876-fbb4-7761-96f9-30ebeba6b2a7-0",
+        "usage_metadata": {
+         "input_tokens": 56,
+         "output_tokens": 1,
+         "total_tokens": 57
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb4-7761-96f9-30d3d4966b73",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728756418Z01a12876-fbb4-7761-96f9-30d3d4966b73.20261011T005728756571Z01a12876-fbb4-7761-96f9-30ebeba6b2a7",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 56,
+  "completion_tokens": 1
+ },
+ {
+  "id": "01a12876-fbb4-7761-96f9-30f3bb412976",
+  "name": "route",
+  "start_time": "2026-10-11T00:57:28.756942Z",
+  "run_type": "chain",
+  "end_time": "2026-10-11T00:57:28.757007Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:d76e793b-ae10-7c79-ab34-f9518aa50cb6"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-11T00:57:28.756942Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-11T00:57:28.757007Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "What was Apple's 2024 headcount?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "fb90d36c-884f-46f3-a9d0-cb9d9832f804"
+    },
+    {
+     "content": "research_agent",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbae-7fb2-9bf2-03d074b93343-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 3,
+      "total_tokens": 27
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb1-73e3-aeca-8190ce17f252-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "Apple 2024 headcount"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 25,
+      "output_tokens": 11,
+      "total_tokens": 36
+     }
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "bdb06852-90f4-46c7-9ca5-800e419466eb",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "Apple had 164,000 employees in 2024.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": "research_agent",
+     "id": "lc_run--01a12876-fbb3-7260-909e-7f42f5458ef6-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 45,
+      "output_tokens": 9,
+      "total_tokens": 54
+     }
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "fake-scripted-1"
+     },
+     "type": "ai",
+     "name": null,
+     "id": "lc_run--01a12876-fbb4-7761-96f9-30ebeba6b2a7-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 56,
+      "output_tokens": 1,
+      "total_tokens": 57
+     }
+    }
+   ],
+   "next": "FINISH"
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a12876-fbb4-7761-96f9-30d3d4966b73",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261011T005728748975Z01a12876-fbab-76b2-a185-47a81faea1ad.20261011T005728756418Z01a12876-fbb4-7761-96f9-30d3d4966b73.20261011T005728756942Z01a12876-fbb4-7761-96f9-30f3bb412976",
+  "trace_id": "01a12876-fbab-76b2-a185-47a81faea1ad",
+  "dangerously_allow_filesystem": false
+ }
+]

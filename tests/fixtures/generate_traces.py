@@ -55,7 +55,10 @@ class CollectingTracer(LangChainTracer):
         exported = []
         for run in self.collected:
             data = json.loads(
-                run.model_dump_json(exclude={"child_runs", "parent_run", "ls_client"})
+                run.model_dump_json(
+                    exclude={"child_runs", "parent_run", "ls_client"},
+                    fallback=repr,  # like LangSmith's own serializer, for e.g. langgraph Send
+                )
             )
             usage = (data.get("extra") or {}).get("metadata", {}).get("usage_metadata")
             if usage:  # the LangSmith server derives these columns from usage metadata
@@ -65,13 +68,15 @@ class CollectingTracer(LangChainTracer):
         return exported
 
 
-def generate() -> None:
+def generate(names: list[str] | None = None) -> None:
+    """Regenerate traces for `names` (default: all agents, replacing every trace file)."""
     capture_dir = TRACES / "capture"
     langsmith_dir = TRACES / "langsmith"
     for d in (capture_dir, langsmith_dir):
-        shutil.rmtree(d, ignore_errors=True)
-        d.mkdir(parents=True)
-    for name in AGENTS:
+        if names is None:
+            shutil.rmtree(d, ignore_errors=True)
+        d.mkdir(parents=True, exist_ok=True)
+    for name in names or list(AGENTS):
         with tempfile.TemporaryDirectory() as tmp:
             capture = TraceCapture(tmp)
             tracer = CollectingTracer()
@@ -87,4 +92,6 @@ def generate() -> None:
 
 
 if __name__ == "__main__":
-    generate()
+    import sys
+
+    generate(sys.argv[1:] or None)
