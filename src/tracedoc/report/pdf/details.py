@@ -226,6 +226,7 @@ def _story(view: ReportView, s: Styles, pages: dict[str, int]) -> list[Flowable]
         ("finding_title", "finding"),
         ("confidence_title", "confidence"),
         ("ranking_title", "ranking"),
+        ("fixes_title", "fixes"),
         ("cost_title", "cost"),
     ):
         body = how[body_key]

@@ -235,6 +235,8 @@ def _page_one(cursor: Cursor, view: ReportView, s: Styles, page_of: Callable[[st
     if not view.cards:
         cursor.place(Paragraph(markup(label("top_fixes_none")), s.body))
         return
+    if view.fewer_fixes:
+        cursor.place(Paragraph(markup(label("fixes_fewer")), s.small_muted), 6)
     boxes = [CardBox(card, page_of, s) for card in view.cards]
     more = Paragraph(markup(label("more_fixes")), s.small_muted)
     shown = len(boxes)

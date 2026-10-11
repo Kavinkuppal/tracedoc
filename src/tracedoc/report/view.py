@@ -9,6 +9,9 @@ Definitions used throughout (also explained in details.pdf, section 1):
   are High at 0.8 or more, Medium at 0.6 or more, Low below; unconfirmed candidates are Low.
 - Serious problem: a high-severity finding with High or Medium confidence.
 - Problem (agent table): a high- or medium-severity finding with High or Medium confidence.
+- Fix cards (page 1): up to three problems in ranking order that are serious or moderate; a
+  cost or token problem also has to be material, at least 10% of the system's total cost.
+  Fewer qualify, fewer cards: the rest are "Other findings" on page 2.
 - Ranking: severity, then runs affected, then cost of those runs, then check ID (group.py).
 - IDs: findings F1, F2, ... in the order details.pdf lists them; runs R1, R2, ... by start.
 """
@@ -32,6 +35,9 @@ from ..schema import Finding, FindingGroup, Report, Run, Step
 
 Level = Literal["high", "medium", "low"]
 
+COST_CHECKS = "cost."
+"""Checks about cost, tokens and time: on page 1 only when material."""
+MATERIAL_COST_SHARE = 0.10
 HIGH_CONFIDENCE = 0.8
 MEDIUM_CONFIDENCE = 0.6
 TOP_FIXES = 3
@@ -63,6 +69,17 @@ def is_serious(f: Finding) -> bool:
 
 def is_problem(f: Finding) -> bool:
     return f.severity in ("high", "medium") and confidence_level(f) != "low"
+
+
+def fix_card_worthy(problem: ProblemView, system_cost: float | None) -> bool:
+    """Serious or moderate, and for cost and token checks, at least 10% of the system's cost
+    (the cost the findings themselves are about, for example the hotspot agent's calls)."""
+    if problem.representative.finding.severity not in ("high", "medium"):
+        return False
+    if not problem.group.check_id.startswith(COST_CHECKS):
+        return True
+    own_cost = sum(v.finding.impact.cost for v in problem.findings)
+    return bool(system_cost) and own_cost >= MATERIAL_COST_SHARE * system_cost  # type: ignore[operator]
 
 
 def method_label(f: Finding) -> str:
@@ -276,6 +293,8 @@ class ReportView:
     other_rows: list[OtherRow]
     other_hidden: int
     """Problems not on summary.pdf (more than fit, plus the low-confidence ones)."""
+    fewer_fixes: bool
+    """Fewer than three fix cards, while other problems exist (they didn't qualify)."""
     working: list[str]
     agents: list[AgentRow]
     entry_agent: str | None
@@ -744,8 +763,9 @@ def build_view(
     ]
 
     runs_by_id = {r.id: r for r in runs}
-    cards = [_card(i + 1, p, runs_by_id) for i, p in enumerate(main[:TOP_FIXES])]
-    rest = main[TOP_FIXES:]
+    fixes = [p for p in main if fix_card_worthy(p, total_cost)][:TOP_FIXES]
+    cards = [_card(i + 1, p, runs_by_id) for i, p in enumerate(fixes)]
+    rest = [p for p in main if p not in fixes]  # ranking order; minor findings land here
     other_rows = [OtherRow(p.title, p.agent, runs_of(p.runs, total)) for p in rest[:OTHER_ROWS]]
     agents = _agent_rows(ordered_runs, findings)
     dates, created = _dates(runs)
@@ -769,6 +789,7 @@ def build_view(
         cards=cards,
         other_rows=other_rows,
         other_hidden=len(rest) - len(other_rows) + len(low_problems),
+        fewer_fixes=len(cards) < TOP_FIXES and len(rest) > 0,
         working=_working(report.signals, total),
         agents=agents,
         entry_agent=_entry_agent(runs),
