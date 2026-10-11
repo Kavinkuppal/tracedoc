@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import ClassVar, TypeVar
+from typing import Any, ClassVar, TypeVar
 
+from ..catalog import check_templates, check_title, fill
 from ..config import Config
 from ..schema import Finding, Group, Method, Run, Severity
 
@@ -18,7 +19,6 @@ class Check(ABC):
     group: ClassVar[Group]
     method: ClassVar[Method]
     default_severity: ClassVar[Severity]
-    title: ClassVar[str]
 
     def __init__(self, config: Config) -> None:
         self.config = config
@@ -27,14 +27,32 @@ class Check(ABC):
     @abstractmethod
     def run(self, runs: list[Run]) -> list[Finding]: ...
 
-    def finding(self, run: Run, **fields: object) -> Finding:
-        """A Finding pre-filled with this check's identity and default severity."""
+    @classmethod
+    def catalog_title(cls) -> str:
+        return check_title(cls.id)
+
+    def finding(
+        self,
+        run: Run,
+        *,
+        facts: dict[str, Any],
+        variant: str | None = None,
+        **fields: object,
+    ) -> Finding:
+        """A Finding with this check's identity and default severity. Its sentences come from
+        the reviewed catalog (catalog.toml), filled with `facts`; code never writes them."""
         fields.setdefault("severity", self.default_severity)
+        what, change = check_templates(self.id, variant)
+        values = {k: v for k, v in facts.items()}
+        values.setdefault("agent", fields.get("node") or "the agent")
         return Finding(
             check_id=self.id,
             group=self.group,
             method=self.method,
             run_id=run.id,
+            explanation=fill(what, **values),
+            suggested_fix=fill(change, **values),
+            facts={k: str(v) for k, v in values.items()},
             **fields,  # type: ignore[arg-type]
         )
 

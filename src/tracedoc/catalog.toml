@@ -1,0 +1,365 @@
+# tracedoc report catalog. Reviewed text only.
+#
+# Every heading, label, check title, check explanation and "why it matters" sentence in
+# summary.pdf and details.pdf comes from this file. So do the sentences that describe rule
+# findings: they are templates filled with facts from the traces ({agent}, {tool}, counts).
+# Models never write anything here. Model-written text is limited to three slots per AI-judge
+# finding (what happened, what to change, one evidence quote), with fixed character limits.
+#
+# Placeholders are filled by tracedoc/catalog.py; a placeholder without a value is an error.
+# Per-finding sentences are clauses: the report prefixes them with "In {run}, " or
+# "In {runs} of {total} runs, ", so they start with an agent name or a lower-case word.
+
+version = 1
+
+[limits]
+what_happened = 200
+what_to_change = 200
+evidence_quote = 120
+
+[labels]
+summary_title = "What to fix"
+summary_page2_title = "Where and how often"
+header_system = "System"
+header_dates = "Runs from"
+header_runs = "Runs analyzed"
+header_models = "Models used by the agents"
+header_cost = "Analysis cost"
+cost_rules_only = "$0.00 (rule checks only, no AI judge)"
+cost_unpriced = "unknown (no prices for these models)"
+tile_serious = "Runs with a serious problem"
+tile_median_cost = "Median cost per run"
+tile_median_time = "Median time per run"
+tile_median_steps = "Median steps per run"
+tile_serious_cost = "Share of total cost spent in runs with a serious problem"
+tile_unknown = "unknown"
+tile_no_prices = "no prices for these models"
+top_fixes_title = "Top three fixes"
+top_fixes_none = "No problem was found with enough confidence to recommend a fix."
+more_fixes = "More fixes in details.pdf, section 2."
+card_where = "Where"
+card_what_happened = "What happened"
+card_why = "Why it matters"
+card_change = "What to change"
+card_evidence = "Evidence"
+card_confidence = "Confidence"
+evidence_ref = "Finding {id}, details.pdf page {page}"
+agent_map_title = "Agents and handoffs"
+agent_map_legend = "Boxes are agents and arrows are handoffs between them. Darker boxes had a serious problem in a larger share of the runs they took part in."
+agent_map_serious = "{pct} serious"
+agent_table_title = "Agents"
+col_agent = "Agent"
+col_runs = "Runs"
+col_problem_share = "Runs with a problem here"
+col_median_cost = "Median cost"
+col_median_time = "Median time"
+col_common_problem = "Most common problem"
+no_problem = "none"
+agents_more = "{n} more agents in details.pdf, section 3."
+agents_none = "No agent made a model call in these runs."
+other_title = "Other findings"
+col_problem = "Problem"
+col_runs_affected = "Runs affected"
+other_more = "{n} more in details.pdf"
+other_none = "No other findings."
+working_title = "What's working"
+working_none = "No good-behavior patterns were found in these runs."
+footer = "How to read this report: details.pdf, section 1."
+page_of = "Page {page} of {pages}"
+details_title = "Details"
+details_subtitle = "Supporting document for summary.pdf"
+section1 = "1. How to read this report"
+section2 = "2. Every finding"
+section3 = "3. Run index"
+section4 = "4. Check catalog"
+f_where = "Agent and step"
+f_run = "Run"
+f_what_happened = "What happened"
+f_request = "Request"
+f_tools = "Tool calls and results"
+f_output = "Agent's output"
+f_quote = "Quote"
+f_change = "What to change"
+f_confidence = "Confidence"
+f_severity = "Severity"
+f_id = "Finding ID"
+f_ref = "reference"
+f_group_runs = "{runs} of {total} runs"
+no_tools = "No tool calls."
+no_output = "(no text)"
+no_findings = "No findings."
+idx_run = "Run"
+idx_request = "Request"
+idx_outcome = "Outcome"
+idx_cost = "Cost"
+idx_time = "Time"
+idx_steps = "Steps"
+idx_findings = "Findings"
+cat_looks_for = "What it looks for"
+cat_why = "Why it matters"
+cat_how = "How it is found"
+cat_signal = "Good behavior"
+agents_full_title = "All agents"
+
+[units]
+runs_one = "{n} run"
+runs_many = "{n} runs"
+steps_one = "{n} step"
+steps_many = "{n} steps"
+runs_of = "{n} of {total} runs"
+
+[severity]
+high = "Serious"
+medium = "Moderate"
+low = "Minor"
+
+[confidence]
+high = "High"
+medium = "Medium"
+low = "Low"
+
+[method]
+rule = "found by rule"
+judge = "found by AI judge"
+
+[outcome]
+completed = "Answered"
+no_answer = "Ended with no answer"
+error = "Error"
+recursion_limit = "Hit the step limit"
+interrupted = "Interrupted"
+
+[steps]
+final_reply = "final reply"
+reply = "reply {k}"
+tool = "{tool} call {k}"
+handoff = "handoff to {to}"
+step = "step {k}"
+whole_run = "whole run"
+
+[verdict]
+serious = "{n} of {total} runs had a serious problem. The most common: {title} ({k})."
+none = "None of the {total} runs had a serious problem."
+none_other = "None of the {total} runs had a serious problem. The most common other problem: {title} ({k})."
+
+[card]
+what_happened = "In {runs} of {total} runs, {text}"
+what_happened_judge = "In {runs} of {total} runs. For example, in {run}: {text}"
+why = "{runs} of {total} runs ({pct}). Those runs cost {cost} and took {time} in total."
+why_unpriced = "{runs} of {total} runs ({pct}). Those runs took {time} in total; their cost is unknown."
+finding_what_happened = "In {run}, {text}"
+
+[how_to_read]
+intro = "summary.pdf shows what to fix first. This document holds the evidence behind it: every finding, every run, and every check. Everything here was computed from the traces you gave tracedoc."
+terms_title = "Words used in the report"
+terms = [
+  "A run is one request to your system, from the user's message to the final answer.",
+  "An agent is a part of your system that calls a model, named exactly as in your code.",
+  "A step is one thing an agent does inside a run: a model call, a tool call, or passing control to another agent (a handoff).",
+  "A finding is one problem found in one run. Findings of the same kind, at the same agent, are grouped into one problem.",
+]
+scorecard_title = "The scorecard"
+scorecard = [
+  "Runs with a serious problem: runs with at least one serious finding found with high or medium confidence, out of all runs.",
+  "Median cost per run: the middle value of each run's model cost, from the token counts in the traces and the configured prices.",
+  "Median time per run: the middle value of each run's duration, from its first to its last recorded event.",
+  "Median steps per run: the middle value of the number of agent and tool steps each run took.",
+  "Share of total cost spent in runs with a serious problem: the cost of those runs as a share of the cost of all runs.",
+]
+serious_title = "What counts as serious"
+serious = "A serious problem is a finding with high severity: the run failed, gave no answer, or went wrong in a way the user would notice. Moderate and minor findings make runs slower, costlier or less reliable."
+finding_title = "How findings are found"
+finding = [
+  "Rules: fixed checks that read the traces, with no model involved. A rule finding is certain about what happened; whether it hurts depends on your system.",
+  "AI judge: for problems no rule can see, a fast model first screens a few steps around each candidate, and a stronger model confirms or rejects what it flags. Judges run at temperature 0 and every verdict is cached, so the same traces give the same report.",
+  "The AI judge writes only three short parts of each of its findings (what happened, what to change, and one quote from the trace), each with a length limit. Everything else in the report is fixed text or computed from the traces.",
+]
+confidence_title = "Confidence"
+confidence = [
+  "High: found by a rule, or confirmed by the AI judge with confidence of 0.8 or more.",
+  "Medium: confirmed by the AI judge with confidence from 0.6 to 0.8.",
+  "Low: confirmed with less confidence, or a rule candidate the AI judge did not review. Low-confidence findings appear only in this document, never on page 1 of summary.pdf.",
+]
+ranking_title = "How problems are ranked"
+ranking = "Problems are ranked by severity (serious first), then by the number of runs affected, then by the cost of those runs, then alphabetically by check. The same inputs always give the same order."
+caps_title = "What the AI judge did not review"
+caps_none = "The AI judge reviewed every candidate it was given."
+caps_off = "The AI judge did not run, so only rule findings are reported."
+
+# ---------------------------------------------------------------------------------------------
+# Checks. title: one line, plain language. looks_for: what the check looks for. why: why it
+# matters. Rule checks also have per-finding templates (what_happened, what_to_change), in
+# variants when one check reports different situations.
+
+[checks."design.empty_answer"]
+title = "Final answer was empty"
+how = "rule"
+looks_for = "Runs that finished, but whose final reply had no text: only tool calls, only punctuation, or no reply from an agent at all."
+why = "The user asked a question and got nothing back."
+what_happened = "{agent}'s final reply had no text, so the user got no answer."
+what_to_change = "Add to {agent}'s prompt: \"Always end with a written answer for the user.\" Or add a graph edge that sends an empty reply back to {agent}."
+
+[checks."design.loop"]
+title = "Agent repeated the same step"
+how = "rule"
+looks_for = "The same tool called three or more times with identical arguments in one run (not counting retries after an error), the same tool called with nearly identical arguments (confirmed by the AI judge), or a cycle of agents that repeats with no change in results."
+why = "Repeated steps cost tokens and time without adding information, and often mean the agent is stuck."
+
+[checks."design.loop".identical]
+what_happened = "{agent} called {tool} {count} times with the same arguments."
+what_to_change = "Add to {agent}'s prompt: \"Don't call {tool} again with arguments you already used; reuse the earlier result.\" Or cache {tool} results by their arguments."
+
+[checks."design.loop".near_duplicate]
+what_happened = "{agent} called {tool} {count} times with nearly the same arguments."
+what_to_change = "Add to {agent}'s prompt: \"If {tool} returns what you already have, change your approach or stop searching.\""
+
+[checks."design.loop".cycle]
+what_happened = "the agents went round {cycle} {count} times with no change in their results."
+what_to_change = "Add an exit condition to the graph edge out of {agent}: end the run when a cycle produced nothing new."
+
+[checks."design.no_stop"]
+title = "Run never reached an answer"
+how = "rule"
+looks_for = "Runs that hit LangGraph's recursion limit, or took at least the configured maximum number of steps."
+why = "The run used its whole step budget and the user got no answer."
+
+[checks."design.no_stop".recursion]
+what_happened = "the run hit the step limit without a final answer; {agent} ran most often ({count} times)."
+what_to_change = "Give {agent} an explicit finish rule in its prompt and a graph edge to the end, and lower the recursion_limit setting so stuck runs fail fast."
+
+[checks."design.no_stop".step_limit]
+what_happened = "the run took {steps} steps (limit {limit}) without a final answer; {agent} ran most often ({count} times)."
+what_to_change = "Give {agent} an explicit finish rule in its prompt and a graph edge to the end, and lower the recursion_limit setting so stuck runs fail fast."
+
+[checks."tools.errors_retries"]
+title = "Tool failed and was retried the same way"
+how = "rule"
+looks_for = "Tool calls that failed, and retries of a failed call with exactly the same arguments."
+why = "Retrying a failed call unchanged usually fails again, adding cost and delay before the run gives up."
+
+[checks."tools.errors_retries".retried]
+what_happened = "{tool} failed {errors} times and {agent} retried it {retries} times with the same arguments."
+what_to_change = "Add to {agent}'s prompt: \"If {tool} fails, don't retry with the same arguments; change them or tell the user.\""
+
+[checks."tools.errors_retries".failed]
+what_happened = "{tool} failed {errors} times for {agent}."
+what_to_change = "Fix the cause of {tool}'s failures, or make {tool} return a clear error message that {agent} can act on."
+
+[checks."tools.unused_output"]
+title = "Tool result was ignored"
+how = "rule"
+looks_for = "Tool results whose content barely appears in anything the agent said or did afterwards (confirmed by the AI judge). Handoffs to other agents are not counted."
+why = "The agent paid for the tool call, then answered without using what it returned, sometimes contradicting it."
+what_happened = "{agent} called {tool}, but its later replies used only {overlap} of what {tool} returned."
+what_to_change = "Add to {agent}'s prompt: \"Base your answer on what {tool} returns. If the result doesn't fit the request, tell the user.\""
+
+[checks."verification.unchecked_result"]
+title = "Answer was not checked before finishing"
+how = "rule"
+looks_for = "Final answers that repeat numbers or facts from tool results with no checking step after the last tool call (confirmed by the AI judge)."
+why = "Facts copied from tools can be wrong or misread; an unchecked answer passes those mistakes to the user."
+what_happened = "{agent}'s final answer repeats facts from tool results ({facts}) with no check before finishing."
+what_to_change = "Add a checking step: a critic agent after {agent}, or an instruction in {agent}'s prompt to compare the answer with the tool results before replying."
+
+[checks."cost.token_hotspot"]
+title = "One agent used most of the tokens"
+how = "rule"
+looks_for = "An agent that used a large share of a run's tokens, or input that grows steeply from one model call to the next."
+why = "Token use drives cost and time; one heavy agent or a growing history is usually the cheapest thing to fix."
+
+[checks."cost.token_hotspot".share]
+what_happened = "{agent} used {share} of the run's tokens ({tokens} tokens)."
+what_to_change = "Send {agent}'s model less: trim old messages and unused state from its prompt, or use a cheaper model for {agent}."
+
+[checks."cost.token_hotspot".growth]
+what_happened = "the input to {agent}'s model calls grew {growth} times over {calls} calls, to {tokens} tokens."
+what_to_change = "Trim the message history passed to {agent}'s model calls: keep the last few messages and a short summary."
+
+[checks."cost.latency_outlier"]
+title = "Step was much slower than usual"
+how = "rule"
+looks_for = "Steps far slower than the 95th percentile for the same agent or tool across the analyzed runs, or slower than a fixed limit."
+why = "Slow steps delay the whole run and often point to long inputs or a slow external service."
+
+[checks."cost.latency_outlier".relative]
+what_happened = "a {label} step by {agent} took {seconds}, {ratio} times the usual 95th percentile of {p95}."
+what_to_change = "Set a timeout on {label} and check its slow cases for very long inputs or a slow external call."
+
+[checks."cost.latency_outlier".absolute]
+what_happened = "a {label} step by {agent} took {seconds}, over the {limit} limit."
+what_to_change = "Set a timeout on {label} and check its slow cases for very long inputs or a slow external call."
+
+[checks."design.ignored_instructions"]
+title = "Agent ignored its instructions"
+how = "judge"
+looks_for = "An agent that clearly disobeys an explicit instruction in its own prompt or in the user's request."
+why = "Your system depends on each agent keeping to its role; when one doesn't, the result can't be trusted."
+
+[checks."design.lost_context"]
+title = "Agent lost earlier context"
+how = "judge"
+looks_for = "An agent that contradicts, forgets or redoes something already established earlier in the same run."
+why = "Lost context leads to wrong answers, repeated questions and wasted steps."
+
+[checks."agents.incomplete_handoff"]
+title = "Handoff left out needed information"
+how = "judge"
+looks_for = "A handoff after which the receiving agent lacked information it needed, because the handoff did not pass it along."
+why = "The next agent works from incomplete information, so its result is wrong or incomplete."
+
+[checks."agents.ignored_output"]
+title = "Agent ignored another agent's output"
+how = "judge"
+looks_for = "An agent that received another agent's output but dropped or contradicted an important part of it."
+why = "Work done by one agent is lost, and caveats or corrections never reach the user."
+
+[checks."agents.reason_action_mismatch"]
+title = "Agent did something other than it said"
+how = "judge"
+looks_for = "An agent that states a plan or conclusion and then takes a different action, without a reason."
+why = "The agent's stated reasoning can't be trusted to explain what it does."
+
+[checks."agents.no_clarification"]
+title = "Agent guessed instead of asking"
+how = "judge"
+looks_for = "A genuinely ambiguous request answered with a silent guess instead of a question or a stated assumption."
+why = "A wrong guess produces a confident, wrong answer."
+
+[checks."agents.task_drift"]
+title = "Agent drifted off the task"
+how = "judge"
+looks_for = "Work or a final answer that moves away from what the user actually asked."
+why = "The user doesn't get what they asked for, and the run spends effort on something else."
+
+[checks."verification.premature_finish"]
+title = "Run finished before the task was done"
+how = "judge"
+looks_for = "Runs that ended while part of the request was not done, a required step was skipped, or the answer promised something that never happened. Stopping to ask the user about mismatched tool results is not counted."
+why = "The user believes the task is done when it isn't."
+
+# ---------------------------------------------------------------------------------------------
+# Good-behavior signals ("What's working").
+
+[signals."good.error_recovery"]
+title = "Recovered after a tool error"
+line = "{agent} recovered from a tool error by changing approach in {runs} of {total} runs."
+looks_for = "A tool error followed by a different, successful tool call."
+what_happened = "after {failed} failed, {agent} changed approach and {recovered} succeeded."
+
+[signals."good.verified"]
+title = "Checked the answer before finishing"
+line = "{agent} checked the result before the run finished in {runs} of {total} runs."
+looks_for = "A checking step (a critic) after the last tool result and before the end."
+what_happened = "{agent} checked the result before the run finished."
+
+[signals."good.efficient_path"]
+title = "Finished in few steps"
+line = "{runs} of {total} runs finished in at most half the usual number of steps for their kind of task."
+looks_for = "Runs that finished in at most half the median number of steps for the same kind of task."
+what_happened = "the run finished in {steps} steps, at most half the median of {median} for {task} runs."
+
+[signals."good.clean_handoff"]
+title = "Handoff carried the needed information"
+line = "{agent} received what the previous agent produced in {runs} of {total} runs."
+looks_for = "A handoff where the receiving agent's first model call contains most of what the sending agent produced."
+what_happened = "{agent} received {share} of what {sender} produced."

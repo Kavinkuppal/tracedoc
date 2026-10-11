@@ -19,30 +19,19 @@ from collections import Counter, defaultdict
 from itertools import pairwise
 from typing import Any
 
-from ..checks.base import REGISTRY
-from ..checks.judges.prompts import confirmation_prompts, judge_prompts
+from ..catalog import catalog
 from ..messages import payload_text
 from ..schema import Finding, Report, Run, Step
 
 SEVERITIES = ("high", "medium", "low")
 STATUSES = ("completed", "no_answer", "error", "recursion_limit", "interrupted")
 CONTEXT_GROWTH_MAX_CALLS = 50
-SIGNAL_TITLES = {
-    "good.error_recovery": "Recovered from a tool error",
-    "good.verified": "Verified before finishing",
-    "good.efficient_path": "Efficient path",
-    "good.clean_handoff": "Clean handoff",
-}
 
 
 def check_titles() -> dict[str, str]:
-    from ..checks import rules  # noqa: F401  (registers rule checks)
-
-    titles = {cid: cls.title for cid, cls in REGISTRY.items()}
-    titles.update({cid: p.title for cid, p in confirmation_prompts().items()})
-    titles.update({cid: p.title for cid, p in judge_prompts().items()})
-    titles.update(SIGNAL_TITLES)
-    return titles
+    """Every check's and signal's title, from the reviewed catalog."""
+    cat = catalog()
+    return {cid: entry["title"] for cid, entry in [*cat["checks"].items(), *cat["signals"].items()]}
 
 
 def _clip(text: str, limit: int) -> str:

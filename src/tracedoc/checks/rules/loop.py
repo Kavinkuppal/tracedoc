@@ -16,7 +16,6 @@ class Loop(Check):
     group = "design"
     method = "rule"
     default_severity = "medium"
-    title = "Repeated steps"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings: list[Finding] = []
@@ -56,14 +55,12 @@ class Loop(Check):
                     role=steps[0].role,
                     evidence_step_ids=[s.id for s in fresh],
                     evidence_excerpts=[f"{tool}({excerpt(steps[0].input, 120)})"],
-                    explanation=(
-                        f"`{tool}` was called {len(fresh)} times with identical arguments "
-                        "in one run, and none of the earlier calls failed."
-                    ),
-                    suggested_fix=(
-                        f"Keep earlier `{tool}` results in state and tell the agent not to repeat "
-                        "a call it has already made; consider caching the tool by arguments."
-                    ),
+                    variant="identical",
+                    facts={
+                        "agent": steps[0].node or "the agent",
+                        "tool": tool,
+                        "count": len(fresh),
+                    },
                     impact=self._impact(run, fresh[1:]),
                 )
             )
@@ -94,14 +91,12 @@ class Loop(Check):
                     role=steps[0].role,
                     evidence_step_ids=[s.id for s in cluster],
                     evidence_excerpts=[f"{tool}({excerpt(s.input, 80)})" for s in cluster[:3]],
-                    explanation=(
-                        f"`{tool}` was called {len(cluster)} times with nearly identical "
-                        "arguments; this may be the agent rephrasing the same request."
-                    ),
-                    suggested_fix=(
-                        f"Show the agent its earlier `{tool}` calls and results, and ask it to "
-                        "change approach rather than rephrase."
-                    ),
+                    variant="near_duplicate",
+                    facts={
+                        "agent": steps[0].node or "the agent",
+                        "tool": tool,
+                        "count": len(cluster),
+                    },
                     confidence=0.5,
                     needs_confirmation=True,
                     impact=self._impact(run, cluster[1:]),
@@ -134,14 +129,12 @@ class Loop(Check):
                         role=cycle[0].role,
                         evidence_step_ids=[s.id for s in cycle],
                         evidence_excerpts=[f"{names} (x{reps})"],
-                        explanation=(
-                            f"The node cycle {names} repeated {reps} times with identical "
-                            "outputs each time, so the run made no progress."
-                        ),
-                        suggested_fix=(
-                            "Add an exit condition that checks for progress (for example, stop "
-                            "when the state has not changed since the last cycle)."
-                        ),
+                        variant="cycle",
+                        facts={
+                            "agent": cycle[0].node or "the agent",
+                            "cycle": " → ".join(str(n) for n, _ in pattern),
+                            "count": reps,
+                        },
                         impact=Impact(
                             tokens=step_tokens(
                                 s

@@ -15,7 +15,6 @@ class TokenHotspot(Check):
     group = "tools_cost"
     method = "rule"
     default_severity = "low"
-    title = "Token concentration and context growth"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings = []
@@ -46,11 +45,8 @@ class TokenHotspot(Check):
                 role=steps[0].role,
                 evidence_step_ids=[s.id for s in steps],
                 evidence_excerpts=[f"{node}: {totals[node]:,} of {total:,} tokens"],
-                explanation=f"`{node}` used {share:.0%} of this run's tokens.",
-                suggested_fix=(
-                    f"Trim what `{node}` sends to the model (summarize history, drop unused "
-                    "state), or move it to a cheaper model."
-                ),
+                variant="share",
+                facts={"agent": node, "share": f"{share:.0%}", "tokens": f"{totals[node]:,}"},
                 impact=Impact(tokens=totals[node], cost=step_cost(steps)),
             )
         ]
@@ -72,13 +68,13 @@ class TokenHotspot(Check):
                 role=steps[-1].role,
                 evidence_step_ids=[steps[0].id, steps[-1].id],
                 evidence_excerpts=[f"input tokens per call: {first:,} -> {last:,}"],
-                explanation=(
-                    f"Input tokens per model call grew {growth:.1f}x over {len(steps)} calls."
-                ),
-                suggested_fix=(
-                    "Summarize or trim message history between steps, and pass only the state "
-                    "each node needs."
-                ),
+                variant="growth",
+                facts={
+                    "agent": steps[-1].node or "the agent",
+                    "growth": f"{growth:.1f}",
+                    "calls": len(steps),
+                    "tokens": f"{last:,}",
+                },
                 impact=Impact(tokens=excess),
             )
         ]

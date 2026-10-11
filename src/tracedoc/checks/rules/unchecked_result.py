@@ -89,7 +89,6 @@ class UncheckedResult(Check):
     group = "verification"
     method = "rule"
     default_severity = "low"
-    title = "No checking before finishing"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings = []
@@ -113,15 +112,7 @@ class UncheckedResult(Check):
                         f"Final answer: {excerpt(run.final_answer, 140)}",
                         f"Taken from tool results: {', '.join(shown)}",
                     ],
-                    explanation=(
-                        f"The final answer states {len(numbers)} number(s) and "
-                        f"{len(terms)} term(s) taken from tool results, and no critic or "
-                        "verification step ran after the last tool result."
-                    ),
-                    suggested_fix=(
-                        "Add a verification step before finishing: a critic node, or a "
-                        "self-check prompt that compares the answer against the tool results."
-                    ),
+                    facts={"agent": last.node or "the agent", "facts": ", ".join(shown)},
                     confidence=0.5,
                     needs_confirmation=True,
                 )

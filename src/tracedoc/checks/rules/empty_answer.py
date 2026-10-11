@@ -13,7 +13,6 @@ class EmptyAnswer(Check):
     group = "design"
     method = "rule"
     default_severity = "high"
-    title = "Final answer was empty"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings = []
@@ -35,14 +34,7 @@ class EmptyAnswer(Check):
                         f"Request: {excerpt(run.input_preview, 120)}",
                         f"Final reply: {reply}",
                     ],
-                    explanation=(
-                        f"The run finished, but the final reply from `{agent}` had no text, "
-                        "so the user got no answer."
-                    ),
-                    suggested_fix=(
-                        f"Tell `{agent}` to always end with a written answer for the user, and "
-                        "check for an empty reply before the graph routes to its end."
-                    ),
+                    facts={"agent": agent or "the agent"},
                     impact=Impact(
                         tokens=step_tokens(llm_steps),
                         cost=step_cost(llm_steps),

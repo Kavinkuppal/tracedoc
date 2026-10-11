@@ -15,7 +15,6 @@ class LatencyOutlier(Check):
     group = "tools_cost"
     method = "rule"
     default_severity = "low"
-    title = "Slow steps"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         by_key: dict[str, list[tuple[Run, Step]]] = defaultdict(list)
@@ -43,11 +42,6 @@ class LatencyOutlier(Check):
                 if not (absolute or relative):
                     continue
                 label = key.split(":", 1)[1]
-                why = (
-                    f"{d / p95:.1f}x the p95 ({p95:.1f}s) for `{label}`"
-                    if relative
-                    else f"over the {self.t.latency_absolute_s:.0f}s limit"
-                )
                 findings.append(
                     self.finding(
                         run,
@@ -57,11 +51,15 @@ class LatencyOutlier(Check):
                         role=step.role,
                         evidence_step_ids=[step.id],
                         evidence_excerpts=[f"{label}: {d:.1f}s"],
-                        explanation=f"This `{label}` step took {d:.1f}s, {why}.",
-                        suggested_fix=(
-                            f"Add a timeout to `{label}`, and check whether slow cases share an "
-                            "input pattern (very long context, a slow external call)."
-                        ),
+                        variant="relative" if relative else "absolute",
+                        facts={
+                            "agent": step.node or "the agent",
+                            "label": label,
+                            "seconds": f"{d:.1f} s",
+                            "ratio": f"{d / p95:.1f}" if p95 else "",
+                            "p95": f"{p95:.1f} s",
+                            "limit": f"{self.t.latency_absolute_s:.0f} s",
+                        },
                         impact=Impact(latency_s=d - p95 if relative else d),
                     )
                 )

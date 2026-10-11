@@ -16,7 +16,6 @@ class ToolErrorsRetries(Check):
     group = "tools_cost"
     method = "rule"
     default_severity = "medium"
-    title = "Tool failures and blind retries"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings = []
@@ -40,11 +39,6 @@ class ToolErrorsRetries(Check):
                 else:
                     severity = "low"
                 issuers = [s for s in (preceding_llm(run, r) for r in blind_retries) if s]
-                detail = (
-                    f" and was retried {len(blind_retries)} time(s) with the same arguments"
-                    if blind_retries
-                    else ""
-                )
                 findings.append(
                     self.finding(
                         run,
@@ -57,14 +51,13 @@ class ToolErrorsRetries(Check):
                             excerpt(errors[0].error, 160),
                             f"{tool}({excerpt(errors[0].input, 100)})",
                         ],
-                        explanation=f"`{tool}` failed {len(errors)} time(s){detail}.",
-                        suggested_fix=(
-                            f"Return the `{tool}` error to the model with guidance to change "
-                            "arguments or approach, and stop after one identical retry; use "
-                            "backoff for transient failures."
-                            if blind_retries
-                            else f"Investigate why `{tool}` fails and handle the error case."
-                        ),
+                        variant="retried" if blind_retries else "failed",
+                        facts={
+                            "agent": steps[0].node or "the agent",
+                            "tool": tool,
+                            "errors": len(errors),
+                            "retries": len(blind_retries),
+                        },
                         impact=Impact(
                             tokens=step_tokens(issuers),
                             cost=step_cost(issuers + blind_retries),

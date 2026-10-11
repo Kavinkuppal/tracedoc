@@ -25,7 +25,6 @@ class UnusedOutput(Check):
     group = "tools_cost"
     method = "rule"
     default_severity = "medium"
-    title = "Tool output ignored"
 
     def run(self, runs: list[Run]) -> list[Finding]:
         findings = []
@@ -58,14 +57,11 @@ class UnusedOutput(Check):
                             f"{tool.name} returned: {excerpt(tool.output, 140)}",
                             f"Model then said: {excerpt(final.output, 140)}",
                         ],
-                        explanation=(
-                            f"Only {overlap:.0%} of the distinctive content returned by "
-                            f"`{tool.name}` appears in anything the model said or did afterward."
-                        ),
-                        suggested_fix=(
-                            f"Instruct the agent to ground its answer in the `{tool.name}` "
-                            "result, or stop calling the tool if its result is not needed."
-                        ),
+                        facts={
+                            "agent": tool.node or "the agent",
+                            "tool": tool.name,
+                            "overlap": f"{overlap:.0%}",
+                        },
                         confidence=round(1.0 - overlap, 2) * 0.8,
                         needs_confirmation=True,
                         impact=Impact(latency_s=step_latency([tool])),

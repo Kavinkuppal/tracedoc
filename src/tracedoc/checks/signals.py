@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from collections import defaultdict
 from statistics import median
+from typing import Any
 
+from ..catalog import check_entry, fill
 from ..config import Config
 from ..messages import payload_text
 from ..schema import Finding, Group, Run
@@ -12,13 +14,19 @@ from .rules.unchecked_result import verified_after_last_tool
 from .util import canonical, content_tokens, coverage, excerpt
 
 
-def _signal(check_id: str, group: Group, run: Run, **fields: object) -> Finding:
+def _signal(
+    check_id: str, group: Group, run: Run, facts: dict[str, Any], **fields: object
+) -> Finding:
+    """A good-behavior finding; its sentence comes from the catalog, filled with `facts`."""
+    template = check_entry(check_id)["what_happened"]
     return Finding(
         check_id=check_id,
         group=group,
         method="rule",
         severity="low",
         run_id=run.id,
+        explanation=fill(template, **facts),
+        facts={k: str(v) for k, v in facts.items()},
         **fields,  # type: ignore[arg-type]
     )
 
@@ -55,10 +63,11 @@ def error_recovery(runs: list[Run], config: Config) -> list[Finding]:
                         f"failed: {failed.name}({excerpt(failed.input, 80)})",
                         f"then succeeded: {recovery.name}({excerpt(recovery.input, 80)})",
                     ],
-                    explanation=(
-                        f"After `{failed.name}` failed, the agent changed approach and "
-                        f"`{recovery.name}` succeeded."
-                    ),
+                    facts={
+                        "agent": failed.node or "the agent",
+                        "failed": failed.name,
+                        "recovered": recovery.name,
+                    },
                 )
             )
             break  # one per run is enough
@@ -82,7 +91,7 @@ def verified(runs: list[Run], config: Config) -> list[Finding]:
                 role="critic",
                 evidence_step_ids=[critic.id],
                 evidence_excerpts=[excerpt(critic.output, 140)],
-                explanation=f"`{critic.node}` checked the result before the run finished.",
+                facts={"agent": critic.node or "the agent"},
             )
         )
     return out
@@ -109,10 +118,7 @@ def efficient_path(runs: list[Run], config: Config) -> list[Finding]:
                         run,
                         key=task,
                         evidence_excerpts=[f"{steps} steps vs median {med:g} for {task} runs"],
-                        explanation=(
-                            f"Finished in {steps} steps, well under the median of {med:g} for "
-                            f"{task} runs."
-                        ),
+                        facts={"steps": steps, "median": f"{med:g}", "task": task},
                     )
                 )
     return out
@@ -157,10 +163,11 @@ def clean_handoff(runs: list[Run], config: Config) -> list[Finding]:
                     role=handoff.role,
                     evidence_step_ids=[handoff.id, calls[0].id],
                     evidence_excerpts=[excerpt(handoff.input, 140)],
-                    explanation=(
-                        f"`{handoff.handoff_to}` received {share:.0%} of what "
-                        f"`{handoff.handoff_from}` produced."
-                    ),
+                    facts={
+                        "agent": handoff.handoff_to or "the agent",
+                        "sender": handoff.handoff_from or "the previous agent",
+                        "share": f"{share:.0%}",
+                    },
                 )
             )
     return out

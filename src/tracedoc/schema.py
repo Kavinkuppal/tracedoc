@@ -131,6 +131,14 @@ class Finding(BaseModel):
     needs_confirmation: bool = False
     """A rule candidate that a judge should confirm before it is trusted."""
     impact: Impact = Field(default_factory=Impact)
+    facts: dict[str, str] = Field(default_factory=dict)
+    """Values that filled the catalog sentences of a rule finding (agent, tool, counts)."""
+    evidence_quote: str = ""
+    """One short quote from the trace (AI judge findings: written by the model and verified)."""
+    change_type: str | None = None
+    """For AI judge findings: prompt instruction, tool, graph edge, or setting."""
+    confirmed_by_judge: bool = False
+    """A rule candidate the AI judge confirmed (its confidence is then the judge's)."""
 
     @computed_field  # type: ignore[prop-decorator]
     @property
