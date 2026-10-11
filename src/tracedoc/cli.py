@@ -10,7 +10,6 @@ import typer
 from .__about__ import NAME, __version__
 from .analyze import SourceName, classifier_calls, collect_traces, normalize_all, prepare
 from .analyze import analyze as run_analysis
-from .catalog import check_title
 from .config import Config, ConfigError, config_dir, load_config, user_config_path
 from .feedback import check_for, feedback_path, import_file, record
 from .feedback import load as load_votes
@@ -356,20 +355,21 @@ def _print_summary(report: Report, files: ReportFiles) -> None:
     sc, meta = report.scorecard, report.metadata
     typer.echo(
         f"\n{sc['runs']} runs, {sc['completion_rate']:.0%} completed, "
-        f"median {sc['median_steps']} steps. Findings: "
+        f"median {sc['median_steps']:g} steps. Findings: "
         + ", ".join(f"{n} {sev}" for sev, n in sc["findings_by_severity"].items())
     )
     if meta.get("stopped_for_budget"):
         typer.echo(f"Judging stopped early: {meta['stopped_for_budget']}")
     if meta.get("judge_errors"):
         typer.echo(f"{len(meta['judge_errors'])} judge calls failed; see report.json.")
-    typer.echo("\nTop fixes:")
-    for i, group in enumerate(report.groups[:3], 1):
-        f = group.representative
-        unconfirmed = " (unconfirmed)" if f.needs_confirmation else ""
+    view = files.view
+    typer.echo(f"\n{view.verdict}")
+    if view.cards:
+        typer.echo("\nTop fixes (as in summary.pdf):")
+    for card in view.cards:
         typer.echo(
-            f"{i}. [{f.severity}] {check_title(group.check_id)}{unconfirmed}: "
-            f"{group.runs_affected} run(s). {f.explanation}\n   Fix: {f.suggested_fix}"
+            f"{card.rank}. {card.title} · {card.where}\n   {card.what_happened}\n"
+            f"   Change: {card.what_to_change}\n   Confidence: {card.confidence}"
         )
     if meta.get("judged"):
         reused = meta.get("analysis_answers_reused", 0)

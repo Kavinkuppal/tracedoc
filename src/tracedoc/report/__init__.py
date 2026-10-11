@@ -13,7 +13,7 @@ from .html import render_html
 from .json_out import render_json
 from .markdown import render_markdown
 from .pdf import write_pdfs
-from .view import build_view
+from .view import ReportView, build_view
 
 
 @dataclass(frozen=True)
@@ -21,6 +21,8 @@ class ReportFiles:
     summary: Path
     details: Path
     json: Path
+    view: ReportView
+    """What the PDFs show (verdict, fixes, ...), for the command line's own summary."""
     html: Path | None = None
     markdown: Path | None = None
 
@@ -45,14 +47,15 @@ def write_reports(
     out.mkdir(parents=True, exist_ok=True)
     json_path = out / "report.json"
     json_path.write_text(render_json(report), encoding="utf-8")
-    summary, details = write_pdfs(build_view(report, runs, name=name, config=config), out)
+    view = build_view(report, runs, name=name, config=config)
+    summary, details = write_pdfs(view, out)
     html_path = md_path = None
     if html:
         md_path = out / "report.md"
         md_path.write_text(render_markdown(report), encoding="utf-8")
         html_path = out / "report.html"
         html_path.write_text(render_html(report, runs, findings), encoding="utf-8")
-    return ReportFiles(summary, details, json_path, html_path, md_path)
+    return ReportFiles(summary, details, json_path, view, html_path, md_path)
 
 
 __all__ = [
