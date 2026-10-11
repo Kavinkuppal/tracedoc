@@ -201,7 +201,9 @@ def _confirm_prompt(window_text: str, prompt: JudgePrompt, rule_explanation: str
             "words to add, or a change to a tool, a graph edge or a setting; name the agent or "
             f"tool; at most {limit('what_to_change')} characters), change_type, and "
             "evidence_quote (one quote copied exactly from the steps above; at most "
-            f"{limit('evidence_quote')} characters)."
+            f"{limit('evidence_quote')} characters). Don't suggest a change the steps show is "
+            "already in place, such as an instruction the agent's prompt already has, or a "
+            "cheaper model when the agent already uses the cheapest one."
         )
     return (
         f"{window_text}\n{context}\nCHECK: {prompt.id} (prompt v{prompt.version})\n"

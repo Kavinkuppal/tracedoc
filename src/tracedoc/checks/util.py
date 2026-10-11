@@ -156,3 +156,54 @@ def quantile(sorted_values: list[float], q: float) -> float:
     lo = int(pos)
     hi = min(lo + 1, len(sorted_values) - 1)
     return sorted_values[lo] + (sorted_values[hi] - sorted_values[lo]) * (pos - lo)
+
+
+# ---- does a suggestion fit the trace? -------------------------------------------------------
+
+_QUOTED = re.compile(r'"([^"]{12,})"')
+_FAMILY = re.compile(r"[a-z]+")
+
+
+def model_family(model: str) -> str:
+    """The model line a model belongs to, from its name: claude-haiku-4-5 -> claude."""
+    found = _FAMILY.match(model.split("/")[-1].lower())
+    return found.group(0) if found else model
+
+
+def cheaper_model_exists(model: str | None, prices: dict[str, Any]) -> bool:
+    """True only if the price table lists a model of the same family that costs less. An
+    unpriced model gets no "use a cheaper model" advice: nothing shows a cheaper one exists."""
+    from ..llm.cost import price_of
+
+    if not model:
+        return False
+    own = price_of(prices, model, 1_000_000, 0)
+    if own is None:
+        return False
+    family = model_family(model)
+    return any(model_family(name) == family and price.input < own for name, price in prices.items())
+
+
+def agent_instructions(run: Run, agent: str | None) -> str:
+    """The system prompts an agent ran with in this run, as text."""
+    texts = []
+    for step in run.steps_of("llm"):
+        if step.node != agent or not isinstance(step.input, list):
+            continue
+        for message in step.input:
+            if isinstance(message, dict) and message.get("type") == "system":
+                texts.append(payload_text(message))
+    return " ".join(dict.fromkeys(texts))  # each distinct prompt once, in order
+
+
+def _plain(text: str) -> str:
+    text = text.lower().replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
+    return " ".join(re.sub(r"[^a-z0-9' ]+", " ", text).split())
+
+
+def instruction_in_place(fix: str, instructions: str) -> bool:
+    """Whether a quoted prompt instruction in `fix` is already in `instructions`."""
+    plain = _plain(instructions)
+    return bool(plain) and any(
+        _plain(quote) and _plain(quote) in plain for quote in _QUOTED.findall(fix)
+    )

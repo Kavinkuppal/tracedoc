@@ -6,7 +6,7 @@ from collections import defaultdict
 
 from ...schema import Finding, Impact, Run, Step
 from ..base import Check, register
-from ..util import step_cost, step_tokens
+from ..util import cheaper_model_exists, step_cost, step_tokens
 
 
 @register
@@ -37,6 +37,8 @@ class TokenHotspot(Check):
         if share < min_share or totals[node] < self.t.token_hotspot_min_tokens:
             return []
         steps = by_node[node]
+        models = sorted({s.model for s in steps if s.model})
+        cheaper = any(cheaper_model_exists(m, self.config.prices) for m in models)
         return [
             self.finding(
                 run,
@@ -45,7 +47,7 @@ class TokenHotspot(Check):
                 role=steps[0].role,
                 evidence_step_ids=[s.id for s in steps],
                 evidence_excerpts=[f"{node}: {totals[node]:,} of {total:,} tokens"],
-                variant="share",
+                variant="share" if cheaper else "share_trim",
                 facts={"agent": node, "share": f"{share:.0%}", "tokens": f"{totals[node]:,}"},
                 impact=Impact(tokens=totals[node], cost=step_cost(steps)),
             )

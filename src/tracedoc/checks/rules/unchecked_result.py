@@ -101,6 +101,7 @@ class UncheckedResult(Check):
             llm_steps = run.steps_of("llm")
             last = llm_steps[-1] if llm_steps else run.steps_of("node")[-1]
             shown = [*numbers[:4], *terms[: max(0, 6 - min(len(numbers), 4))]]
+            critics = [s.node for s in run.steps_of("node") if s.role == "critic" and s.node]
             findings.append(
                 self.finding(
                     run,
@@ -112,7 +113,12 @@ class UncheckedResult(Check):
                         f"Final answer: {excerpt(run.final_answer, 140)}",
                         f"Taken from tool results: {', '.join(shown)}",
                     ],
-                    facts={"agent": last.node or "the agent", "facts": ", ".join(shown)},
+                    facts={
+                        "agent": last.node or "the agent",
+                        "facts": ", ".join(shown),
+                        "critic": critics[0] if critics else "",
+                    },
+                    variant="has_critic" if critics else None,
                     confidence=0.5,
                     needs_confirmation=True,
                 )

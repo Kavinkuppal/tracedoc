@@ -82,6 +82,15 @@ def check_templates(check_id: str, variant: str | None = None) -> tuple[str, str
         raise CatalogError(f"check {check_id!r} variant {variant!r} lacks templates") from e
 
 
+def check_in_place_template(check_id: str, variant: str | None = None) -> str | None:
+    """The fix to suggest instead when the trace shows the usual one is already in place (the
+    instruction it quotes is already in the agent's prompt), if the catalog has one."""
+    entry = check_entry(check_id)
+    if variant is not None:
+        entry = entry.get(variant) or {}
+    return entry.get("what_to_change_in_place")
+
+
 def limit(slot: str) -> int:
     return int(catalog()["limits"][slot])
 

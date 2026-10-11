@@ -5,9 +5,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, ClassVar, TypeVar
 
-from ..catalog import check_templates, check_title, fill
+from ..catalog import check_in_place_template, check_templates, check_title, fill
 from ..config import Config
 from ..schema import Finding, Group, Method, Run, Severity
+from .util import agent_instructions, instruction_in_place
 
 REGISTRY: dict[str, type[Check]] = {}
 
@@ -45,13 +46,18 @@ class Check(ABC):
         what, change = check_templates(self.id, variant)
         values = {k: v for k, v in facts.items()}
         values.setdefault("agent", fields.get("node") or "the agent")
+        fix = fill(change, **values)
+        in_place = check_in_place_template(self.id, variant)
+        node = fields.get("node")
+        if in_place and instruction_in_place(fix, agent_instructions(run, node)):  # type: ignore[arg-type]
+            fix = fill(in_place, **values)  # don't suggest what the agent's prompt already says
         return Finding(
             check_id=self.id,
             group=self.group,
             method=self.method,
             run_id=run.id,
             explanation=fill(what, **values),
-            suggested_fix=fill(change, **values),
+            suggested_fix=fix,
             facts={k: str(v) for k, v in values.items()},
             **fields,  # type: ignore[arg-type]
         )

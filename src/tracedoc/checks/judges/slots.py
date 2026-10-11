@@ -12,6 +12,7 @@ from __future__ import annotations
 from typing import Protocol
 
 from ...catalog import limit
+from ..util import instruction_in_place
 
 SLOTS = ("what_happened", "what_to_change", "evidence_quote")
 _QUOTE_MARKS = " \"'\u201c\u201d\u2018\u2019"  # straight and curly quotation marks
@@ -46,6 +47,16 @@ def quote_in_window(quote: str, window_text: str) -> bool:
     return bool(core) and core in squash(window_text)
 
 
+def window_instructions(window_text: str) -> str:
+    """The agents' system prompts as the window shows them (see windows.py)."""
+    head = window_text.split("\nSTEPS:", 1)[0]
+    return (
+        head.split("AGENT INSTRUCTIONS (system prompts):", 1)[1]
+        if "AGENT INSTRUCTIONS" in head
+        else ""
+    )
+
+
 def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
     """Each broken rule, in words the model can act on. Empty if the slots are fine."""
     problems = []
@@ -55,6 +66,11 @@ def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
             problems.append(f"{name} is empty")
         elif len(value) > max_chars:
             problems.append(f"{name} is {len(value)} characters; the limit is {max_chars}")
+    if instruction_in_place(answer.what_to_change, window_instructions(window_text)):
+        problems.append(
+            "what_to_change suggests an instruction the agent's prompt already has; suggest a "
+            "change that the steps show is not in place yet"
+        )
     quote = squash(answer.evidence_quote)
     if quote and not quote_in_window(quote, window_text):
         problems.append(

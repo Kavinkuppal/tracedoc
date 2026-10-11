@@ -248,6 +248,7 @@ looks_for = "Runs that finished, but whose final reply had no text: only tool ca
 why = "The user asked a question and got nothing back."
 what_happened = "{agent}'s final reply had no text, so the user got no answer."
 what_to_change = "Add to {agent}'s prompt: \"Always end with a written answer for the user.\" Or add a graph edge that sends an empty reply back to {agent}."
+what_to_change_in_place = "{agent}'s prompt already asks for a written answer, so enforce it in the graph: add an edge that sends an empty reply back to {agent} instead of ending the run."
 
 [checks."design.run_error"]
 title = "Run ended in an error"
@@ -280,10 +281,12 @@ why = "Repeated steps cost tokens and time without adding information, and often
 [checks."design.loop".identical]
 what_happened = "{agent} called {tool} {count} times with the same arguments."
 what_to_change = "Add to {agent}'s prompt: \"Don't call {tool} again with arguments you already used; reuse the earlier result.\" Or cache {tool} results by their arguments."
+what_to_change_in_place = "{agent}'s prompt already says not to repeat calls, so enforce it: cache {tool} results by their arguments, or end the loop with a graph edge after a repeated call."
 
 [checks."design.loop".near_duplicate]
 what_happened = "{agent} called {tool} {count} times with nearly the same arguments."
 what_to_change = "Add to {agent}'s prompt: \"If {tool} returns what you already have, change your approach or stop searching.\""
+what_to_change_in_place = "{agent}'s prompt already says to stop when {tool} repeats itself, so enforce it: cap how many times {agent} can call {tool} in one run."
 
 [checks."design.loop".cycle]
 what_happened = "the agents went round {cycle} {count} times with no change in their results."
@@ -312,6 +315,7 @@ why = "Retrying a failed call unchanged usually fails again, adding cost and del
 [checks."tools.errors_retries".retried]
 what_happened = "{tool} failed {errors} times and {agent} retried it {retries} times with the same arguments."
 what_to_change = "Add to {agent}'s prompt: \"If {tool} fails, don't retry with the same arguments; change them or tell the user.\""
+what_to_change_in_place = "{agent}'s prompt already says not to retry the same way, so make {tool}'s error say what to change, and cap retries of {tool} in the graph."
 
 [checks."tools.errors_retries".failed]
 what_happened = "{tool} failed {errors} times for {agent}."
@@ -324,6 +328,7 @@ looks_for = "Tool results whose content barely appears in anything the agent sai
 why = "The agent paid for the tool call, then answered without using what it returned, sometimes contradicting it."
 what_happened = "{agent} called {tool}, but its later replies used only {overlap} of what {tool} returned."
 what_to_change = "Add to {agent}'s prompt: \"Base your answer on what {tool} returns. If the result doesn't fit the request, tell the user.\""
+what_to_change_in_place = "{agent}'s prompt already says to base its answer on {tool}, so add a checking step after {agent} that compares its answer with what {tool} returned."
 
 [checks."verification.unchecked_result"]
 title = "Answer was not checked before finishing"
@@ -332,6 +337,10 @@ looks_for = "Final answers that repeat numbers or facts from tool results with n
 why = "Facts copied from tools can be wrong or misread; an unchecked answer passes those mistakes to the user."
 what_happened = "{agent}'s final answer repeats facts from tool results ({facts}) with no check before finishing."
 what_to_change = "Add a checking step: a critic agent after {agent}, or an instruction in {agent}'s prompt to compare the answer with the tool results before replying."
+
+[checks."verification.unchecked_result".has_critic]
+what_happened = "{agent}'s final answer repeats facts from tool results ({facts}), and the run's checking agent, {critic}, did not run after the last tool result."
+what_to_change = "Route {agent}'s final answer through {critic}, which already exists in this system, after the last tool call and before finishing."
 
 [checks."cost.token_hotspot"]
 title = "One agent used most of the tokens"
@@ -342,6 +351,12 @@ why = "Token use drives cost and time; one heavy agent or a growing history is u
 [checks."cost.token_hotspot".share]
 what_happened = "{agent} used {share} of the run's tokens ({tokens} tokens)."
 what_to_change = "Send {agent}'s model less: trim old messages and unused state from its prompt, or use a cheaper model for {agent}."
+
+# Used when the agent already runs the cheapest model of its family in the price table, or a
+# model with no known price: then nothing in the trace shows that a cheaper model exists.
+[checks."cost.token_hotspot".share_trim]
+what_happened = "{agent} used {share} of the run's tokens ({tokens} tokens)."
+what_to_change = "Send {agent}'s model less: trim old messages and unused state from what each of its model calls receives."
 
 [checks."cost.token_hotspot".growth]
 what_happened = "the input to {agent}'s model calls grew {growth} times over {calls} calls, to {tokens} tokens."
