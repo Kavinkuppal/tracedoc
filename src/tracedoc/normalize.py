@@ -310,7 +310,13 @@ def normalize(
             children.setdefault(step.parent_id, []).append(step)
     role_of_agent: dict[str, Role] = {}
     for name in sorted({s.node for s in steps if s.node}):
-        role_of_agent[name] = map_role(name, fallback=role_classifier)
+        role = map_role(name, fallback=role_classifier)
+        if role == "tool_executor" and name in agents:
+            # An agent makes its own model calls, so it is never just a tool runner, whatever its
+            # name suggests or a model guessed from it. (As a tool executor, its turns would be
+            # skipped and every handoff to or from it would vanish.)
+            role = "other"
+        role_of_agent[name] = role
     for step in steps:
         kids = children.get(step.id, [])
         tool_only_node = step.kind == "node" and bool(kids) and all(k.kind == "tool" for k in kids)

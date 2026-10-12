@@ -316,3 +316,22 @@ def test_empty_final_reply_is_no_answer_not_completed(source: str) -> None:
     assert run.status == "no_answer"
     assert run.final_answer == ""
     assert load_fixture("healthy", source).final_answer.startswith("APPROVED")
+
+
+def test_an_agent_is_never_a_tool_executor(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A model guessing a role from an agent's name (say "math_expert") can answer
+    tool_executor. An agent makes model calls, so it keeps an agent role, and its handoffs."""
+    from tests.helpers import raw_fixture
+    from tracedoc.normalize import normalize
+
+    # As if no agent name were recognized, so every role comes from the (wrong) model guess.
+    monkeypatch.setattr("tracedoc.classify.roles.role_from_name", lambda name: None)
+    trace = raw_fixture("supervisor_no_end", "capture")
+    plain = normalize(trace)
+    guessed = normalize(trace, role_classifier=lambda name: "tool_executor")
+    agents = {s.node for s in guessed.steps_of("llm")}
+    assert agents
+    for step in guessed.steps_of("node"):
+        if step.node in agents and any(c.parent_id == step.id for c in guessed.steps_of("llm")):
+            assert step.role != "tool_executor", step.node
+    assert len(guessed.steps_of("handoff")) == len(plain.steps_of("handoff")) > 0
