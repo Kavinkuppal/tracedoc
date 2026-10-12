@@ -134,3 +134,20 @@ def test_short_values_are_not_learned() -> None:
     r = Redactor(RedactConfig(fields=["pin"], patterns=[]))
     r.learn({"pin": "42"})
     assert r("answer is 42") == "answer is 42"
+
+
+def test_only_luhn_valid_digit_runs_count_as_card_numbers() -> None:
+    from tracedoc.config import RedactConfig
+    from tracedoc.redact import Redactor, luhn_valid
+
+    redact = Redactor(RedactConfig())
+    # Years in a search query are not a card number: kept.
+    query = "Amazon employee count 2020 2021 2022 2023 headcount history"
+    assert redact.text(query) == query
+    assert redact.text("order 1234567890123 shipped") == "order 1234567890123 shipped"
+    # Real card numbers (they pass the Luhn checksum) are redacted, however they are grouped,
+    # and the text around them keeps its spacing.
+    assert redact.text("card 4111 1111 1111 1111 on file") == "card [REDACTED] on file"
+    assert redact.text("card 4111-1111-1111-1111.") == "card [REDACTED]."
+    assert redact.text("5500000000000004") == "[REDACTED]"
+    assert luhn_valid("4111111111111111") and not luhn_valid("2020202120222023")

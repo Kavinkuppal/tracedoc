@@ -32,13 +32,16 @@ DEFAULT_REDACT_FIELDS = [
     "refresh_token",
 ]
 
+CARD_PATTERN = r"\b(?:\d[ -]?){13,16}\b"
+"""Payment card numbers: 13 to 16 digits, maybe grouped with spaces or dashes."""
+
 DEFAULT_REDACT_PATTERNS = [
     r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",  # email addresses
     r"\bsk-[A-Za-z0-9_-]{16,}",  # OpenAI / Anthropic style secret keys
     r"\b(?:ghp|gho|ghs|github_pat)_[A-Za-z0-9_]{20,}",  # GitHub tokens
     r"\bAKIA[0-9A-Z]{16}\b",  # AWS access key IDs
     r"(?i)\bbearer\s+[A-Za-z0-9._~+/-]+=*",  # bearer tokens
-    r"\b(?:\d[ -]?){13,16}\b",  # card-like digit runs
+    CARD_PATTERN,  # card-like digit runs; only those that pass the Luhn checksum are redacted
 ]
 
 

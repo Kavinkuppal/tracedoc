@@ -197,7 +197,7 @@ tracedoc share --delete    # delete everything shared from this install (once sh
 
 `share --preview` works today, so you can see exactly what would be sent. Every upload is logged locally with its payload; `tracedoc paths` shows where.
 
-**Redaction.** Before anything else reads trace content, tracedoc replaces the values of sensitive keys (`api_key`, `password`, `token`, `authorization`, and more) and anything matching common secret patterns (emails, `sk-...` keys, GitHub tokens, AWS key IDs, bearer tokens, card-like numbers). It also scrubs those values wherever else they reappear in the trace. Add your own:
+**Redaction.** Before anything else reads trace content, tracedoc replaces the values of sensitive keys (`api_key`, `password`, `token`, `authorization`, and more) and anything matching common secret patterns (emails, `sk-...` keys, GitHub tokens, AWS key IDs, bearer tokens, and card numbers: runs of 13 to 16 digits that pass the card checksum, so years or order numbers aren't redacted). It also scrubs those values wherever else they reappear in the trace. Add your own:
 
 ```toml
 [redact]

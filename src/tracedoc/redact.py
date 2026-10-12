@@ -14,15 +14,27 @@ import re
 from collections.abc import Mapping
 from typing import Any
 
-from .config import RedactConfig
+from .config import CARD_PATTERN, RedactConfig
 
 MIN_LEARNED_LENGTH = 4
+
+
+def luhn_valid(digits: str) -> bool:
+    """The checksum every payment card number satisfies (and most other digit runs don't)."""
+    total = 0
+    for i, ch in enumerate(reversed(digits)):
+        n = int(ch)
+        if i % 2:
+            n = n * 2 - 9 if n > 4 else n * 2
+        total += n
+    return total % 10 == 0
 
 
 class Redactor:
     def __init__(self, config: RedactConfig) -> None:
         self.fields = [f.lower() for f in config.fields]
         self.patterns = [re.compile(p) for p in config.patterns]
+        self._card = re.compile(CARD_PATTERN)
         self.replacement = config.replacement
         self._learned: set[str] = set()
         self._learned_pattern: re.Pattern[str] | None = None
@@ -51,8 +63,19 @@ class Redactor:
                 self._learned_pattern = re.compile("|".join(map(re.escape, ordered)))
             value = self._learned_pattern.sub(self.replacement, value)
         for pattern in self.patterns:
-            value = pattern.sub(self.replacement, value)
+            if pattern.pattern == self._card.pattern:
+                # A digit run is redacted only if it could be a card number: "2020 2021 2022
+                # 2023" in a search query is kept.
+                value = pattern.sub(self._card_replacement, value)
+            else:
+                value = pattern.sub(self.replacement, value)
         return value
+
+    def _card_replacement(self, found: re.Match[str]) -> str:
+        text = found.group(0)
+        if not luhn_valid(re.sub(r"\D", "", text)):
+            return text
+        return self.replacement + text[len(text.rstrip(" -")) :]  # keep a trailing separator
 
     def __call__(self, value: Any) -> Any:
         if isinstance(value, str):
