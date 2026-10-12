@@ -82,7 +82,7 @@ def test_fewer_qualifying_problems_mean_fewer_cards_never_padding(tmp_path: Path
     page1 = " ".join(PdfReader(files.summary).pages[0].extract_text().split())
     assert "1. Final answer was empty" in page1
     assert "2." not in page1.split("Top three fixes", 1)[1].split("Only serious", 1)[0]
-    assert "Only serious or moderate problems are listed here" in page1
+    assert "Only 1 problem qualified for this page" in page1
 
 
 def test_nothing_to_highlight_when_nothing_qualifies(tmp_path: Path) -> None:
@@ -134,3 +134,23 @@ def test_one_overlong_sentence_is_cut_at_a_word() -> None:
     ]
     (card,) = build_view(_report(runs, findings), runs).cards
     assert len(card.what_happened) <= 200 and card.what_happened.endswith("…")
+
+
+def test_fewer_cards_note_shows_even_when_nothing_else_qualifies(tmp_path: Path) -> None:
+    runs = _runs(10, AGENTS)
+    only = [
+        _finding(
+            runs[0],
+            "design.run_error",
+            "high",
+            judge=False,
+            agent="supervisor",
+            text="the run ended with an error: ValueError: boom.",
+        )
+    ]
+    report = _report(runs, only)
+    view = build_view(report, runs)
+    assert len(view.cards) == 1 and view.fewer_fixes and view.other_rows == []
+    files = write_reports(report, runs, tmp_path)
+    page1 = " ".join(PdfReader(files.summary).pages[0].extract_text().split())
+    assert "Only 1 problem qualified for this page" in page1

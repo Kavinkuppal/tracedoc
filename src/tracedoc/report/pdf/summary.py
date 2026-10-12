@@ -18,7 +18,7 @@ from typing import Any
 
 from reportlab.platypus import Flowable, Paragraph, Table
 
-from ...catalog import label
+from ...catalog import label, units
 from ..view import Card, ReportView, fmt_cost, fmt_pct, fmt_time
 from .agent_map import AgentMap
 from .base import (
@@ -236,7 +236,8 @@ def _page_one(cursor: Cursor, view: ReportView, s: Styles, page_of: Callable[[st
         cursor.place(Paragraph(markup(label("top_fixes_none")), s.body))
         return
     if view.fewer_fixes:
-        cursor.place(Paragraph(markup(label("fixes_fewer")), s.small_muted), 6)
+        note = label("fixes_fewer", problems=units("problems", len(view.cards)))
+        cursor.place(Paragraph(markup(note), s.small_muted), 6)
     boxes = [CardBox(card, page_of, s) for card in view.cards]
     more = Paragraph(markup(label("more_fixes")), s.small_muted)
     shown = len(boxes)

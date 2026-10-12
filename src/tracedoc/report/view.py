@@ -331,7 +331,7 @@ class ReportView:
     other_hidden: int
     """Problems not on summary.pdf (more than fit, plus the low-confidence ones)."""
     fewer_fixes: bool
-    """Fewer than three fix cards, while other problems exist (they didn't qualify)."""
+    """One or two fix cards: page 1 says why there aren't three."""
     working: list[str]
     agents: list[AgentRow]
     entry_agent: str | None
@@ -893,7 +893,7 @@ def build_view(
         cards=cards,
         other_rows=other_rows,
         other_hidden=len(rest) - len(other_rows) + len(low_problems),
-        fewer_fixes=len(cards) < TOP_FIXES and len(rest) > 0,
+        fewer_fixes=0 < len(cards) < TOP_FIXES,
         working=_working(report.signals, total),
         agents=agents,
         entry_agent=_entry_agent(runs),
