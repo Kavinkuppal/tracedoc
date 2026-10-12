@@ -9,6 +9,8 @@ finding then quotes the cited step instead).
 
 from __future__ import annotations
 
+import re
+from collections.abc import Callable
 from typing import Protocol
 
 from ...catalog import limit
@@ -40,6 +42,34 @@ def truncate_words(text: str, max_chars: int) -> str:
     if space >= max_chars // 2:
         cut = cut[:space]
     return cut.rstrip(_TRAILING) + "…"
+
+
+_SENTENCE_BREAK = re.compile(r"[.!?][\"'\u201d\u2019)]*\s+(?=[A-Z0-9\"'\u201c(\[])")
+"""The end of a sentence: an end mark (perhaps inside closing quotes), a space, and a capital,
+a digit or an opening quote. "1.5 s" and "e.g. this" are not sentence ends."""
+
+
+def sentences(text: str) -> list[str]:
+    text = squash(text)
+    parts, start = [], 0
+    for end in _SENTENCE_BREAK.finditer(text):
+        parts.append(text[start : end.end()].strip())
+        start = end.end()
+    if text[start:].strip():
+        parts.append(text[start:].strip())
+    return parts
+
+
+def fit_sentences(text: str, max_chars: int, frame: Callable[[str], str] = str) -> str:
+    """`frame(text)` in at most `max_chars` characters, keeping as many whole sentences of
+    `text` as fit, so it ends at a sentence boundary. Only when the first sentence alone is too
+    long is it cut at a word boundary, with an ellipsis."""
+    parts = sentences(text)
+    for k in range(len(parts), 0, -1):
+        candidate = frame(" ".join(parts[:k]))
+        if len(candidate) <= max_chars:
+            return candidate
+    return truncate_words(frame(parts[0] if parts else ""), max_chars)
 
 
 def quote_in_window(quote: str, window_text: str) -> bool:

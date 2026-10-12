@@ -27,7 +27,7 @@ from statistics import median
 from typing import Any, Literal
 
 from ..catalog import catalog, check_entry, check_title, fill, label, limit, text, units
-from ..checks.judges.slots import squash, truncate_words
+from ..checks.judges.slots import fit_sentences, squash, truncate_words
 from ..checks.rules.empty_answer import lost_answer
 from ..checks.rules.run_error import is_control_flow, without_traceback
 from ..checks.util import is_handoff_tool
@@ -613,26 +613,22 @@ def _card(rank: int, problem: ProblemView, runs_by_id: dict[str, Run]) -> Card:
     texts = {squash(v.finding.explanation) for v in problem.findings}
     clause = _sentence(rep.finding.explanation)
     if problem.runs == 1:
-        what = text(
-            "card",
-            "what_happened_one",
-            total_runs=units("runs", total),
-            run=rep.run_id,
-            text=clause,
-        )
+        key = "what_happened_one"
     elif len(texts) == 1 and rep.finding.method == "rule":
-        what = text(
-            "card", "what_happened", runs=problem.runs, total_runs=units("runs", total), text=clause
-        )
+        key = "what_happened"
     else:
-        what = text(
+        key = "what_happened_example"
+
+    def frame(t: str) -> str:
+        return text(
             "card",
-            "what_happened_example",
+            key,
             runs=problem.runs,
             total_runs=units("runs", total),
             run=rep.run_id,
-            text=clause,
+            text=t,
         )
+
     affected = sorted({v.finding.run_id for v in problem.findings})
     cost = _sum(runs_by_id[r].totals.cost for r in affected if r in runs_by_id)
     why_values = {
@@ -649,9 +645,10 @@ def _card(rank: int, problem: ProblemView, runs_by_id: dict[str, Run]) -> Card:
         rank=rank,
         title=problem.title,
         where=rep.where,
-        what_happened=truncate_words(what, limit("what_happened")),
+        # Too long for the card: end at a sentence boundary (details.pdf has the full text).
+        what_happened=fit_sentences(clause, limit("what_happened"), frame),
         why=why,
-        what_to_change=truncate_words(rep.what_to_change, limit("what_to_change")),
+        what_to_change=fit_sentences(rep.what_to_change, limit("what_to_change")),
         finding_id=rep.id,
         confidence=label("confidence_value", level=rep.confidence, method=rep.method),
         severity=rep.finding.severity,

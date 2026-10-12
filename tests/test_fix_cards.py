@@ -94,3 +94,43 @@ def test_nothing_to_highlight_when_nothing_qualifies(tmp_path: Path) -> None:
     files = write_reports(report, runs, tmp_path)
     page2 = " ".join(PdfReader(files.summary).pages[1].extract_text().split())
     assert "What's working Nothing to highlight yet." in page2
+
+
+def test_long_what_happened_ends_at_a_sentence_boundary() -> None:
+    runs = _runs(10, AGENTS)
+    first = "the agent answered before the tool result came back and stated a total."
+    second = (
+        "It then repeated the same number in three later replies without checking it against "
+        "any tool result, and the supervisor passed it on to the user unchanged."
+    )
+    findings = [
+        _finding(
+            runs[0],
+            "design.empty_answer",
+            "high",
+            judge=False,
+            agent="supervisor",
+            text=f"{first} {second}",
+        )
+    ]
+    (card,) = build_view(_report(runs, findings), runs).cards
+    assert len(card.what_happened) <= 200
+    assert card.what_happened == f"In 1 of 10 runs (R1): {first}"  # whole first sentence, no "…"
+    assert "…" not in card.what_happened
+
+
+def test_one_overlong_sentence_is_cut_at_a_word() -> None:
+    runs = _runs(10, AGENTS)
+    one_sentence = "the agent " + "kept calling the same search tool and " * 8 + "never stopped."
+    findings = [
+        _finding(
+            runs[0],
+            "design.empty_answer",
+            "high",
+            judge=False,
+            agent="supervisor",
+            text=one_sentence,
+        )
+    ]
+    (card,) = build_view(_report(runs, findings), runs).cards
+    assert len(card.what_happened) <= 200 and card.what_happened.endswith("…")
