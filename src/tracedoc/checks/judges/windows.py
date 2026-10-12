@@ -93,9 +93,10 @@ class Window:
         mark = "  <-- focus" if focused else ""
         where = f"agent={step.node}"
         if step.kind == "llm":
-            recent = [m for m in _messages(step.input) if m["type"] != "system"][-2:]
-            lines = [f"[{label}] MODEL CALL · {where}{mark}", "  latest input messages:"]
-            lines += [f"    {m['type']}: {_clip(payload_text(m), limit)}" for m in recent]
+            lines = [f"[{label}] MODEL CALL · {where}{mark}", "  new input since its last reply:"]
+            lines += [
+                f"    {_speaker(m)}: {_clip(payload_text(m), limit)}" for m in _new_input(step)
+            ]
             lines.append(f"  output: {_clip(payload_text(step.output), limit)}")
         elif step.kind == "tool":
             lines = [f"[{label}] TOOL CALL {step.name} · {where}{mark}"]
@@ -108,6 +109,25 @@ class Window:
             lines = [f"[{label}] HANDOFF {step.handoff_from} -> {step.handoff_to}{mark}"]
             lines.append(f"  sender produced: {_clip(payload_text(step.input), limit)}")
         return "\n".join(lines)
+
+
+MAX_NEW_MESSAGES = 6
+
+
+def _new_input(step: Step) -> list[dict[str, Any]]:
+    """What a model call received since the agent's own previous reply: the user's message,
+    tool results, and other agents' work handed to it. (Only the last two messages hid, for
+    example, an expert's answer behind a supervisor library's "transferred back" pair.)"""
+    messages = [m for m in _messages(step.input) if m["type"] != "system"]
+    own = [i for i, m in enumerate(messages) if m["type"] == "ai" and m.get("name") == step.node]
+    new = messages[own[-1] + 1 :] if own else messages
+    return new[-MAX_NEW_MESSAGES:] or messages[-2:]
+
+
+def _speaker(message: dict[str, Any]) -> str:
+    """The message's type, and the agent that wrote it when the trace names one."""
+    name = message.get("name")
+    return f"{message['type']} from {name}" if message["type"] == "ai" and name else message["type"]
 
 
 def _actions(run: Run) -> list[Step]:

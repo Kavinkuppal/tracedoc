@@ -388,3 +388,31 @@ def test_report_records_unreviewed_counts() -> None:
     assert sum(caps["rule_candidates"].values()) > 0
     assert set(caps) == {"rule_candidates", "handoffs", "unsampled_runs"}
     assert analyze(runs, config).metadata["unreviewed_by_judge"] is None  # no judge, no caps
+
+
+def test_model_call_shows_everything_new_since_the_agents_last_reply() -> None:
+    from tracedoc.checks.judges.windows import Window
+    from tracedoc.schema import Run, Step
+
+    history = [
+        {"type": "system", "content": "You are a team supervisor."},
+        {"type": "human", "content": "What is the combined headcount?"},
+        {"type": "ai", "name": "supervisor", "content": "", "tool_calls": [{"name": "transfer"}]},
+        {"type": "tool", "content": "Successfully transferred to research_expert"},
+        {"type": "ai", "name": "research_expert", "content": "Combined headcount: 345,269"},
+        {"type": "ai", "name": "research_expert", "content": "Transferring back to supervisor"},
+        {"type": "tool", "content": "Successfully transferred back to supervisor"},
+    ]
+    step = Step(
+        id="s1",
+        run_id="r",
+        kind="llm",
+        name="model",
+        node="supervisor",
+        input=history,
+        output={"type": "ai", "content": ""},
+    )
+    run = Run(id="r", source="capture", status="no_answer", steps=[step])
+    text = Window(kind="run", run=run, steps=[step], focus=["s1"]).render(500)
+    assert "ai from research_expert: Combined headcount: 345,269" in text  # not hidden any more
+    assert "human: What is the combined headcount?" not in text.split("STEPS:")[1]  # old news
