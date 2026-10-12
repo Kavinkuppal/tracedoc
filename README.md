@@ -245,6 +245,8 @@ disabled = ["cost.latency_outlier"]
 
 **`Notice: triage model ... is unavailable ...; used ... instead.`** The provider says the triage model does not exist or was retired. The analysis still finished, using the confirmation model for triage, which costs more per call. Set a current model under `[llm] triage_model` in your config file.
 
+**`Error: The provider refused the call (HTTP 429 ...): a rate, spending or billing limit was reached.`** The provider stopped accepting calls, so tracedoc stopped at once instead of trying call after call, and wrote no report. Answers made before the refusal are cached: run the same command again later, or after raising the limit, and it continues from there.
+
 **`Error: confirmation model ... is unavailable ...`** The confirmation model does not exist or was retired, so the analysis stopped before writing a report. Set a current model under `[llm] confirm_model` in your config file, or pass `--model`.
 
 **`Error: LANGSMITH_API_KEY is not set.`** Importing with `--project` needs a LangSmith key. Alternatively, export the runs from LangSmith and pass the file.

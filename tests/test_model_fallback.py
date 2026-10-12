@@ -24,6 +24,7 @@ from tracedoc.llm.client import (
     LLMError,
     ModelUnavailableError,
     OpenAIClient,
+    ProviderLimitError,
     with_model_fallback,
 )
 
@@ -131,19 +132,22 @@ def test_not_found_becomes_model_unavailable(provider: str) -> None:
 
 
 @pytest.mark.parametrize(
-    ("status", "message", "unavailable"),
+    ("status", "message", "expected"),
     [
-        (400, "model claude-x has been retired", True),
-        (400, "Model claude-x is deprecated and no longer available", True),
-        (400, "invalid model: claude-x", True),
-        (400, "max_tokens: must be at most 64000", False),
-        (500, "internal error", False),
-        (429, "rate limited", False),
+        (400, "model claude-x has been retired", ModelUnavailableError),
+        (400, "Model claude-x is deprecated and no longer available", ModelUnavailableError),
+        (400, "invalid model: claude-x", ModelUnavailableError),
+        (400, "max_tokens: must be at most 64000", LLMError),
+        (500, "internal error", LLMError),
+        (429, "rate limited", ProviderLimitError),
+        (400, "Your credit balance is too low to access the Anthropic API.", ProviderLimitError),
+        (403, "This workspace has reached its spend limit.", ProviderLimitError),
     ],
 )
-def test_other_status_errors(status: int, message: str, unavailable: bool) -> None:
+def test_other_status_errors(status: int, message: str, expected: type) -> None:
     error_cls = {
         400: anthropic.BadRequestError,
+        403: anthropic.PermissionDeniedError,
         500: anthropic.InternalServerError,
         429: anthropic.RateLimitError,
     }[status]
@@ -158,7 +162,6 @@ def test_other_status_errors(status: int, message: str, unavailable: bool) -> No
             raise error
 
     client = AnthropicClient(ANTHROPIC, client=SimpleNamespace(messages=Raising()))
-    expected = ModelUnavailableError if unavailable else LLMError
     with pytest.raises(expected):
         client.complete_json("s", "p", SimpleNamespace, model="claude-x")
 

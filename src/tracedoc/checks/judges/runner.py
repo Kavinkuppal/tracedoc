@@ -37,6 +37,7 @@ from ...llm.client import (
     LLMClient,
     LLMError,
     ModelUnavailableError,
+    ProviderLimitError,
 )
 from ...llm.cost import BudgetExceededError, Spend, estimate_tokens, price_of
 from ...schema import Finding, Run, Step
@@ -477,7 +478,12 @@ class Judge:
             except BudgetExceededError as e:
                 outcome.stopped_for_budget = str(e)
                 stop.set()
-            except (KeyRejectedError, ConfirmModelUnavailableError, ModelUnavailableError) as e:
+            except (
+                KeyRejectedError,
+                ConfirmModelUnavailableError,
+                ModelUnavailableError,
+                ProviderLimitError,
+            ) as e:
                 fatal.append(e)
                 stop.set()
             except LLMError as e:

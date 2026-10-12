@@ -28,6 +28,7 @@ from .llm.client import (
     KeyRejectedError,
     MissingKeyError,
     ModelUnavailableError,
+    ProviderLimitError,
     make_client,
     require_key,
     with_model_fallback,
@@ -301,7 +302,12 @@ def analyze(
                 runs, config, client=client, spend=spend, progress=progress, spend_start=start
             )
             results[system] = (report, runs)
-    except (MissingKeyError, KeyRejectedError, ConfirmModelUnavailableError) as e:
+    except (
+        MissingKeyError,
+        KeyRejectedError,
+        ConfirmModelUnavailableError,
+        ProviderLimitError,
+    ) as e:
         raise fail(e) from None
     except ModelUnavailableError as e:  # a model that is neither triage nor confirmation
         raise fail(ValueError(f"{e}. Check the model names under [llm] in your config.")) from None

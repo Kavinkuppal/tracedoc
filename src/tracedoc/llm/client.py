@@ -106,6 +106,36 @@ class TemperatureRejectedError(LLMError):
     """The model does not accept a temperature setting; retried without one."""
 
 
+_LIMIT = re.compile(
+    r"credit balance|billing|spend(ing)? limit|usage limit|quota|rate.?limit|overloaded",
+    re.IGNORECASE,
+)
+
+
+def is_provider_limit(error: Any) -> bool:
+    """The provider refused the call because of a rate limit, a spending or billing limit, or
+    overload (after the SDK's own retries): 402, 429, 529, or a 400/403 that says so."""
+    status = getattr(error, "status_code", None)
+    if status in (402, 429, 529):
+        return True
+    if status in (400, 403):
+        body = getattr(error, "body", None)
+        return bool(_LIMIT.search(f"{getattr(error, 'message', '')} {body}"))
+    return False
+
+
+class ProviderLimitError(RuntimeError):
+    """The provider refuses calls for now (rate, spending or billing limit). Fatal: analysis
+    stops at once instead of trying call after call. Not an LLMError, so no caller skips it."""
+
+    def __init__(self, detail: str) -> None:
+        super().__init__(
+            f"The provider refused the call ({detail}): a rate, spending or billing limit was "
+            "reached. tracedoc stopped instead of trying more calls; answers already made are "
+            "cached, so running again later continues from there."
+        )
+
+
 class KeyRejectedError(RuntimeError):
     """The provider rejected the key (401/403). Fatal: stop instead of retrying every call."""
 
@@ -231,8 +261,12 @@ class AnthropicClient(_TemperatureMemory):
                 **kwargs,
             )
         except (anthropic.AuthenticationError, anthropic.PermissionDeniedError) as e:
+            if is_provider_limit(e):
+                raise ProviderLimitError(_status_error_detail(e)) from e
             raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except anthropic.APIStatusError as e:
+            if is_provider_limit(e):
+                raise ProviderLimitError(_status_error_detail(e)) from e
             if temperature is not None and rejects_temperature(e):
                 raise TemperatureRejectedError(_status_error_detail(e)) from e
             if is_model_unavailable(e):
@@ -303,8 +337,12 @@ class OpenAIClient(_TemperatureMemory):
                 return self._native(system, prompt, schema, model, max_tokens, sampling)
             return self._compatible(system, prompt, schema, model, max_tokens, sampling)
         except (openai.AuthenticationError, openai.PermissionDeniedError) as e:
+            if is_provider_limit(e):
+                raise ProviderLimitError(_status_error_detail(e)) from e
             raise KeyRejectedError(self.env_var, f"HTTP {e.status_code}") from e
         except openai.APIStatusError as e:
+            if is_provider_limit(e):
+                raise ProviderLimitError(_status_error_detail(e)) from e
             if sampling and rejects_temperature(e):
                 raise TemperatureRejectedError(_status_error_detail(e)) from e
             if is_model_unavailable(e):
