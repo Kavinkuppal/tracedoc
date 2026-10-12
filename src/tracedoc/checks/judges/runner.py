@@ -83,7 +83,8 @@ class Verdict(BaseModel):
     )
     what_happened: str = Field(
         description="What went wrong in this run, starting with the problem itself, not with the "
-        "user's request: specific, with names and numbers from the steps. At most "
+        "user's request: specific, with names and numbers from the steps. Keep the first sentence "
+        "under 150 characters: a report may show only that sentence. At most "
         f"{limit('what_happened')} characters. Empty if verdict is false."
     )
     what_to_change: str = Field(
@@ -203,7 +204,8 @@ def _confirm_prompt(window_text: str, prompt: JudgePrompt, rule_explanation: str
         ask += (
             " If verdict is true, also give: agent (the agent whose step shows the problem, "
             "named as in the steps), what_happened (what went wrong, starting with the problem "
-            "itself rather than the user's request; specific, with names and numbers; at most "
+            "itself rather than the user's request; specific, with names and numbers; a first "
+            "sentence under 150 characters, since a report may show only that sentence; at most "
             f"{limit('what_happened')} characters), what_to_change "
             "(one concrete change to the developer's system: a prompt instruction, quoting the "
             "words to add, or a change to a tool, a graph edge or a setting; name the agent or "
