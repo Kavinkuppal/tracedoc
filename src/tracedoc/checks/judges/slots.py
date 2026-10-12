@@ -87,6 +87,14 @@ def window_instructions(window_text: str) -> str:
     )
 
 
+_AGENT = re.compile(r"\bagent=([^\s·]+)")
+
+
+def window_agents(window_text: str) -> set[str]:
+    """The agents whose steps a window shows ("agent=<name>" on each step)."""
+    return set(_AGENT.findall(window_text))
+
+
 def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
     """Each broken rule, in words the model can act on. Empty if the slots are fine."""
     problems = []
@@ -96,6 +104,12 @@ def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
             problems.append(f"{name} is empty")
         elif len(value) > max_chars:
             problems.append(f"{name} is {len(value)} characters; the limit is {max_chars}")
+    agents = window_agents(window_text)
+    named = getattr(answer, "agent", None)
+    if named is not None and agents and named.strip() not in agents:
+        problems.append(
+            f"agent must be one of the agents in the steps: {', '.join(sorted(agents))}"
+        )
     if instruction_in_place(answer.what_to_change, window_instructions(window_text)):
         problems.append(
             "what_to_change suggests an instruction the agent's prompt already has; suggest a "

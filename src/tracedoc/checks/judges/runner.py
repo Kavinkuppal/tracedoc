@@ -77,9 +77,14 @@ class Verdict(BaseModel):
     verdict: bool
     confidence: float
     evidence_step_ids: list[str]
+    agent: str = Field(
+        description="The agent whose step shows the problem, named exactly as in the steps "
+        "(after 'agent='). Empty if verdict is false."
+    )
     what_happened: str = Field(
-        description="What went wrong in this run: specific, with names and numbers from the "
-        f"steps. At most {limit('what_happened')} characters. Empty if verdict is false."
+        description="What went wrong in this run, starting with the problem itself, not with the "
+        "user's request: specific, with names and numbers from the steps. At most "
+        f"{limit('what_happened')} characters. Empty if verdict is false."
     )
     what_to_change: str = Field(
         description="One concrete change to the developer's system that would prevent this: "
@@ -196,8 +201,10 @@ def _confirm_prompt(window_text: str, prompt: JudgePrompt, rule_explanation: str
     )
     if not prompt.confirms:
         ask += (
-            " If verdict is true, also write: what_happened (what went wrong, specific, with "
-            f"names and numbers; at most {limit('what_happened')} characters), what_to_change "
+            " If verdict is true, also give: agent (the agent whose step shows the problem, "
+            "named as in the steps), what_happened (what went wrong, starting with the problem "
+            "itself rather than the user's request; specific, with names and numbers; at most "
+            f"{limit('what_happened')} characters), what_to_change "
             "(one concrete change to the developer's system: a prompt instruction, quoting the "
             "words to add, or a change to a tool, a graph edge or a setting; name the agent or "
             f"tool; at most {limit('what_to_change')} characters), change_type, and "
@@ -551,11 +558,27 @@ class Judge:
         handoff = next(
             (s for s in window.steps if s.id in window.focus and s.kind == "handoff"), None
         )
+        named = v.agent.strip()
+        if named not in {s.node for s in window.steps if s.node}:
+            named = ""
+        if named:
+            # The agent the judge says is at fault, shown at its last cited step (or its last
+            # step in the window): not whichever step happens to be cited first.
+            own = [s for s in evidence if s.node == named] or [
+                s for s in window.steps if s.node == named
+            ]
+            anchor = own[-1]
         key = (
             f"{handoff.handoff_from}->{handoff.handoff_to}"
             if handoff
             else (anchor.node if anchor else "") or ""
         )
+        if named:
+            node, role = named, anchor.role if anchor else None
+        elif handoff:
+            node, role = handoff.handoff_to, handoff.role
+        else:
+            node, role = (anchor.node, anchor.role) if anchor else (None, None)
         return Finding(
             check_id=prompt.id,
             group=prompt.group,
@@ -572,8 +595,8 @@ class Judge:
             evidence_quote=v.evidence_quote
             or (excerpt(_step_text(evidence[0]), limit("evidence_quote")) if evidence else ""),
             confidence=round(_clamp(v.confidence), 2),
-            node=(handoff.handoff_to if handoff else anchor.node if anchor else None),
-            role=(handoff.role if handoff else anchor.role if anchor else None),
+            node=node,
+            role=role,
         )
 
 

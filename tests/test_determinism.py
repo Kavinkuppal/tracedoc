@@ -24,6 +24,7 @@ from tracedoc.checks.base import run_rule_checks
 from tracedoc.checks.judges.prompts import enabled_judges
 from tracedoc.checks.judges.runner import Judge, Verdict, _dedupe
 from tracedoc.checks.judges.slots import fitted, slot_problems, truncate_words
+from tracedoc.checks.judges.windows import run_end_window
 from tracedoc.config import Config, LLMConfig
 from tracedoc.llm.cache import CachingClient, cache_key
 from tracedoc.llm.client import AnthropicClient, LLMResult, OpenAIClient, with_model_fallback
@@ -339,3 +340,22 @@ def test_dedupe_ignores_completion_order() -> None:
     findings = [f(0.8, "s2"), f(0.8, "s1"), f(0.7, "s0")]
     assert _dedupe(findings) == _dedupe(list(reversed(findings)))
     assert _dedupe(findings)[0].evidence_step_ids == ["s1"]
+
+
+def test_finding_goes_to_the_agent_the_judge_names() -> None:
+    run = load_fixture("supervisor_no_end")
+    agents = sorted({s.node for s in run.steps if s.node and s.kind == "llm"})
+    assert len(agents) > 1
+    other = agents[-1]
+
+    named = verdict(True, evidence=["S1", "S2", "S3"], agent=other)
+    judge, fake = _flagging_judge([named])
+    (finding,) = judge.run(judge.plan([run], []), []).findings
+    assert finding.node == other  # not the agent of the first cited step
+
+    unknown = verdict(True, evidence=["S1"], agent="no_such_agent")
+    judge, fake = _flagging_judge([unknown, unknown])
+    (finding,) = judge.run(judge.plan([run], []), []).findings
+    assert "agent must be one of" in fake.prompts[-1]  # sent back once
+    s1 = run_end_window(run, Config().judge.window_steps).steps[0]
+    assert finding.node == s1.node  # then the old rule: the first cited step's agent

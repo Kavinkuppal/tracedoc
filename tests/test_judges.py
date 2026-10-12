@@ -211,7 +211,7 @@ def test_estimate_reports_unpriced_models() -> None:
 def _caveat_oracle(prompt: str, check_id: str):
     dropped = "12 customers" in prompt and "rolling it out" in prompt
     if check_id == "agents.ignored_output" and dropped:
-        return verdict(True, 0.85, evidence=["S2", "S3"])
+        return verdict(True, 0.85, evidence=["S2", "S3"], agent="writer")
     return verdict(False)
 
 

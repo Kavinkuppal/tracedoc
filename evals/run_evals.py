@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -79,6 +80,11 @@ def checks_to_run(only: str | None) -> dict[str, JudgePrompt]:
     return checks
 
 
+def _first_agent(window: str) -> str:
+    found = re.search(r"\bagent=([^\s·]+)", window)
+    return found.group(1) if found else ""
+
+
 class OracleLLM:
     """For --mock: answers from the labels, so the harness can run without a model."""
 
@@ -103,6 +109,7 @@ class OracleLLM:
                 verdict=label,
                 confidence=0.9,
                 evidence_step_ids=["S1"],
+                agent=_first_agent(prompt) if label else "",
                 what_happened="oracle" if label else "",
                 what_to_change="oracle" if label else "",
                 change_type="prompt instruction",

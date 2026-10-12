@@ -12,6 +12,7 @@ from tracedoc.checks.judges.runner import Confirmation, TriageItem, TriageResult
 from tracedoc.llm.client import LLMError, LLMResult
 
 _TRIAGE_CHECK = re.compile(r"^- ([a-z_]+\.[a-z_.]+): ", re.MULTILINE)
+_AGENT = re.compile(r"\bagent=([^\s·]+)")
 _CONFIRM_CHECK = re.compile(r"^CHECK: ([a-z_]+\.[a-z_.]+) \(prompt v\d+\)$", re.MULTILINE)
 
 TriageFn = Callable[[str, str], "tuple[bool, float]"]
@@ -30,12 +31,15 @@ def verdict(
     what: str = "judge explanation",
     change: str = "judge fix",
     quote: str | None = None,
+    agent: str = "",
 ) -> Verdict:
-    """A judge answer. With quote=None the fake quotes the window's first line (always exact)."""
+    """A judge answer. With quote=None the fake quotes the window's first line (always exact);
+    with no agent it names the first agent in the window."""
     return Verdict(
         verdict=ok,
         confidence=confidence,
         evidence_step_ids=evidence or ["S1"],
+        agent=agent if ok else "",
         what_happened=what if ok else "",
         what_to_change=change if ok else "",
         change_type="prompt instruction",
@@ -88,10 +92,13 @@ class FakeLLM:
                     confidence=answer.confidence,
                     evidence_step_ids=answer.evidence_step_ids,
                 )
-            elif answer.verdict and not answer.evidence_quote:
-                value = answer.model_copy(update={"evidence_quote": prompt.splitlines()[0][:60]})
             else:
                 value = answer
+                if answer.verdict and not answer.evidence_quote:
+                    value = value.model_copy(update={"evidence_quote": prompt.splitlines()[0][:60]})
+                if answer.verdict and not answer.agent:
+                    first = _AGENT.search(prompt)
+                    value = value.model_copy(update={"agent": first.group(1) if first else ""})
         else:  # classifier fallbacks: first allowed value of the single field
             (name, field) = next(iter(schema.model_fields.items()))
             value = schema(**{name: field.annotation.__args__[-1]})  # type: ignore[union-attr]

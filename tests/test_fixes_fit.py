@@ -121,6 +121,7 @@ def test_judge_fix_already_in_the_prompt_is_sent_back() -> None:
     assert any("already has" in p for p in slot_problems(answer, window))
     fresh = verdict(
         True,
+        agent="supervisor",
         what="supervisor added the numbers itself.",
         change="Remove the add tool from supervisor so only math_agent can do arithmetic.",
         quote="The total is 1,977,586.",
