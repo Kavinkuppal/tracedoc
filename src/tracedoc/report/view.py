@@ -445,6 +445,14 @@ def _anchor(f: Finding, run: Run) -> Step | None:
     the reply that handed off too early; "Where" and "Agent's output" are the agent's own.)"""
     by_id = {s.id: s for s in run.steps}
     cited = [by_id[i] for i in f.evidence_step_ids if i in by_id]
+    if f.method == "judge":
+        # The judge cites steps in any order: show the agent's last cited model or tool call
+        # (where the problem shows), not a handoff to it or an earlier step it was given.
+        position = {s.id: i for i, s in enumerate(run.steps)}
+        own = sorted((s for s in cited if s.node == f.node), key=lambda s: position[s.id])
+        acts = [s for s in own if s.kind != "handoff"] or own
+        if acts:
+            return acts[-1]
     return next((s for s in cited if s.node == f.node), cited[0] if cited else None)
 
 

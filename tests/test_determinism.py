@@ -359,3 +359,40 @@ def test_finding_goes_to_the_agent_the_judge_names() -> None:
     assert "agent must be one of" in fake.prompts[-1]  # sent back once
     s1 = run_end_window(run, Config().judge.window_steps).steps[0]
     assert finding.node == s1.node  # then the old rule: the first cited step's agent
+
+
+def test_named_agent_is_shown_at_its_own_last_step_not_a_handoff() -> None:
+    run = load_fixture("supervisor_no_end")
+    window = run_end_window(run, Config().judge.window_steps)
+    labels = {s.id: lbl for lbl, s in zip(window.labels, window.steps, strict=True)}
+    handoff = next((s for s in window.steps if s.kind == "handoff"), None)
+    if handoff is None:
+        pytest.skip("no handoff in the window")
+    receiver = handoff.handoff_to
+    own_calls = [s for s in window.steps if s.node == receiver and s.kind == "llm"]
+    cited = [labels[s.id] for s in own_calls] + [labels[handoff.id]]  # handoff cited last
+    judge, _ = _flagging_judge([verdict(True, evidence=cited, agent=receiver)])
+    (finding,) = judge.run(judge.plan([run], []), []).findings
+    assert finding.node == receiver
+    shown = finding.evidence_step_ids
+    assert handoff.id in shown and own_calls[-1].id in shown
+
+
+def test_where_shows_the_agents_own_call_for_judge_findings() -> None:
+    from tracedoc.report.view import _anchor
+
+    run = load_fixture("supervisor_no_end")
+    handoff = run.steps_of("handoff")[0]
+    receiver = handoff.handoff_to
+    call = next(s for s in run.steps_of("llm") if s.node == receiver)
+    f = Finding(
+        check_id="verification.premature_finish",
+        group="verification",
+        method="judge",
+        severity="high",
+        run_id=run.id,
+        node=receiver,
+        explanation="x",
+        evidence_step_ids=[handoff.id, call.id],
+    )  # handoff cited first
+    assert _anchor(f, run).id == call.id

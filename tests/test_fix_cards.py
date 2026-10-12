@@ -154,3 +154,29 @@ def test_fewer_cards_note_shows_even_when_nothing_else_qualifies(tmp_path: Path)
     files = write_reports(report, runs, tmp_path)
     page1 = " ".join(PdfReader(files.summary).pages[0].extract_text().split())
     assert "Only 1 problem qualified for this page" in page1
+
+
+def test_sentences_can_start_with_an_agent_name() -> None:
+    from tracedoc.checks.judges.slots import sentences
+
+    text = (
+        "The run ended after the handoff. hotel_assistant never searched. It took 1.5 s, e.g. this."
+    )
+    assert sentences(text) == [
+        "The run ended after the handoff.",
+        "hotel_assistant never searched.",
+        "It took 1.5 s, e.g. this.",
+    ]
+
+
+def test_an_overlong_first_sentence_ends_at_a_clause_not_mid_word() -> None:
+    from tracedoc.checks.judges.slots import fit_sentences
+
+    sentence = (
+        "The supervisor received research_expert's table and combined total of 1,977,586, but "
+        "produced an empty output and the run ended with status 'no_answer', so the user never "
+        "got an answer at all."
+    )
+    card = fit_sentences(sentence, 200, lambda t: f"In 3 of 20 runs. For example, in R1: {t}")
+    assert len(card) <= 200 and card.endswith(".") and "…" not in card
+    assert card.endswith("the run ended with status 'no_answer'.")

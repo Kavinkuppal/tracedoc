@@ -44,9 +44,15 @@ def truncate_words(text: str, max_chars: int) -> str:
     return cut.rstrip(_TRAILING) + "…"
 
 
-_SENTENCE_BREAK = re.compile(r"[.!?][\"'\u201d\u2019)]*\s+(?=[A-Z0-9\"'\u201c(\[])")
-"""The end of a sentence: an end mark (perhaps inside closing quotes), a space, and a capital,
-a digit or an opening quote. "1.5 s" and "e.g. this" are not sentence ends."""
+_SENTENCE_BREAK = re.compile(
+    r"(?<!\be\.g)(?<!\bi\.e)(?<!\betc)(?<!\bvs)(?<!\bapprox)"
+    r"[.!?][\"'\u201d\u2019)]*\s+(?=[A-Z0-9\"'\u201c(\[]|[a-z][a-z0-9]*_)"
+)
+"""The end of a sentence: an end mark (perhaps inside closing quotes), a space, then a capital,
+a digit, an opening quote, or an identifier such as an agent name ("hotel_assistant"). "1.5 s"
+and "e.g. this" are not sentence ends."""
+_CLAUSE_BREAK = re.compile(r"(?:,\s+(?:but|so|and|while|because|which)\b|;|:)\s")
+"""Where a sentence can end early and still read as one: before ", but ...", "; " or ": "."""
 
 
 def sentences(text: str) -> list[str]:
@@ -69,7 +75,13 @@ def fit_sentences(text: str, max_chars: int, frame: Callable[[str], str] = str) 
         candidate = frame(" ".join(parts[:k]))
         if len(candidate) <= max_chars:
             return candidate
-    return truncate_words(frame(parts[0] if parts else ""), max_chars)
+    first = parts[0] if parts else ""
+    # The first sentence alone is too long: end it at its last clause break that fits.
+    for cut in reversed([m.start() for m in _CLAUSE_BREAK.finditer(first)]):
+        candidate = frame(first[:cut].rstrip(_TRAILING) + ".")
+        if len(candidate) <= max_chars and cut >= 40:
+            return candidate
+    return truncate_words(frame(first), max_chars)
 
 
 def quote_in_window(quote: str, window_text: str) -> bool:

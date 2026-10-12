@@ -564,10 +564,13 @@ class Judge:
         if named:
             # The agent the judge says is at fault, shown at its last cited step (or its last
             # step in the window): not whichever step happens to be cited first.
+            position = {s.id: i for i, s in enumerate(window.steps)}
             own = [s for s in evidence if s.node == named] or [
                 s for s in window.steps if s.node == named
             ]
-            anchor = own[-1]
+            # In step order, and the agent's own model or tool call over a handoff to it.
+            own = sorted(own, key=lambda s: position.get(s.id, -1))
+            anchor = ([s for s in own if s.kind != "handoff"] or own)[-1]
         key = (
             f"{handoff.handoff_from}->{handoff.handoff_to}"
             if handoff
