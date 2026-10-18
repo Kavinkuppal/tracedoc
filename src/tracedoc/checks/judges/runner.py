@@ -235,8 +235,9 @@ def _confirm_prompt(window_text: str, prompt: JudgePrompt, rule_explanation: str
             f"{limit('evidence_quote')} characters). Don't suggest a change the steps show is "
             "already in place, such as an instruction the agent's prompt already has, or a "
             "cheaper model when the agent already uses the cheapest one. Never suggest that an "
-            "agent book, buy, pay, send, cancel or delete anything without first asking the "
-            "user to confirm."
+            "agent book, buy, pay, send, cancel or delete anything (or call a tool that does) "
+            "without first asking the user to confirm; asking or telling the user afterwards is "
+            "not asking first."
         )
     return (
         f"{window_text}\n{context}\nCHECK: {prompt.id} (prompt v{prompt.version})\n"

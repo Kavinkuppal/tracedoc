@@ -16,7 +16,7 @@ from collections.abc import Callable
 from typing import Protocol
 
 from ...catalog import limit
-from ..safety import safe_fix, unconfirmed_action
+from ..safety import asks_for_confirmation, safe_fix, unconfirmed_action
 from ..util import instruction_in_place
 
 SLOTS = ("what_happened", "what_to_change", "evidence_quote")
@@ -87,6 +87,51 @@ def fit_sentences(text: str, max_chars: int, frame: Callable[[str], str] = str) 
     return truncate_words(frame(first), max_chars)
 
 
+MIN_LEAD = 30
+"""Fewest characters worth keeping of what a fix says to do before its confirmation."""
+
+
+def _close_quote(text: str, rest: str) -> str:
+    """Close a quotation the shortening left open, unless `rest` closes it."""
+    if text.count('"') % 2 and not rest.count('"') % 2:
+        return text + '"'
+    if text.count("\u201c") > text.count("\u201d") and rest.count("\u201d") <= rest.count("\u201c"):
+        return text + "\u201d"
+    return text
+
+
+def fit_fix(text: str, max_chars: int, agent: str = "") -> str:
+    """A suggested fix in at most `max_chars` characters that still passes the safety rule.
+
+    Like fit_sentences it keeps whole sentences, but a sentence that asks the user to confirm
+    is never the one dropped: sentences after it go first, then the ones before it are
+    shortened. Whatever comes out is checked against the rule again (checks/safety.py), and a
+    fix that would now act without asking is replaced by the safe one."""
+    text = squash(text)
+    if len(text) <= max_chars:
+        return safe_fix(text, agent)
+    parts = sentences(text)
+    asking = [i for i, p in enumerate(parts) if asks_for_confirmation(p)]
+    if not asking or asking[0] == 0:
+        # Nothing to keep, or the asking comes first: fit_sentences keeps leading sentences.
+        return safe_fix(fit_sentences(text, max_chars), agent)
+    first, last = asking[0], asking[-1]
+    lead, kept, tail = parts[:first], parts[first : last + 1], parts[last + 1 :]
+    body = " ".join(lead + kept)
+    if len(body) <= max_chars:
+        for p in tail:  # sentences after the last one that asks, while they fit
+            if len(body) + 1 + len(p) > max_chars:
+                break
+            body = f"{body} {p}"
+        return safe_fix(body, agent)
+    asked = " ".join(kept)
+    room = max_chars - len(asked) - 1
+    if room < MIN_LEAD:
+        return safe_fix(fit_sentences(text, max_chars), agent)
+    short = _close_quote(fit_sentences(" ".join(lead), room - 1), asked)
+    return safe_fix(f"{short} {asked}", agent)
+
+
 def quote_in_window(quote: str, window_text: str) -> bool:
     core = squash(quote).strip(_QUOTE_MARKS)
     return bool(core) and core in squash(window_text)
@@ -135,7 +180,8 @@ def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
         problems.append(
             f"what_to_change tells an agent to {action!r} without the user's confirmation; an "
             "agent must ask the user to confirm before it books, buys, pays, sends, cancels or "
-            "deletes anything, so make the change say that"
+            "deletes anything (asking or telling the user afterwards is not asking first), so "
+            "make the change say that"
         )
     quote = squash(answer.evidence_quote)
     if quote and not quote_in_window(quote, window_text):
@@ -148,10 +194,14 @@ def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
 
 def fitted(answer: HasSlots, window_text: str) -> dict[str, str]:
     """Slot values that respect every limit: cut at a word boundary where too long, and the
-    quote dropped if it is not in the window."""
+    quote dropped if it is not in the window. What to change is shortened by fit_fix instead,
+    so it never loses the sentence asking the user to confirm."""
     values = {name: truncate_words(getattr(answer, name), limit(name)) for name in SLOTS}
-    # Still telling an agent to act without asking after the retry: use the safe fix instead.
-    values["what_to_change"] = safe_fix(values["what_to_change"], getattr(answer, "agent", ""))
+    # A fix still telling an agent to act without asking after the retry is replaced by the
+    # safe fix.
+    values["what_to_change"] = fit_fix(
+        answer.what_to_change, limit("what_to_change"), getattr(answer, "agent", "")
+    )
     quote = squash(answer.evidence_quote).strip(_QUOTE_MARKS)
     if not quote_in_window(quote, window_text):
         values["evidence_quote"] = ""

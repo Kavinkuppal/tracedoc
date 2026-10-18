@@ -28,7 +28,7 @@ from statistics import median
 from typing import Any, Literal
 
 from ..catalog import catalog, check_entry, check_title, fill, label, limit, text, units
-from ..checks.judges.slots import fit_sentences, squash, truncate_words
+from ..checks.judges.slots import fit_fix, fit_sentences, squash, truncate_words
 from ..checks.rules.empty_answer import lost_answer
 from ..checks.rules.run_error import is_control_flow, without_traceback
 from ..checks.util import is_handoff_tool
@@ -672,7 +672,9 @@ def _card(rank: int, problem: ProblemView, runs_by_id: dict[str, Run]) -> Card:
         # Too long for the card: end at a sentence boundary (details.pdf has the full text).
         what_happened=fit_sentences(clause, limit("what_happened"), frame),
         why=why,
-        what_to_change=fit_sentences(rep.what_to_change, limit("what_to_change")),
+        # Shortened without losing a sentence that asks the user to confirm, and checked
+        # against the safety rule again (checks/safety.py).
+        what_to_change=fit_fix(rep.what_to_change, limit("what_to_change"), rep.finding.node or ""),
         finding_id=rep.id,
         confidence=label("confidence_value", level=rep.confidence, method=rep.method),
         severity=rep.finding.severity,
