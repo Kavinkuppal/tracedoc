@@ -17,6 +17,7 @@ from . import (
     nested_agents,
     pipeline_dropped_caveat,
     researcher_repeat_search,
+    supervisor_agent_name,
     supervisor_no_end,
     swarm_parallel_handoff,
     tool_output_unused,
@@ -32,6 +33,7 @@ AGENTS: dict[str, ModuleType] = {
     "healthy": healthy,
     "nested_agents": nested_agents,
     "swarm_parallel_handoff": swarm_parallel_handoff,
+    "supervisor_agent_name": supervisor_agent_name,
 }
 
 DEFAULT_RECURSION_LIMIT = 25

@@ -69,6 +69,7 @@ def test_report_text_has_no_internal_terms_or_check_ids() -> None:
 
     for name, table in catalog().items():
         for s in strings(table):
+            s = re.sub(r"https?://\S+", "", s)  # documentation links (framework pitfalls)
             assert not INTERNAL_WORDS.search(s), (name, s)
             ids = [m for m in CHECK_ID.findall(s) if not m.endswith(("pdf", "json", "md"))]
             assert not ids, (name, s)

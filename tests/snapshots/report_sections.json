@@ -1,16 +1,16 @@
 {
  "01_scorecard": {
-  "completion_rate": 0.625,
+  "completion_rate": 0.6667,
   "findings_by_severity": {
-   "high": 4,
+   "high": 5,
    "low": 1,
    "medium": 4
   },
   "median_cost": null,
-  "median_latency_s": 0.0077,
+  "median_latency_s": 0.0082,
   "median_steps": 5.0,
-  "runs": 8,
-  "tokens": 2649,
+  "runs": 9,
+  "tokens": 2895,
   "total_cost": null
  },
  "02_top_fixes": [
@@ -63,6 +63,11 @@
    "severity": "high"
   },
   {
+   "check": "framework.langgraph_supervisor.include_agent_name",
+   "runs": 1,
+   "severity": "high"
+  },
+  {
    "check": "tools.errors_retries",
    "runs": 1,
    "severity": "high"
@@ -97,19 +102,25 @@
     "research",
     "design.empty_answer",
     1,
-    0.25
+    0.2
    ],
    [
     "research",
     "design.loop",
     1,
-    0.25
+    0.2
+   ],
+   [
+    "research",
+    "framework.langgraph_supervisor.include_agent_name",
+    1,
+    0.2
    ],
    [
     "research",
     "verification.unchecked_result",
     1,
-    0.25
+    0.2
    ],
    [
     "writing",
@@ -136,6 +147,7 @@
    "design.empty_answer",
    "design.no_stop",
    "design.run_error",
+   "framework.langgraph_supervisor.include_agent_name",
    "tools.errors_retries",
    "verification.unchecked_result"
   ],
@@ -162,7 +174,7 @@
    "recursion_limit": 0
   },
   "research": {
-   "completed": 3,
+   "completed": 4,
    "error": 0,
    "interrupted": 0,
    "no_answer": 1,
@@ -201,7 +213,7 @@
    [
     "__start__",
     "supervisor",
-    2
+    3
    ],
    [
     "__start__",
@@ -249,6 +261,16 @@
     1
    ],
    [
+    "research_expert",
+    "research_expert",
+    2
+   ],
+   [
+    "research_expert",
+    "supervisor",
+    1
+   ],
+   [
     "researcher",
     "__end__",
     1
@@ -270,13 +292,28 @@
    ],
    [
     "supervisor",
+    "__end__",
+    1
+   ],
+   [
+    "supervisor",
     "research_agent",
+    1
+   ],
+   [
+    "supervisor",
+    "research_expert",
     1
    ],
    [
     "supervisor",
     "researcher",
     3
+   ],
+   [
+    "supervisor",
+    "supervisor",
+    1
    ],
    [
     "supervisor",
@@ -341,13 +378,18 @@
     0.0
    ],
    [
+    "research_expert",
+    3,
+    0.0
+   ],
+   [
     "researcher",
     13,
     0.3333
    ],
    [
     "supervisor",
-    8,
+    11,
     1.0
    ],
    [
@@ -382,6 +424,12 @@
    0.0
   ],
   [
+   "research_expert",
+   "supervisor",
+   1,
+   0.0
+  ],
+  [
    "researcher",
    "supervisor",
    3,
@@ -396,6 +444,12 @@
   [
    "supervisor",
    "research_agent",
+   1,
+   0.0
+  ],
+  [
+   "supervisor",
+   "research_expert",
    1,
    0.0
   ],
@@ -429,63 +483,70 @@
    "cost": 0.0,
    "cost_share": null,
    "node": "researcher",
-   "token_share": 0.325,
+   "token_share": 0.2974,
    "tokens": 861
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "supervisor",
-   "token_share": 0.214,
-   "tokens": 567
+   "token_share": 0.2411,
+   "tokens": 698
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "writer",
-   "token_share": 0.1672,
+   "token_share": 0.153,
    "tokens": 443
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "agent",
-   "token_share": 0.1336,
+   "token_share": 0.1223,
    "tokens": 354
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "critic",
-   "token_share": 0.0453,
+   "token_share": 0.0415,
    "tokens": 120
   },
   {
    "cost": 0.0,
    "cost_share": null,
+   "node": "research_expert",
+   "token_share": 0.0397,
+   "tokens": 115
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
    "node": "research_agent",
-   "token_share": 0.034,
+   "token_share": 0.0311,
    "tokens": 90
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "support_agent",
-   "token_share": 0.0321,
+   "token_share": 0.0294,
    "tokens": 85
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "analyst",
-   "token_share": 0.0257,
+   "token_share": 0.0235,
    "tokens": 68
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "flight_assistant",
-   "token_share": 0.023,
+   "token_share": 0.0211,
    "tokens": 61
   },
   {
@@ -498,10 +559,10 @@
  ],
  "09_context_growth": {
   "median": [
-   26.0,
-   52.0,
-   71.0,
-   103.0,
+   24.0,
+   47.0,
+   64.5,
+   93.0,
    71.0,
    47.0,
    87.0,
@@ -531,6 +592,10 @@
   [
    5,
    2
+  ],
+  [
+   6,
+   1
   ],
   [
    7,
@@ -573,6 +638,11 @@
    3
   ],
   [
+   "research_expert",
+   5,
+   3
+  ],
+  [
    "researcher",
    5,
    13
@@ -580,7 +650,7 @@
   [
    "supervisor",
    5,
-   8
+   11
   ],
   [
    "support_agent",
@@ -707,6 +777,11 @@
    "writer->critic"
   ],
   [
+   "good.clean_handoff",
+   8,
+   "research_expert->supervisor"
+  ],
+  [
    "good.verified",
    5,
    "critic"
@@ -751,6 +826,14 @@
    7,
    "hotel_assistant",
    "hotel_assistant",
+   false
+  ],
+  [
+   "framework.langgraph_supervisor.include_agent_name",
+   "high",
+   8,
+   "supervisor",
+   "supervisor",
    false
   ],
   [

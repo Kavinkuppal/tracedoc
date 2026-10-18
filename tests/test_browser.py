@@ -52,7 +52,7 @@ def test_renders_offline_without_errors(report_url: str, engine: str, scheme: st
         assert page.locator("#top-fixes .fix").count() == 3
         assert page.locator("#findings-body tr").count() > 0
         page.select_option("#f-task", "research")
-        assert "4 of 8 runs" in page.locator("#filter-note").inner_text()
+        assert "5 of 9 runs" in page.locator("#filter-note").inner_text()
         page.select_option("#f-task", "")
         page.locator("#top-fixes a.evidence").first.click()
         page.wait_for_timeout(200)

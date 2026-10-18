@@ -112,7 +112,7 @@ def test_snapshot_covers_every_section() -> None:
 def test_filters_narrow_consistently(rows) -> None:
     full = aggregate(rows)
     research = aggregate(rows, task="research")
-    assert research["scorecard"]["runs"] == 4
+    assert research["scorecard"]["runs"] == 5
     assert set(research["status_by_task"]) == {"research"}
     high = aggregate(rows, sev="high")
     assert set(high["scorecard"]["findings_by_severity"]) == set(SEVERITIES)

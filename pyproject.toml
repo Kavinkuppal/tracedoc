@@ -30,6 +30,7 @@ dev = [
     "pytest>=8",
     "ruff>=0.6",
     "langgraph>=0.2",
+    "langgraph-supervisor>=0.0.31",  # the supervisor_agent_name fixture
     "langsmith>=0.2",
     "markdown-it-py>=3",
     "pypdf>=5",

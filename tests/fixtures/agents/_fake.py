@@ -18,6 +18,7 @@ from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.runnables import Runnable
 from langchain_core.tools import BaseTool
+from langchain_core.utils.function_calling import convert_to_openai_tool
 
 MODEL_NAME = "fake-scripted-1"
 
@@ -104,7 +105,9 @@ class ScriptedChatModel(BaseChatModel):
         tools: Sequence[dict[str, Any] | type | Callable[..., Any] | BaseTool],
         **kwargs: Any,
     ) -> Runnable[Any, AIMessage]:
-        return self
+        # A binding, like a real chat model's, so LangGraph sees the tools as bound (the
+        # scripted replies ignore them).
+        return self.bind(tools=[convert_to_openai_tool(t) for t in tools], **kwargs)
 
     @property
     def _llm_type(self) -> str:

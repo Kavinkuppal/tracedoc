@@ -39,12 +39,14 @@ SPECIFICITY: dict[str, int] = {
     "design.no_stop": 1,
     "verification.premature_finish": 1,
 }
-"""Higher is more specific. A check not listed counts as 2."""
+"""Higher is more specific. A check not listed counts as 2; framework pitfalls count as 4."""
 NEVER_MERGED = ("cost.",)
 _SEVERITY = {"high": 3, "medium": 2, "low": 1}
 
 
 def specificity(check_id: str) -> int:
+    if check_id.startswith("framework."):
+        return 4  # a known framework pitfall names the exact setting to change
     return SPECIFICITY.get(check_id, 2)
 
 

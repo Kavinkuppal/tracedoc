@@ -23,7 +23,13 @@ class CatalogError(KeyError):
 @cache
 def catalog() -> dict[str, Any]:
     with CATALOG_FILE.open("rb") as f:
-        return tomllib.load(f)
+        data = tomllib.load(f)
+    # Known framework pitfalls keep their reviewed text next to their detectors, so a new
+    # pitfall is added in one place (checks/pitfalls.py).
+    from .checks.pitfalls import catalog_entries
+
+    data["checks"].update(catalog_entries())
+    return data
 
 
 def placeholders(template: str) -> set[str]:

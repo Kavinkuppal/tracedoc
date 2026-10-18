@@ -6,7 +6,7 @@ tracedoc reads traces from your LangGraph agents and writes a short PDF diagnosi
 
 ## Quickstart
 
-From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing. They come from eight small test agents, so tracedoc writes one report per agent, each in its own folder:
+From install to an open report in five commands. This runs on the sample traces bundled with the repository, so it needs no API key and costs nothing. They come from nine small test agents, so tracedoc writes one report per agent, each in its own folder:
 
 ```bash
 git clone https://github.com/Kavinkuppal/tracedoc.git && cd tracedoc
@@ -158,7 +158,7 @@ Reports include excerpts of your traces (after redaction), so share them only wi
 
 A *serious problem* is a high-severity finding found with high or medium confidence. Rule findings have high confidence; AI judge findings have high confidence at 0.8 or more and medium at 0.6 or more. Low-confidence findings (including rule candidates the AI judge did not review) appear only in `details.pdf`, never on page 1.
 
-**What the analysis does.** Rule checks always run, with no model: empty final answers, runs that end in an error, repeated steps, runs that never finish, tool errors and blind retries, ignored tool output, no verification before finishing, token hotspots, and slow steps. With a key, a cheap triage model and a stronger confirmation model (default `claude-haiku-4-5-20251001` and `claude-sonnet-5-5`) confirm or dismiss the uncertain rule findings. They see only a few steps around each finding.
+**What the analysis does.** Rule checks always run, with no model: empty final answers, runs that end in an error, repeated steps, runs that never finish, tool errors and blind retries, ignored tool output, no verification before finishing, token hotspots, slow steps, and known framework pitfalls: settings in a framework that are known to fail, such as a langgraph-supervisor system on non-OpenAI models with `include_agent_name` left at its default (its supervisor can't see which agent wrote each reply). Each pitfall's fix cites the library's documentation. With a key, a cheap triage model and a stronger confirmation model (default `claude-haiku-4-5-20251001` and `claude-sonnet-5-5`) confirm or dismiss the uncertain rule findings. They see only a few steps around each finding.
 
 Eight further judge checks (ignored instructions, lost context, incomplete handoffs, ignored agent output, reasoning/action mismatch, guessing on ambiguous input, task drift, finishing early) stay **off** until their precision is measured on labeled examples. None have been measured yet. Turn them on anyway with `--include-unvalidated`, or measure them from a clone of this repository with `python evals/run_evals.py --write`, which uses your key.
 
@@ -276,3 +276,5 @@ pytest -m browser --browser                       # --html report in Chromium/Fi
 pytest -m live --live -s                          # real-model acceptance test; uses your key and spends money
 python evals/run_evals.py --mock                  # eval harness without a model
 ```
+
+To add a known framework pitfall, add one `Pitfall` entry to `src/tracedoc/checks/pitfalls.py`: its check ID, severity, report text, the documentation it cites, and a detector that reads one run. That entry becomes a rule check and its catalog text; add a fixture agent in `tests/fixtures/agents/` that shows it.

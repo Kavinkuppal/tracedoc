@@ -20,6 +20,7 @@ RULE_CHECKS = {
     "design.loop",
     "design.no_stop",
     "design.run_error",
+    "framework.langgraph_supervisor.include_agent_name",
     "tools.errors_retries",
     "tools.unused_output",
     "verification.unchecked_result",
@@ -36,13 +37,21 @@ def _findings(name: str, source: str = "capture", config: Config | None = None):
 def test_registry_holds_all_rule_checks() -> None:
     assert {c.id for c in enabled_checks(Config(), "rule")} == RULE_CHECKS
     for cls in REGISTRY.values():
-        assert cls.id.split(".")[0] in {"design", "agents", "verification", "tools", "cost"}
+        assert cls.id.split(".")[0] in {
+            "design",
+            "agents",
+            "verification",
+            "tools",
+            "cost",
+            "framework",
+        }
 
 
 def test_fixture_bugs_are_rule_detectable() -> None:
     assert set(RULE_BUGS) == {
         "nested_agents",
         "researcher_repeat_search",
+        "supervisor_agent_name",
         "supervisor_no_end",
         "swarm_parallel_handoff",
         "tool_retry_same_args",

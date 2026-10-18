@@ -1,0 +1,5547 @@
+[
+ {
+  "id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "name": "supervisor_agent_name",
+  "start_time": "2026-10-18T18:08:27.182378Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.218459Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.182378Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.218459Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": null,
+  "tags": [],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6230-7b12-99c1-361e9e761edd",
+  "name": "supervisor",
+  "start_time": "2026-10-18T18:08:27.184148Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.202206Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": "ParentCommand(Command(graph='supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 707, in invoke\n    input = context.run(step.invoke, input, config, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3978, in invoke\n    for chunk in self.stream(\n                 ~~~~~~~~~~~^\n        input,\n        ^^^^^^\n    ...<11 lines>...\n        **kwargs,\n        ^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.184148Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-18T18:08:27.202206Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6230-7b12-99c1-362b12900cd2",
+  "name": "supervisor",
+  "start_time": "2026-10-18T18:08:27.184468Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.200029Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": "ParentCommand(Command(graph='supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/main.py\", line 3034, in stream\n    for _ in runner.tick(\n             ~~~~~~~~~~~^\n        [t for t in loop.tasks.values() if not t.writes],\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<2 lines>...\n        schedule_task=loop.accept_push,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ):\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_runner.py\", line 208, in tick\n    run_with_retry(\n    ~~~~~~~~~~~~~~^\n        t,\n        ^^\n    ...<10 lines>...\n        },\n        ^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_retry.py\", line 617, in run_with_retry\n    return task.proc.invoke(task.input, config)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.184468Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-18T18:08:27.200029Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ]
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6230-7b12-99c1-361e9e761edd",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6231-72a2-9c0c-53a43da01c7b",
+  "name": "agent",
+  "start_time": "2026-10-18T18:08:27.185349Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.188434Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.185349Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.188434Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6230-7b12-99c1-362b12900cd2",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6231-72a2-9c0c-53b3948ecb3d",
+  "name": "call_model",
+  "start_time": "2026-10-18T18:08:27.185566Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.187880Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.185566Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.187880Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6231-72a2-9c0c-53a43da01c7b",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b.20261018T180827185566Z01a15033-6231-72a2-9c0c-53b3948ecb3d",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6231-72a2-9c0c-53c50c32eab2",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-18T18:08:27.185876Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.187757Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.185876Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.187757Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": {
+    "content": "",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "claude-sonnet-5-5"
+    },
+    "type": "ai",
+    "name": "supervisor",
+    "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+    "tool_calls": [
+     {
+      "name": "transfer_to_research_expert",
+      "args": {},
+      "id": "t1",
+      "type": "tool_call"
+     }
+    ],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 24,
+     "output_tokens": 7,
+     "total_tokens": 31
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6231-72a2-9c0c-53b3948ecb3d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b.20261018T180827185566Z01a15033-6231-72a2-9c0c-53b3948ecb3d.20261018T180827185876Z01a15033-6231-72a2-9c0c-53c50c32eab2",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6232-7231-b599-40d4bb97512b",
+  "name": "Prompt",
+  "start_time": "2026-10-18T18:08:27.186043Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.186186Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.186043Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.186186Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You manage research_expert. Send research questions to it.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6231-72a2-9c0c-53c50c32eab2",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b.20261018T180827185566Z01a15033-6231-72a2-9c0c-53b3948ecb3d.20261018T180827185876Z01a15033-6231-72a2-9c0c-53c50c32eab2.20261018T180827186043Z01a15033-6232-7231-b599-40d4bb97512b",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6232-7231-b599-40ef9e368a88",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-18T18:08:27.186665Z",
+  "run_type": "llm",
+  "end_time": "2026-10-18T18:08:27.187549Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "claude-sonnet-5-5",
+    "_type": "scripted-fake",
+    "stop": null,
+    "tools": [
+     {
+      "type": "function",
+      "function": {
+       "name": "transfer_to_research_expert",
+       "description": "Ask agent 'research_expert' for help",
+       "parameters": {
+        "properties": {},
+        "type": "object"
+       }
+      }
+     }
+    ]
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "claude-sonnet-5-5",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    },
+    "usage_metadata": {
+     "input_tokens": 24,
+     "output_tokens": 7,
+     "total_tokens": 31
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], model_name='claude-sonnet-5-5')",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.186665Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.187549Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage research_expert. Send research questions to it.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Who won the 2024 Nobel Prize in Physics?",
+       "type": "human",
+       "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "claude-sonnet-5-5"
+        },
+        "type": "ai",
+        "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+        "tool_calls": [
+         {
+          "name": "transfer_to_research_expert",
+          "args": {},
+          "id": "t1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 24,
+         "output_tokens": 7,
+         "total_tokens": 31
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6231-72a2-9c0c-53c50c32eab2",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b.20261018T180827185566Z01a15033-6231-72a2-9c0c-53b3948ecb3d.20261018T180827185876Z01a15033-6231-72a2-9c0c-53c50c32eab2.20261018T180827186665Z01a15033-6232-7231-b599-40ef9e368a88",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 24,
+  "completion_tokens": 7
+ },
+ {
+  "id": "01a15033-6234-76c3-b4be-1d2a826194ac",
+  "name": "should_continue",
+  "start_time": "2026-10-18T18:08:27.188056Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.188244Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|agent:40be5fd3-447a-cc82-7f3a-b83c006a5ea9",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.188056Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.188244Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    "Send(node='tools', arg={'__type': 'tool_call_with_context', 'tool_call': {'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}, 'state': {'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31})], 'remaining_steps': 24}})"
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6231-72a2-9c0c-53a43da01c7b",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827185349Z01a15033-6231-72a2-9c0c-53a43da01c7b.20261018T180827188056Z01a15033-6234-76c3-b4be-1d2a826194ac",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6234-76c3-b4be-1d30c38eded0",
+  "name": "tools",
+  "start_time": "2026-10-18T18:08:27.188963Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.196121Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|tools:9c883d02-24c1-5746-d070-2189389120cd",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346"
+   }
+  },
+  "error": "ParentCommand(Command(graph='__parent__', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert'))Traceback (most recent call last):\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 709, in invoke\n    input = step.invoke(input, config)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/_internal/_runnable.py\", line 447, in invoke\n    ret = self.func(*args, **kwargs)\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 84, in _write\n    self.do_write(\n    ~~~~~~~~~~~~~^\n        config,\n        ^^^^^^^\n        writes,\n        ^^^^^^^\n    )\n    ^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 126, in do_write\n    write(_assemble_writes(writes))\n          ~~~~~~~~~~~~~~~~^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/pregel/_write.py\", line 181, in _assemble_writes\n    if ww := w.mapper(w.value):\n             ~~~~~~~~^^^^^^^^^\n\n\n  File \"/usr/local/lib/python3.13/dist-packages/langgraph/graph/state.py\", line 1762, in _control_branch\n    raise ParentCommand(command)\n\n\nlanggraph.errors.ParentCommand: Command(graph='__parent__', update={'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', tool_call_id='t1')], 'remaining_steps': 24}, goto='research_expert')",
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.188963Z"
+   },
+   {
+    "name": "error",
+    "time": "2026-10-18T18:08:27.196121Z"
+   }
+  ],
+  "inputs": {
+   "__type": "tool_call_with_context",
+   "tool_call": {
+    "name": "transfer_to_research_expert",
+    "args": {},
+    "id": "t1",
+    "type": "tool_call"
+   },
+   "state": {
+    "messages": [
+     {
+      "content": "Who won the 2024 Nobel Prize in Physics?",
+      "additional_kwargs": {},
+      "response_metadata": {},
+      "type": "human",
+      "name": null,
+      "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+     },
+     {
+      "content": "",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "model_name": "claude-sonnet-5-5"
+      },
+      "type": "ai",
+      "name": "supervisor",
+      "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+      "tool_calls": [
+       {
+        "name": "transfer_to_research_expert",
+        "args": {},
+        "id": "t1",
+        "type": "tool_call"
+       }
+      ],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+       "input_tokens": 24,
+       "output_tokens": 7,
+       "total_tokens": 31
+      }
+     }
+    ],
+    "remaining_steps": 24
+   }
+  },
+  "outputs": {},
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6230-7b12-99c1-362b12900cd2",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827188963Z01a15033-6234-76c3-b4be-1d30c38eded0",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6236-7723-aa5a-c2ffe63821aa",
+  "name": "transfer_to_research_expert",
+  "start_time": "2026-10-18T18:08:27.190134Z",
+  "run_type": "tool",
+  "end_time": "2026-10-18T18:08:27.190956Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "t1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346|tools:9c883d02-24c1-5746-d070-2189389120cd",
+    "checkpoint_ns": "supervisor:fddb9bb5-fa20-61df-d4d7-1b8282202346",
+    "__handoff_destination": "research_expert"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "transfer_to_research_expert",
+   "description": "Ask agent 'research_expert' for help"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.190134Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.190956Z"
+   }
+  ],
+  "inputs": {},
+  "outputs": {
+   "output": {
+    "graph": "__parent__",
+    "update": {
+     "messages": [
+      {
+       "content": "Who won the 2024 Nobel Prize in Physics?",
+       "additional_kwargs": {},
+       "response_metadata": {},
+       "type": "human",
+       "name": null,
+       "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+      },
+      {
+       "content": "",
+       "additional_kwargs": {},
+       "response_metadata": {
+        "model_name": "claude-sonnet-5-5"
+       },
+       "type": "ai",
+       "name": "supervisor",
+       "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+       "tool_calls": [
+        {
+         "name": "transfer_to_research_expert",
+         "args": {},
+         "id": "t1",
+         "type": "tool_call"
+        }
+       ],
+       "invalid_tool_calls": [],
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 7,
+        "total_tokens": 31
+       }
+      },
+      {
+       "content": "Successfully transferred to research_expert",
+       "additional_kwargs": {},
+       "response_metadata": {
+        "__handoff_destination": "research_expert"
+       },
+       "type": "tool",
+       "name": "transfer_to_research_expert",
+       "id": null,
+       "tool_call_id": "t1",
+       "artifact": null,
+       "status": "success"
+      }
+     ],
+     "remaining_steps": 24
+    },
+    "resume": null,
+    "goto": "research_expert"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6234-76c3-b4be-1d30c38eded0",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827184148Z01a15033-6230-7b12-99c1-361e9e761edd.20261018T180827184468Z01a15033-6230-7b12-99c1-362b12900cd2.20261018T180827188963Z01a15033-6234-76c3-b4be-1d30c38eded0.20261018T180827190134Z01a15033-6236-7723-aa5a-c2ffe63821aa",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6242-7a40-b023-b85875dc83bb",
+  "name": "research_expert",
+  "start_time": "2026-10-18T18:08:27.202972Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.214134Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "research_expert",
+    "langgraph_triggers": [
+     "branch:to:research_expert"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "research_expert"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.202972Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.214134Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6243-7300-84c1-8e7547f19287",
+  "name": "call_agent",
+  "start_time": "2026-10-18T18:08:27.203223Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.214054Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "research_expert",
+    "langgraph_triggers": [
+     "branch:to:research_expert"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "research_expert"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.203223Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.214054Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6242-7a40-b023-b85875dc83bb",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6243-7300-84c1-8e8537c12dfd",
+  "name": "research_expert",
+  "start_time": "2026-10-18T18:08:27.203423Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.213845Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "research_expert",
+    "langgraph_triggers": [
+     "branch:to:research_expert"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "research_expert"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.203423Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213845Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6243-7300-84c1-8e7547f19287",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6244-7123-8625-7fcc8d62f845",
+  "name": "agent",
+  "start_time": "2026-10-18T18:08:27.204300Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.207651Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.204300Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.207651Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6243-7300-84c1-8e8537c12dfd",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6244-7123-8625-7fdf7d8b90df",
+  "name": "call_model",
+  "start_time": "2026-10-18T18:08:27.204516Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.207151Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.204516Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.207151Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6244-7123-8625-7fcc8d62f845",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845.20261018T180827204516Z01a15033-6244-7123-8625-7fdf7d8b90df",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6244-7123-8625-7fe4e79fb513",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-18T18:08:27.204854Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.207091Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.204854Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.207091Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": {
+    "content": "",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "claude-haiku-4-5-20251001"
+    },
+    "type": "ai",
+    "name": "research_expert",
+    "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+    "tool_calls": [
+     {
+      "name": "web_search",
+      "args": {
+       "query": "2024 Nobel physics"
+      },
+      "id": "c1",
+      "type": "tool_call"
+     }
+    ],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 30,
+     "output_tokens": 10,
+     "total_tokens": 40
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6244-7123-8625-7fdf7d8b90df",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845.20261018T180827204516Z01a15033-6244-7123-8625-7fdf7d8b90df.20261018T180827204854Z01a15033-6244-7123-8625-7fe4e79fb513",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6245-7fa1-a034-62d8227eaa14",
+  "name": "Prompt",
+  "start_time": "2026-10-18T18:08:27.205025Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.205173Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.205025Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.205173Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You research.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6244-7123-8625-7fe4e79fb513",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845.20261018T180827204516Z01a15033-6244-7123-8625-7fdf7d8b90df.20261018T180827204854Z01a15033-6244-7123-8625-7fe4e79fb513.20261018T180827205025Z01a15033-6245-7fa1-a034-62d8227eaa14",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6246-7743-b32e-6e89fc42a7e7",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-18T18:08:27.206293Z",
+  "run_type": "llm",
+  "end_time": "2026-10-18T18:08:27.206981Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "claude-haiku-4-5-20251001",
+    "_type": "scripted-fake",
+    "stop": null,
+    "tools": [
+     {
+      "type": "function",
+      "function": {
+       "name": "web_search",
+       "description": "Search the web.",
+       "parameters": {
+        "properties": {
+         "query": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "query"
+        ],
+        "type": "object"
+       }
+      }
+     }
+    ]
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "claude-haiku-4-5-20251001",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    },
+    "usage_metadata": {
+     "input_tokens": 30,
+     "output_tokens": 10,
+     "total_tokens": 40
+    }
+   },
+   "tool_call_count": 1
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': '2024 Nobel physics'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], model_name='claude-haiku-4-5-20251001')",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.206293Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.206981Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Who won the 2024 Nobel Prize in Physics?",
+       "type": "human",
+       "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "claude-sonnet-5-5"
+       },
+       "type": "ai",
+       "name": "supervisor",
+       "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+       "tool_calls": [
+        {
+         "name": "transfer_to_research_expert",
+         "args": {},
+         "id": "t1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 7,
+        "total_tokens": 31
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Successfully transferred to research_expert",
+       "response_metadata": {
+        "__handoff_destination": "research_expert"
+       },
+       "type": "tool",
+       "name": "transfer_to_research_expert",
+       "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+       "tool_call_id": "t1",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "",
+        "response_metadata": {
+         "model_name": "claude-haiku-4-5-20251001"
+        },
+        "type": "ai",
+        "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+        "tool_calls": [
+         {
+          "name": "web_search",
+          "args": {
+           "query": "2024 Nobel physics"
+          },
+          "id": "c1",
+          "type": "tool_call"
+         }
+        ],
+        "usage_metadata": {
+         "input_tokens": 30,
+         "output_tokens": 10,
+         "total_tokens": 40
+        },
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6244-7123-8625-7fe4e79fb513",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845.20261018T180827204516Z01a15033-6244-7123-8625-7fdf7d8b90df.20261018T180827204854Z01a15033-6244-7123-8625-7fe4e79fb513.20261018T180827206293Z01a15033-6246-7743-b32e-6e89fc42a7e7",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 30,
+  "completion_tokens": 10
+ },
+ {
+  "id": "01a15033-6247-7fe3-9ed8-39f07ec6882d",
+  "name": "should_continue",
+  "start_time": "2026-10-18T18:08:27.207307Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.207483Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:0b3a4518-6600-b88a-d3eb-32f8b55a0139",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.207307Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.207483Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    "Send(node='tools', arg={'__type': 'tool_call_with_context', 'tool_call': {'name': 'web_search', 'args': {'query': '2024 Nobel physics'}, 'id': 'c1', 'type': 'tool_call'}, 'state': {'messages': [HumanMessage(content='Who won the 2024 Nobel Prize in Physics?', additional_kwargs={}, response_metadata={}, id='3593d8cb-7d43-400a-acd6-124be7965912'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-sonnet-5-5'}, name='supervisor', id='lc_run--01a15033-6232-7231-b599-40ef9e368a88-0', tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 24, 'output_tokens': 7, 'total_tokens': 31}), ToolMessage(content='Successfully transferred to research_expert', name='transfer_to_research_expert', id='f8f7f283-27a2-41f4-9c36-1ccb26d4f132', tool_call_id='t1'), AIMessage(content='', additional_kwargs={}, response_metadata={'model_name': 'claude-haiku-4-5-20251001'}, name='research_expert', id='lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0', tool_calls=[{'name': 'web_search', 'args': {'query': '2024 Nobel physics'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 30, 'output_tokens': 10, 'total_tokens': 40})], 'remaining_steps': 24}})"
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6244-7123-8625-7fcc8d62f845",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827204300Z01a15033-6244-7123-8625-7fcc8d62f845.20261018T180827207307Z01a15033-6247-7fe3-9ed8-39f07ec6882d",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6248-7c82-937a-277d28fd3303",
+  "name": "tools",
+  "start_time": "2026-10-18T18:08:27.208177Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.210555Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|tools:80e53654-910f-bfd9-40ad-7cb3a888a63e",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.208177Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.210555Z"
+   }
+  ],
+  "inputs": {
+   "__type": "tool_call_with_context",
+   "tool_call": {
+    "name": "web_search",
+    "args": {
+     "query": "2024 Nobel physics"
+    },
+    "id": "c1",
+    "type": "tool_call"
+   },
+   "state": {
+    "messages": [
+     {
+      "content": "Who won the 2024 Nobel Prize in Physics?",
+      "additional_kwargs": {},
+      "response_metadata": {},
+      "type": "human",
+      "name": null,
+      "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+     },
+     {
+      "content": "",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "model_name": "claude-sonnet-5-5"
+      },
+      "type": "ai",
+      "name": "supervisor",
+      "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+      "tool_calls": [
+       {
+        "name": "transfer_to_research_expert",
+        "args": {},
+        "id": "t1",
+        "type": "tool_call"
+       }
+      ],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+       "input_tokens": 24,
+       "output_tokens": 7,
+       "total_tokens": 31
+      }
+     },
+     {
+      "content": "Successfully transferred to research_expert",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "__handoff_destination": "research_expert"
+      },
+      "type": "tool",
+      "name": "transfer_to_research_expert",
+      "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+      "tool_call_id": "t1",
+      "artifact": null,
+      "status": "success"
+     },
+     {
+      "content": "",
+      "additional_kwargs": {},
+      "response_metadata": {
+       "model_name": "claude-haiku-4-5-20251001"
+      },
+      "type": "ai",
+      "name": "research_expert",
+      "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+      "tool_calls": [
+       {
+        "name": "web_search",
+        "args": {
+         "query": "2024 Nobel physics"
+        },
+        "id": "c1",
+        "type": "tool_call"
+       }
+      ],
+      "invalid_tool_calls": [],
+      "usage_metadata": {
+       "input_tokens": 30,
+       "output_tokens": 10,
+       "total_tokens": 40
+      }
+     }
+    ],
+    "remaining_steps": 24
+   }
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6243-7300-84c1-8e8537c12dfd",
+  "tags": [
+   "graph:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827208177Z01a15033-6248-7c82-937a-277d28fd3303",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6249-7311-9ba1-be8903a83618",
+  "name": "web_search",
+  "start_time": "2026-10-18T18:08:27.209240Z",
+  "run_type": "tool",
+  "end_time": "2026-10-18T18:08:27.210011Z",
+  "extra": {
+   "color": "green",
+   "tool_call_id": "c1",
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 2,
+    "langgraph_node": "tools",
+    "langgraph_triggers": [
+     "__pregel_push"
+    ],
+    "langgraph_path": [
+     "__pregel_push",
+     0,
+     false
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|tools:80e53654-910f-bfd9-40ad-7cb3a888a63e",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": {
+   "name": "web_search",
+   "description": "Search the web."
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.209240Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.210011Z"
+   }
+  ],
+  "inputs": {
+   "query": "2024 Nobel physics"
+  },
+  "outputs": {
+   "output": {
+    "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+    "additional_kwargs": {},
+    "response_metadata": {},
+    "type": "tool",
+    "name": "web_search",
+    "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+    "tool_call_id": "c1",
+    "artifact": null,
+    "status": "success"
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6248-7c82-937a-277d28fd3303",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827208177Z01a15033-6248-7c82-937a-277d28fd3303.20261018T180827209240Z01a15033-6249-7311-9ba1-be8903a83618",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624b-7633-9fb9-97bfa1e55be4",
+  "name": "agent",
+  "start_time": "2026-10-18T18:08:27.211090Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.213598Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.211090Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213598Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6243-7300-84c1-8e8537c12dfd",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624b-7633-9fb9-97c8f3fd143d",
+  "name": "call_model",
+  "start_time": "2026-10-18T18:08:27.211376Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.213247Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.211376Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213247Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624b-7633-9fb9-97bfa1e55be4",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4.20261018T180827211376Z01a15033-624b-7633-9fb9-97c8f3fd143d",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624b-7633-9fb9-97dfd8edacb7",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-18T18:08:27.211785Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.213202Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.211785Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213202Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": {
+    "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "claude-haiku-4-5-20251001"
+    },
+    "type": "ai",
+    "name": "research_expert",
+    "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+    "tool_calls": [],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 58,
+     "output_tokens": 17,
+     "total_tokens": 75
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624b-7633-9fb9-97c8f3fd143d",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4.20261018T180827211376Z01a15033-624b-7633-9fb9-97c8f3fd143d.20261018T180827211785Z01a15033-624b-7633-9fb9-97dfd8edacb7",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624c-7a43-8a64-20ff67cf0e53",
+  "name": "Prompt",
+  "start_time": "2026-10-18T18:08:27.212014Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.212189Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.212014Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.212189Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You research.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624b-7633-9fb9-97dfd8edacb7",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4.20261018T180827211376Z01a15033-624b-7633-9fb9-97c8f3fd143d.20261018T180827211785Z01a15033-624b-7633-9fb9-97dfd8edacb7.20261018T180827212014Z01a15033-624c-7a43-8a64-20ff67cf0e53",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624c-7a43-8a64-2105d4712ee4",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-18T18:08:27.212472Z",
+  "run_type": "llm",
+  "end_time": "2026-10-18T18:08:27.213123Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "claude-haiku-4-5-20251001",
+    "_type": "scripted-fake",
+    "stop": null,
+    "tools": [
+     {
+      "type": "function",
+      "function": {
+       "name": "web_search",
+       "description": "Search the web.",
+       "parameters": {
+        "properties": {
+         "query": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "query"
+        ],
+        "type": "object"
+       }
+      }
+     }
+    ]
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "claude-haiku-4-5-20251001",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    },
+    "usage_metadata": {
+     "input_tokens": 58,
+     "output_tokens": 17,
+     "total_tokens": 75
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'web_search', 'args': {'query': '2024 Nobel physics'}, 'id': 'c1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], model_name='claude-haiku-4-5-20251001')",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.212472Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213123Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You research.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Who won the 2024 Nobel Prize in Physics?",
+       "type": "human",
+       "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "claude-sonnet-5-5"
+       },
+       "type": "ai",
+       "name": "supervisor",
+       "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+       "tool_calls": [
+        {
+         "name": "transfer_to_research_expert",
+         "args": {},
+         "id": "t1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 7,
+        "total_tokens": 31
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Successfully transferred to research_expert",
+       "response_metadata": {
+        "__handoff_destination": "research_expert"
+       },
+       "type": "tool",
+       "name": "transfer_to_research_expert",
+       "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+       "tool_call_id": "t1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "claude-haiku-4-5-20251001"
+       },
+       "type": "ai",
+       "name": "research_expert",
+       "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+       "tool_calls": [
+        {
+         "name": "web_search",
+         "args": {
+          "query": "2024 Nobel physics"
+         },
+         "id": "c1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 30,
+        "output_tokens": 10,
+        "total_tokens": 40
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+       "type": "tool",
+       "name": "web_search",
+       "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+       "tool_call_id": "c1",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+        "response_metadata": {
+         "model_name": "claude-haiku-4-5-20251001"
+        },
+        "type": "ai",
+        "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+        "usage_metadata": {
+         "input_tokens": 58,
+         "output_tokens": 17,
+         "total_tokens": 75
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624b-7633-9fb9-97dfd8edacb7",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4.20261018T180827211376Z01a15033-624b-7633-9fb9-97c8f3fd143d.20261018T180827211785Z01a15033-624b-7633-9fb9-97dfd8edacb7.20261018T180827212472Z01a15033-624c-7a43-8a64-2105d4712ee4",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 58,
+  "completion_tokens": 17
+ },
+ {
+  "id": "01a15033-624d-74d3-9c54-9b25b8a55402",
+  "name": "should_continue",
+  "start_time": "2026-10-18T18:08:27.213381Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.213559Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082|agent:2045a152-845a-ed10-4f22-fcd50b8eb89a",
+    "checkpoint_ns": "research_expert:8409a000-98e4-fcca-a3f4-783572bb9082"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.213381Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.213559Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-6246-7743-b32e-6e89fc42a7e7-0",
+     "tool_calls": [
+      {
+       "name": "web_search",
+       "args": {
+        "query": "2024 Nobel physics"
+       },
+       "id": "c1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 30,
+      "output_tokens": 10,
+      "total_tokens": 40
+     }
+    },
+    {
+     "content": "The 2024 Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "tool",
+     "name": "web_search",
+     "id": "10fb384e-4655-4e77-8710-a9691df6f097",
+     "tool_call_id": "c1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    }
+   ],
+   "remaining_steps": 22
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624b-7633-9fb9-97bfa1e55be4",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827202972Z01a15033-6242-7a40-b023-b85875dc83bb.20261018T180827203223Z01a15033-6243-7300-84c1-8e7547f19287.20261018T180827203423Z01a15033-6243-7300-84c1-8e8537c12dfd.20261018T180827211090Z01a15033-624b-7633-9fb9-97bfa1e55be4.20261018T180827213381Z01a15033-624d-74d3-9c54-9b25b8a55402",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624e-7b33-b6dd-839b3b45b086",
+  "name": "supervisor",
+  "start_time": "2026-10-18T18:08:27.214471Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.218210Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.214471Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.218210Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "tags": [
+   "graph:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624e-7b33-b6dd-83a1e98c794c",
+  "name": "supervisor",
+  "start_time": "2026-10-18T18:08:27.214664Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.218040Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 3,
+    "langgraph_node": "supervisor",
+    "langgraph_triggers": [
+     "branch:to:supervisor"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "supervisor"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.214664Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.218040Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624e-7b33-b6dd-839b3b45b086",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624f-7751-a0d1-40c448415d0c",
+  "name": "agent",
+  "start_time": "2026-10-18T18:08:27.215344Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.217736Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.215344Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.217736Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624e-7b33-b6dd-83a1e98c794c",
+  "tags": [
+   "graph:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-624f-7751-a0d1-40df35ff1edf",
+  "name": "call_model",
+  "start_time": "2026-10-18T18:08:27.215556Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.217391Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.215556Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.217391Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "messages": [
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624f-7751-a0d1-40c448415d0c",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c.20261018T180827215556Z01a15033-624f-7751-a0d1-40df35ff1edf",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6250-7b21-8126-9df111813b20",
+  "name": "RunnableSequence",
+  "start_time": "2026-10-18T18:08:27.216029Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.217349Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.216029Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.217349Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": {
+    "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+    "additional_kwargs": {},
+    "response_metadata": {
+     "model_name": "claude-sonnet-5-5"
+    },
+    "type": "ai",
+    "name": "supervisor",
+    "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+    "tool_calls": [],
+    "invalid_tool_calls": [],
+    "usage_metadata": {
+     "input_tokens": 83,
+     "output_tokens": 17,
+     "total_tokens": 100
+    }
+   }
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624f-7751-a0d1-40df35ff1edf",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c.20261018T180827215556Z01a15033-624f-7751-a0d1-40df35ff1edf.20261018T180827216029Z01a15033-6250-7b21-8126-9df111813b20",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6250-7b21-8126-9e0a88689fce",
+  "name": "Prompt",
+  "start_time": "2026-10-18T18:08:27.216221Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.216388Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.216221Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.216388Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": [
+    {
+     "content": "You manage research_expert. Send research questions to it.",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "system",
+     "name": null,
+     "id": null
+    },
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    }
+   ]
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6250-7b21-8126-9df111813b20",
+  "tags": [
+   "seq:step:1"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c.20261018T180827215556Z01a15033-624f-7751-a0d1-40df35ff1edf.20261018T180827216029Z01a15033-6250-7b21-8126-9df111813b20.20261018T180827216221Z01a15033-6250-7b21-8126-9e0a88689fce",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ },
+ {
+  "id": "01a15033-6250-7b21-8126-9e14a72eab80",
+  "name": "ScriptedChatModel",
+  "start_time": "2026-10-18T18:08:27.216640Z",
+  "run_type": "llm",
+  "end_time": "2026-10-18T18:08:27.217266Z",
+  "extra": {
+   "invocation_params": {
+    "model_name": "claude-sonnet-5-5",
+    "_type": "scripted-fake",
+    "stop": null,
+    "tools": [
+     {
+      "type": "function",
+      "function": {
+       "name": "transfer_to_research_expert",
+       "description": "Ask agent 'research_expert' for help",
+       "parameters": {
+        "properties": {},
+        "type": "object"
+       }
+      }
+     }
+    ]
+   },
+   "options": {
+    "stop": null
+   },
+   "batch_size": 1,
+   "metadata": {
+    "ls_integration": "langchain_chat_model",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679",
+    "ls_provider": "scriptedchatmodel",
+    "ls_model_type": "chat",
+    "ls_model_name": "claude-sonnet-5-5",
+    "lc_versions": {
+     "langchain-core": "1.6.9"
+    },
+    "usage_metadata": {
+     "input_tokens": 83,
+     "output_tokens": 17,
+     "total_tokens": 100
+    }
+   }
+  },
+  "error": null,
+  "serialized": {
+   "lc": 1,
+   "type": "not_implemented",
+   "id": [
+    "tests",
+    "fixtures",
+    "agents",
+    "_fake",
+    "ScriptedChatModel"
+   ],
+   "repr": "ScriptedChatModel(metadata={'lc_versions': {'langchain-core': '1.6.9'}}, responses=[AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[{'name': 'transfer_to_research_expert', 'args': {}, 'id': 't1', 'type': 'tool_call'}], invalid_tool_calls=[]), AIMessage(content='John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[])], model_name='claude-sonnet-5-5')",
+   "name": "ScriptedChatModel"
+  },
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.216640Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.217266Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    [
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "SystemMessage"
+      ],
+      "kwargs": {
+       "content": "You manage research_expert. Send research questions to it.",
+       "type": "system"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "HumanMessage"
+      ],
+      "kwargs": {
+       "content": "Who won the 2024 Nobel Prize in Physics?",
+       "type": "human",
+       "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "",
+       "response_metadata": {
+        "model_name": "claude-sonnet-5-5"
+       },
+       "type": "ai",
+       "name": "supervisor",
+       "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+       "tool_calls": [
+        {
+         "name": "transfer_to_research_expert",
+         "args": {},
+         "id": "t1",
+         "type": "tool_call"
+        }
+       ],
+       "usage_metadata": {
+        "input_tokens": 24,
+        "output_tokens": 7,
+        "total_tokens": 31
+       },
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Successfully transferred to research_expert",
+       "response_metadata": {
+        "__handoff_destination": "research_expert"
+       },
+       "type": "tool",
+       "name": "transfer_to_research_expert",
+       "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+       "tool_call_id": "t1",
+       "status": "success"
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+       "response_metadata": {
+        "model_name": "claude-haiku-4-5-20251001"
+       },
+       "type": "ai",
+       "name": "research_expert",
+       "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+       "usage_metadata": {
+        "input_tokens": 58,
+        "output_tokens": 17,
+        "total_tokens": 75
+       },
+       "tool_calls": [],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "AIMessage"
+      ],
+      "kwargs": {
+       "content": "Transferring back to supervisor",
+       "response_metadata": {
+        "__is_handoff_back": true
+       },
+       "type": "ai",
+       "name": "research_expert",
+       "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+       "tool_calls": [
+        {
+         "name": "transfer_back_to_supervisor",
+         "args": {},
+         "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+         "type": "tool_call"
+        }
+       ],
+       "invalid_tool_calls": []
+      }
+     },
+     {
+      "lc": 1,
+      "type": "constructor",
+      "id": [
+       "langchain",
+       "schema",
+       "messages",
+       "ToolMessage"
+      ],
+      "kwargs": {
+       "content": "Successfully transferred back to supervisor",
+       "response_metadata": {
+        "__is_handoff_back": true
+       },
+       "type": "tool",
+       "name": "transfer_back_to_supervisor",
+       "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+       "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "status": "success"
+      }
+     }
+    ]
+   ]
+  },
+  "outputs": {
+   "generations": [
+    [
+     {
+      "text": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+      "generation_info": null,
+      "type": "ChatGeneration",
+      "message": {
+       "lc": 1,
+       "type": "constructor",
+       "id": [
+        "langchain",
+        "schema",
+        "messages",
+        "AIMessage"
+       ],
+       "kwargs": {
+        "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+        "response_metadata": {
+         "model_name": "claude-sonnet-5-5"
+        },
+        "type": "ai",
+        "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+        "usage_metadata": {
+         "input_tokens": 83,
+         "output_tokens": 17,
+         "total_tokens": 100
+        },
+        "tool_calls": [],
+        "invalid_tool_calls": []
+       }
+      }
+     }
+    ]
+   ],
+   "llm_output": null,
+   "run": null,
+   "type": "LLMResult"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-6250-7b21-8126-9df111813b20",
+  "tags": [
+   "seq:step:2"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c.20261018T180827215556Z01a15033-624f-7751-a0d1-40df35ff1edf.20261018T180827216029Z01a15033-6250-7b21-8126-9df111813b20.20261018T180827216640Z01a15033-6250-7b21-8126-9e14a72eab80",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false,
+  "prompt_tokens": 83,
+  "completion_tokens": 17
+ },
+ {
+  "id": "01a15033-6251-72f0-93da-3ccf6dcfcf76",
+  "name": "should_continue",
+  "start_time": "2026-10-18T18:08:27.217525Z",
+  "run_type": "chain",
+  "end_time": "2026-10-18T18:08:27.217694Z",
+  "extra": {
+   "metadata": {
+    "ls_integration": "langgraph",
+    "langgraph_step": 1,
+    "langgraph_node": "agent",
+    "langgraph_triggers": [
+     "branch:to:agent"
+    ],
+    "langgraph_path": [
+     "__pregel_pull",
+     "agent"
+    ],
+    "langgraph_checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679|agent:4e8558bd-71ae-0897-8663-3b6e4503c427",
+    "checkpoint_ns": "supervisor:50d81ed4-1da3-c52b-3769-66c0cfa72679"
+   }
+  },
+  "error": null,
+  "serialized": null,
+  "events": [
+   {
+    "name": "start",
+    "time": "2026-10-18T18:08:27.217525Z"
+   },
+   {
+    "name": "end",
+    "time": "2026-10-18T18:08:27.217694Z"
+   }
+  ],
+  "inputs": {
+   "messages": [
+    {
+     "content": "Who won the 2024 Nobel Prize in Physics?",
+     "additional_kwargs": {},
+     "response_metadata": {},
+     "type": "human",
+     "name": null,
+     "id": "3593d8cb-7d43-400a-acd6-124be7965912"
+    },
+    {
+     "content": "",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6232-7231-b599-40ef9e368a88-0",
+     "tool_calls": [
+      {
+       "name": "transfer_to_research_expert",
+       "args": {},
+       "id": "t1",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 24,
+      "output_tokens": 7,
+      "total_tokens": 31
+     }
+    },
+    {
+     "content": "Successfully transferred to research_expert",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__handoff_destination": "research_expert"
+     },
+     "type": "tool",
+     "name": "transfer_to_research_expert",
+     "id": "f8f7f283-27a2-41f4-9c36-1ccb26d4f132",
+     "tool_call_id": "t1",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-haiku-4-5-20251001"
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "lc_run--01a15033-624c-7a43-8a64-2105d4712ee4-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 58,
+      "output_tokens": 17,
+      "total_tokens": 75
+     }
+    },
+    {
+     "content": "Transferring back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "ai",
+     "name": "research_expert",
+     "id": "580d4df1-0b55-4453-8bb0-ffc2838f7c62",
+     "tool_calls": [
+      {
+       "name": "transfer_back_to_supervisor",
+       "args": {},
+       "id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+       "type": "tool_call"
+      }
+     ],
+     "invalid_tool_calls": [],
+     "usage_metadata": null
+    },
+    {
+     "content": "Successfully transferred back to supervisor",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "__is_handoff_back": true
+     },
+     "type": "tool",
+     "name": "transfer_back_to_supervisor",
+     "id": "3a5f8ed9-acdd-4e6a-99e9-0c86107c8d04",
+     "tool_call_id": "634f4845-93a4-4ab9-86fa-3fe589822d6c",
+     "artifact": null,
+     "status": "success"
+    },
+    {
+     "content": "John Hopfield and Geoffrey Hinton won the 2024 Nobel Prize in Physics.",
+     "additional_kwargs": {},
+     "response_metadata": {
+      "model_name": "claude-sonnet-5-5"
+     },
+     "type": "ai",
+     "name": "supervisor",
+     "id": "lc_run--01a15033-6250-7b21-8126-9e14a72eab80-0",
+     "tool_calls": [],
+     "invalid_tool_calls": [],
+     "usage_metadata": {
+      "input_tokens": 83,
+      "output_tokens": 17,
+      "total_tokens": 100
+     }
+    }
+   ],
+   "remaining_steps": 24
+  },
+  "outputs": {
+   "output": "__end__"
+  },
+  "reference_example_id": null,
+  "parent_run_id": "01a15033-624f-7751-a0d1-40c448415d0c",
+  "tags": [
+   "seq:step:3"
+  ],
+  "attachments": {},
+  "session_name": "tracedoc-fixtures",
+  "session_id": null,
+  "dotted_order": "20261018T180827182378Z01a15033-622c-7d63-ae94-e16f0452a93f.20261018T180827214471Z01a15033-624e-7b33-b6dd-839b3b45b086.20261018T180827214664Z01a15033-624e-7b33-b6dd-83a1e98c794c.20261018T180827215344Z01a15033-624f-7751-a0d1-40c448415d0c.20261018T180827217525Z01a15033-6251-72f0-93da-3ccf6dcfcf76",
+  "trace_id": "01a15033-622c-7d63-ae94-e16f0452a93f",
+  "dangerously_allow_filesystem": false
+ }
+]

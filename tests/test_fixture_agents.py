@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import socket
 import time
 from typing import Any
@@ -26,13 +27,19 @@ def _tool_calls(result: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
-def _dump(result: dict[str, Any]) -> Any:
-    return {
+_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+
+
+def _dump(result: dict[str, Any]) -> str:
+    """The run's messages; random IDs a library generates (langgraph-supervisor's hand-back
+    tool call) are the only thing allowed to differ."""
+    dump = {
         key: [(type(m).__name__, m.content, getattr(m, "tool_calls", None)) for m in value]
         if key == "messages"
         else value
         for key, value in result.items()
     }
+    return _UUID.sub("<uuid>", repr(dump))
 
 
 def test_network_is_blocked() -> None:
@@ -49,6 +56,7 @@ def test_every_agent_declares_its_bug() -> None:
         "tools.unused_output",
         "design.empty_answer",
         "design.run_error",
+        "framework.langgraph_supervisor.include_agent_name",
         None,
     }
 

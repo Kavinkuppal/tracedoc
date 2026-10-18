@@ -212,6 +212,8 @@ class FindingView:
     related: list[str] = field(default_factory=list)
     """Findings of other checks at the same agent and step, merged into this one: one line
     each (title, how it was found, what it said)."""
+    docs: str = ""
+    """For a known framework pitfall: the documentation its fix cites."""
 
     @property
     def where(self) -> str:
@@ -523,6 +525,7 @@ def _finding_view(
         what_to_change=_sentence(f.suggested_fix),
         change_kind=label("change_kind", kind=f.change_type) if f.change_type else "",
         reference=f.id,
+        docs=entry.get("docs", ""),
         related=[
             label(
                 "related_line",

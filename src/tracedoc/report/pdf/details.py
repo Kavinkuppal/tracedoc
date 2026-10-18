@@ -216,6 +216,8 @@ def _problem(story: Story, p: ProblemView, total: int, s: Styles, pages: dict[st
         ("p_why", p.why),
         ("f_change", p.what_to_change),
     ]
+    if p.representative.docs:
+        rows.append(("f_docs", p.representative.docs))
     if p.related:
         rows.append(("p_related", [_p(line, s.small) for line in p.related]))
     if p.other_changes:

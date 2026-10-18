@@ -6,6 +6,9 @@
 # Models never write anything here. Model-written text is limited to three slots per AI-judge
 # finding (what happened, what to change, one evidence quote), with fixed character limits.
 #
+# Known framework pitfalls are the one exception to "this file": each keeps its reviewed text
+# next to its detector in tracedoc/checks/pitfalls.py, and the catalog loads it from there.
+#
 # Placeholders are filled by tracedoc/catalog.py; a placeholder without a value is an error.
 # Per-finding sentences are clauses: the report prefixes them with "In {run}, " or
 # "In {runs} of {total} runs, ", so they start with an agent name or a lower-case word.
@@ -109,6 +112,7 @@ p_other_changes = "Other suggested changes"
 p_related = "Also found at the same step"
 related_summary = "{title} ({runs})"
 f_related = "Also found at this step"
+f_docs = "Documentation"
 related_line = "{title} ({method}): {text}"
 # Replaces a suggested fix that would have an agent book, buy, pay, send, cancel or delete
 # something without asking the user first (see checks/safety.py).
