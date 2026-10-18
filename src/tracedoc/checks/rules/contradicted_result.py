@@ -43,8 +43,11 @@ _MONTHS = {
     )
     for m in names
 }
-_MONTH_NAMES = [n.capitalize() for n, i in _MONTHS.items() if len(n) > 3 or n == "may"]
-_MONTH_NAMES = list(dict.fromkeys(_MONTH_NAMES))  # January ... December, in order
+_MONTH_NAMES = (
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+)  # fmt: skip
+"""How the report writes a month: _MONTH_NAMES[month - 1]."""
 _MONTH = "|".join(sorted(_MONTHS, key=len, reverse=True))
 _DATE_TEXT = re.compile(
     rf"\b(?:(?P<m1>{_MONTH})\.?\s+(?P<d1>\d{{1,2}})(?:st|nd|rd|th)?"

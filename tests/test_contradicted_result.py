@@ -115,3 +115,28 @@ def test_other_fixtures_are_not_flagged() -> None:
             continue
         for source in SOURCES:
             assert made_up_facts(load_fixture(name, source))[0] == [], (name, source)
+
+
+@pytest.mark.parametrize(
+    ("tool_date", "answer", "made_up", "returned"),
+    [
+        ("2026-10-03", "UA 1532 leaves on October 5.", "October 5", "October 3"),
+        ("2026-11-20", "UA 1532 leaves on 21 November.", "November 21", "November 20"),
+        ("2026-12-25", "UA 1532 leaves on Dec 24.", "December 24", "December 25"),
+    ],
+)
+def test_dates_late_in_the_year_are_written_with_their_own_month(
+    tool_date: str, answer: str, made_up: str, returned: str
+) -> None:
+    run = _run(answer, tool_output=FLIGHTS.replace("2026-06-03", tool_date))
+    assert made_up_facts(run) == ([made_up], [returned])
+
+
+def test_every_month_has_its_own_name() -> None:
+    from tracedoc.checks.rules.contradicted_result import _fmt
+
+    names = [_fmt("dates", f"{m:02d}-01").split()[0] for m in range(1, 13)]
+    assert names == [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
+    ]  # fmt: skip
