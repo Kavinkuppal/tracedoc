@@ -3,7 +3,9 @@ version = 1
 group = "verification"
 default_severity = "high"
 scope = ["candidate"]
-triage = "Does the final answer state as fact something that no tool result, the user's request or the agents' instructions support, or that contradicts what a tool returned?"
+# No triage question: the rule's filters already cleared what numbers the tools explain, and
+# the cheap triage model doesn't redo arithmetic (it dismissed wrong averages and totals), so
+# every candidate goes straight to confirmation.
 confirms = "verification.contradicted_result"
 confirm = """
 A rule listed facts in the final answer (numbers, dates, routes, IDs) that it could not find in

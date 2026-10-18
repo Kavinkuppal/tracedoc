@@ -75,6 +75,25 @@ def test_rejected_or_unreviewed_it_never_reaches_page_1(tmp_path: Path) -> None:
     assert confidence_level(f) == "low"
 
 
+def test_candidates_go_straight_to_confirmation_without_triage() -> None:
+    """The filters already did what triage would, and the triage model doesn't redo the
+    arithmetic (it dismissed a wrong average and a wrong total), so there is no triage."""
+    from tracedoc.checks.judges.prompts import confirmation_prompts
+    from tracedoc.checks.judges.runner import REVIEWS, Judge
+
+    assert not confirmation_prompts()[CHECK].triage
+    run = load_fixture("made_up_flight")
+    fake = _confirming(True)
+    analyze([run], Config(), client=fake)
+    asked = [schema for (_, schema), p in zip(fake.calls, fake.prompts, strict=True) if CHECK in p]
+    assert asked == ["Confirmation"] * REVIEWS  # no triage call about it
+    judge = Judge(Config(), {}, client=None)
+    candidate = [f for f in run_rule_checks([run]) if f.check_id == CHECK]
+    estimate = judge.estimate(judge.plan([run], candidate))
+    assert estimate.triage_calls == 0
+    assert estimate.confirm_calls_expected == estimate.confirm_calls_max == REVIEWS
+
+
 def test_with_the_not_checked_candidate_at_the_same_step_it_is_one_finding() -> None:
     run = _run("UA 1532 leaves at 08:05 for $214; seat 14C is $40 more, so $254 in all.")
     checks = {f.check_id for f in run_rule_checks([run])}

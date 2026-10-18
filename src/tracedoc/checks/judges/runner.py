@@ -9,7 +9,9 @@ Triage asks one cheap call per window about every judge check in scope for that 
 Each (window, check) the triage flags goes to confirmation with that check's prompt, asked
 twice, independently. A finding is kept when both reviews confirm it (at the lower of the two
 confidences); when they disagree it is kept at low confidence, marked "judge disagreed"; when
-both reject it, it is dropped.
+both reject it, it is dropped. A confirmation prompt with no triage question goes to
+confirmation directly: its rule's filters already did what triage would (contradicted_result,
+whose candidates are often arithmetic the triage model doesn't redo).
 
 A confirmed judge finding carries three short texts written by the model (what happened, what
 to change, one quote from the window), checked against the limits in slots.py. Everything else
@@ -173,7 +175,7 @@ class Plan:
 
     @property
     def triage_pairs(self) -> int:
-        return sum(len(t.checks) for t in self.tasks)
+        return sum(1 for t in self.tasks for c in t.checks if c.triage)
 
     @property
     def candidates(self) -> int:
@@ -344,25 +346,31 @@ class Judge:
         triage_calls = triage_in = triage_out = 0
         candidate_in: list[int] = []
         pair_in: list[int] = []
+        direct_in: list[int] = []  # confirmations with no triage: all of them are asked
         for task in plan.tasks:
             if not task.checks:
                 continue
             base = sys_tokens + estimate_tokens(task.window.render(jc.max_chars_per_field))
-            triage_calls += 1
-            triage_in += base + sum(estimate_tokens(c.triage) for c in task.checks)
-            triage_out += TRIAGE_OUT_PER_CHECK * len(task.checks)
-            pairs = [base + estimate_tokens(c.confirm) for c in task.checks]
+            triaged = [c for c in task.checks if c.triage]
+            if triaged:
+                triage_calls += 1
+                triage_in += base + sum(estimate_tokens(c.triage) for c in triaged)
+                triage_out += TRIAGE_OUT_PER_CHECK * len(triaged)
+            direct_in += [base + estimate_tokens(c.confirm) for c in task.checks if not c.triage]
+            pairs = [base + estimate_tokens(c.confirm) for c in triaged]
             if task.confirmation is not None:
                 candidate_in += pairs
             else:
                 pair_in += pairs
         cand_rate, rate = jc.estimate_candidate_confirm_rate, jc.estimate_confirm_rate
         expected_calls = REVIEWS * (
-            round(cand_rate * len(candidate_in)) + round(rate * len(pair_in))
+            round(cand_rate * len(candidate_in)) + round(rate * len(pair_in)) + len(direct_in)
         )
-        confirm_in = REVIEWS * (round(cand_rate * sum(candidate_in)) + round(rate * sum(pair_in)))
-        confirm_in_max = REVIEWS * (sum(candidate_in) + sum(pair_in))
-        max_calls = REVIEWS * (len(candidate_in) + len(pair_in))
+        confirm_in = REVIEWS * (
+            round(cand_rate * sum(candidate_in)) + round(rate * sum(pair_in)) + sum(direct_in)
+        )
+        confirm_in_max = REVIEWS * (sum(candidate_in) + sum(pair_in) + sum(direct_in))
+        max_calls = REVIEWS * (len(candidate_in) + len(pair_in) + len(direct_in))
 
         triage_cost = price_of(self.config.prices, llm.triage_model, triage_in, triage_out)
         confirm_cost = price_of(
@@ -497,14 +505,21 @@ class Judge:
         triage dismissed. Checks skipped because `stop` was set are absent.
         """
         llm, jc = self.config.llm, self.config.judge
-        triage = self._call(
-            llm.triage_model, _triage_prompt(text, checks), TriageResult, TRIAGE_MAX_TOKENS, None
-        )
-        flagged = {
-            i.check_id
-            for i in triage.items
-            if i.flagged and _clamp(i.confidence) >= jc.triage_min_confidence
-        }
+        flagged = {c.id for c in checks if not c.triage}  # no triage question: confirm directly
+        triaged = [c for c in checks if c.triage]
+        if triaged:
+            triage = self._call(
+                llm.triage_model,
+                _triage_prompt(text, triaged),
+                TriageResult,
+                TRIAGE_MAX_TOKENS,
+                None,
+            )
+            flagged |= {
+                i.check_id
+                for i in triage.items
+                if i.flagged and _clamp(i.confidence) >= jc.triage_min_confidence
+            }
         results: dict[str, Verdict | Confirmation | None] = {}
         for prompt in checks:
             if prompt.id not in flagged:
