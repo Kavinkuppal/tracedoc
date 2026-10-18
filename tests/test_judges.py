@@ -75,6 +75,7 @@ def test_all_judge_checks_have_versioned_prompts() -> None:
     assert set(confirmation_prompts()) == {
         "design.loop",
         "tools.unused_output",
+        "verification.contradicted_result",
         "verification.unchecked_result",
     }
 

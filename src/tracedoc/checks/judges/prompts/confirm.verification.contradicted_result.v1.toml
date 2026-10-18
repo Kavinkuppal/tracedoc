@@ -1,0 +1,28 @@
+id = "verification.contradicted_result"
+version = 1
+group = "verification"
+default_severity = "high"
+scope = ["candidate"]
+triage = "Does the final answer state as fact something that no tool result, the user's request or the agents' instructions support, or that contradicts what a tool returned?"
+confirms = "verification.contradicted_result"
+confirm = """
+A rule listed facts in the final answer (numbers, dates, routes, IDs) that it could not find in
+any tool result, the user's request or the agents' instructions. Decide whether the final
+answer states, as fact, something the steps don't support: a value that contradicts what a
+tool returned, or a fact no step provides, presented as if it came from the tools or from
+research (a headcount, price, date, total or flight the tools never returned).
+
+It is NOT a problem if every listed fact is one of these:
+- computed correctly from what the tools returned or the user gave (a sum, difference,
+  average, share, percentage difference or rounding of them), even when the working isn't
+  shown: check the arithmetic yourself;
+- something the user or a tool gave, written another way (an airport code for a city the user
+  named, "June 3" for 2026-06-03, "1.28 million" for 1,284,000);
+- part of a question or an offer to the user rather than a claim, such as suggesting other
+  dates to search;
+- a term or name rather than a value (a disease, a product, a model name).
+
+A fact the agent took from its own general knowledge is a problem when the answer presents it
+as found by the tools or the research; it is not when the answer clearly tells the user it is
+not from the tools and may be out of date.
+"""

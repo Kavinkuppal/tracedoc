@@ -376,7 +376,7 @@ what_to_change = "Route {agent}'s final answer through {critic}, which already e
 [checks."verification.contradicted_result"]
 title = "Answer contradicts what the tools returned"
 how = "rule"
-looks_for = "Final answers that state flight numbers, routes, dates, times, IDs or numbers that no tool result, the user's request or the agents' prompts contain. Numbers computed from the tools' numbers, and rounded ones, are not counted."
+looks_for = "Final answers that state flight numbers, routes, dates, times, IDs or numbers that no tool result, the user's request or the agents' prompts contain, confirmed by the AI judge. Numbers computed from the given ones (sums, averages, percentages, working the answer shows) or rounded from them, and airport codes of cities the user named, are not counted."
 why = "The answer looks authoritative but is made up or misread, so the user acts on facts that aren't true."
 
 [checks."verification.contradicted_result".contradicts]

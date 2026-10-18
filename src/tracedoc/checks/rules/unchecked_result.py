@@ -2,8 +2,8 @@
 
 Fires only when the final answer reuses numbers or factual terms that came from a tool result
 (not from the user's own request) and no critic or verifier step ran after the last tool result.
-An answer that states facts no tool returned is a serious problem of its own
-(verification.contradicted_result), not this one.
+An answer that also states facts no tool returned is a candidate for
+verification.contradicted_result too; confirmed, the two are one finding (see merge.py).
 """
 
 from __future__ import annotations
@@ -16,7 +16,6 @@ from ...messages import payload_text
 from ...schema import Finding, Run
 from ..base import Check, register
 from ..util import content_tokens, excerpt, is_handoff_tool
-from .contradicted_result import made_up_facts
 
 _NUMBER = re.compile(r"(?<![\w.])\$?\d[\d,]*(?:\.\d+)?%?")
 MIN_SHARED_TERMS = 3
@@ -98,8 +97,6 @@ class UncheckedResult(Check):
         for run in runs:
             if verified_after_last_tool(run) is not False:
                 continue
-            if made_up_facts(run)[0]:
-                continue  # a serious problem of its own: "Answer contradicts what the tools ..."
             numbers, terms = claims_from_tools(run)
             if not numbers and len(terms) < MIN_SHARED_TERMS:
                 continue  # the answer states nothing taken from tool output
