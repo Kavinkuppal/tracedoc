@@ -8,6 +8,7 @@ from typing import Any, ClassVar, TypeVar
 from ..catalog import check_in_place_template, check_templates, check_title, fill
 from ..config import Config
 from ..schema import Finding, Group, Method, Run, Severity
+from .safety import safe_fix
 from .util import agent_instructions, instruction_in_place
 
 REGISTRY: dict[str, type[Check]] = {}
@@ -51,6 +52,7 @@ class Check(ABC):
         node = fields.get("node")
         if in_place and instruction_in_place(fix, agent_instructions(run, node)):  # type: ignore[arg-type]
             fix = fill(in_place, **values)  # don't suggest what the agent's prompt already says
+        fix = safe_fix(fix, str(values["agent"]))  # never act for the user without asking
         return Finding(
             check_id=self.id,
             group=self.group,

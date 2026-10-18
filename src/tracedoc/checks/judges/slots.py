@@ -1,10 +1,12 @@
 """The only text a model writes into a report: three short slots per AI judge finding.
 
 What happened, what to change, and one evidence quote, each with a character limit from the
-catalog. An answer that breaks a limit, or quotes something that is not in the trace window
-word for word, is sent back once with the problem named. Whatever is still too long after
-that is cut at a word boundary, and a quote that still isn't in the window is dropped (the
-finding then quotes the cited step instead).
+catalog; what to change must also pass the safety rule (checks/safety.py): no real-world
+action without the user's confirmation. An answer that breaks a rule, or quotes something that
+is not in the trace window word for word, is sent back once with the problem named. Whatever
+is still too long after that is cut at a word boundary, a quote that still isn't in the window
+is dropped (the finding then quotes the cited step instead), and a fix that still acts
+without asking is replaced by one that asks first.
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ from collections.abc import Callable
 from typing import Protocol
 
 from ...catalog import limit
+from ..safety import safe_fix, unconfirmed_action
 from ..util import instruction_in_place
 
 SLOTS = ("what_happened", "what_to_change", "evidence_quote")
@@ -127,6 +130,13 @@ def slot_problems(answer: HasSlots, window_text: str) -> list[str]:
             "what_to_change suggests an instruction the agent's prompt already has; suggest a "
             "change that the steps show is not in place yet"
         )
+    action = unconfirmed_action(answer.what_to_change)
+    if action:
+        problems.append(
+            f"what_to_change tells an agent to {action!r} without the user's confirmation; an "
+            "agent must ask the user to confirm before it books, buys, pays, sends, cancels or "
+            "deletes anything, so make the change say that"
+        )
     quote = squash(answer.evidence_quote)
     if quote and not quote_in_window(quote, window_text):
         problems.append(
@@ -140,6 +150,8 @@ def fitted(answer: HasSlots, window_text: str) -> dict[str, str]:
     """Slot values that respect every limit: cut at a word boundary where too long, and the
     quote dropped if it is not in the window."""
     values = {name: truncate_words(getattr(answer, name), limit(name)) for name in SLOTS}
+    # Still telling an agent to act without asking after the retry: use the safe fix instead.
+    values["what_to_change"] = safe_fix(values["what_to_change"], getattr(answer, "agent", ""))
     quote = squash(answer.evidence_quote).strip(_QUOTE_MARKS)
     if not quote_in_window(quote, window_text):
         values["evidence_quote"] = ""
