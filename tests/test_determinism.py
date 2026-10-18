@@ -111,7 +111,7 @@ def test_slot_breaking_answer_is_retried_once_then_cut() -> None:
     run = load_fixture("researcher_repeat_search")
     out = judge.run(judge.plan([run], []), [])
     confirms = [c for c in fake.calls if c[1] == "Verdict"]
-    assert len(confirms) == 2  # the answer, and one retry
+    assert len(confirms) == 4  # each of the two reviews: the answer, and one retry
     assert "YOUR PREVIOUS ANSWER" in fake.prompts[-1]
     assert "the limit is 200" in fake.prompts[-1]
     (finding,) = out.findings
@@ -124,7 +124,7 @@ def test_slot_breaking_answer_is_retried_once_then_cut() -> None:
 def test_answer_within_limits_is_not_retried() -> None:
     judge, fake = _flagging_judge([verdict(True, what="Ended early.", change="Add a step.")])
     out = judge.run(judge.plan([load_fixture("researcher_repeat_search")], []), [])
-    assert [c[1] for c in fake.calls].count("Verdict") == 1
+    assert [c[1] for c in fake.calls].count("Verdict") == 2  # two reviews, no retries
     (finding,) = out.findings
     assert finding.explanation == "Ended early."
     assert finding.change_type == "prompt instruction"

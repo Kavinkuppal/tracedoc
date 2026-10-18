@@ -125,6 +125,7 @@ class Related(BaseModel):
     severity: Severity
     confidence: float
     explanation: str
+    judge_disagreed: bool = False
 
 
 class Finding(BaseModel):
@@ -153,6 +154,8 @@ class Finding(BaseModel):
     """For AI judge findings: prompt instruction, tool, graph edge, or setting."""
     confirmed_by_judge: bool = False
     """A rule candidate the AI judge confirmed (its confidence is then the judge's)."""
+    judge_disagreed: bool = False
+    """The AI judge's two independent reviews disagreed: kept at low confidence."""
     related: list[Related] = Field(default_factory=list)
     """Findings of other checks at the same agent and step, merged into this one."""
 

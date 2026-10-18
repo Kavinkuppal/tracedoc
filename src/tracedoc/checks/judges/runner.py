@@ -6,7 +6,10 @@ Candidates come from three places:
   - a seeded random sample of runs (a window at the end of each run).
 
 Triage asks one cheap call per window about every judge check in scope for that window.
-Each (window, check) the triage flags goes to one confirmation call with that check's prompt.
+Each (window, check) the triage flags goes to confirmation with that check's prompt, asked
+twice, independently. A finding is kept when both reviews confirm it (at the lower of the two
+confidences); when they disagree it is kept at low confidence, marked "judge disagreed"; when
+both reject it, it is dropped.
 
 A confirmed judge finding carries three short texts written by the model (what happened, what
 to change, one quote from the window), checked against the limits in slots.py. Everything else
@@ -27,7 +30,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
 from ...catalog import limit
 from ...config import Config
@@ -55,6 +58,13 @@ Confidence is a number from 0 to 1."""
 TRIAGE_MAX_TOKENS = 1_000
 CONFIRM_MAX_TOKENS = 8_000
 TRIAGE_OUT_PER_CHECK = 40
+REVIEWS = 2
+"""Independent confirmation calls per flagged (window, check)."""
+DISAGREED_CONFIDENCE = 0.5
+"""Confidence of a finding the two reviews disagreed on: Low, so never on page 1."""
+SECOND_REVIEW = (
+    "\n\nThis is a second, independent review of the same steps: decide again from the steps alone."
+)
 
 
 class TriageItem(BaseModel):
@@ -70,7 +80,18 @@ class TriageResult(BaseModel):
 ChangeType = Literal["prompt instruction", "tool", "graph edge", "setting"]
 
 
-class Verdict(BaseModel):
+class Reviewed(BaseModel):
+    """An answer that can carry the outcome of the two reviews (never part of the schema the
+    model is asked to follow)."""
+
+    _disagreed: bool = PrivateAttr(default=False)
+
+    @property
+    def judge_disagreed(self) -> bool:
+        return self._disagreed
+
+
+class Verdict(Reviewed):
     """The answer to a judge check. The three text fields are the only text a model writes
     into a report."""
 
@@ -100,7 +121,7 @@ class Verdict(BaseModel):
     )
 
 
-class Confirmation(BaseModel):
+class Confirmation(Reviewed):
     """The answer when confirming a rule candidate: the rule's catalog text stays as it is."""
 
     verdict: bool
@@ -335,10 +356,12 @@ class Judge:
             else:
                 pair_in += pairs
         cand_rate, rate = jc.estimate_candidate_confirm_rate, jc.estimate_confirm_rate
-        expected_calls = round(cand_rate * len(candidate_in)) + round(rate * len(pair_in))
-        confirm_in = round(cand_rate * sum(candidate_in)) + round(rate * sum(pair_in))
-        confirm_in_max = sum(candidate_in) + sum(pair_in)
-        max_calls = len(candidate_in) + len(pair_in)
+        expected_calls = REVIEWS * (
+            round(cand_rate * len(candidate_in)) + round(rate * len(pair_in))
+        )
+        confirm_in = REVIEWS * (round(cand_rate * sum(candidate_in)) + round(rate * sum(pair_in)))
+        confirm_in_max = REVIEWS * (sum(candidate_in) + sum(pair_in))
+        max_calls = REVIEWS * (len(candidate_in) + len(pair_in))
 
         triage_cost = price_of(self.config.prices, llm.triage_model, triage_in, triage_out)
         confirm_cost = price_of(
@@ -409,12 +432,14 @@ class Judge:
         return result.value
 
     def _confirm(
-        self, text: str, prompt: JudgePrompt, rule_explanation: str | None
+        self, text: str, prompt: JudgePrompt, rule_explanation: str | None, review: int = 1
     ) -> Verdict | Confirmation:
         """One confirmation call. A judge finding whose texts break a limit is asked again once;
         then its texts are cut to fit (see slots.py)."""
         llm = self.config.llm
         question = _confirm_prompt(text, prompt, rule_explanation)
+        if review > 1:
+            question += SECOND_REVIEW
         if prompt.confirms:
             return self._call(
                 llm.confirm_model, question, Confirmation, CONFIRM_MAX_TOKENS, llm.confirm_effort
@@ -434,6 +459,28 @@ class Judge:
         if not answer.verdict:
             return answer
         return answer.model_copy(update=fitted(answer, text))
+
+    def _confirm_twice(
+        self, text: str, prompt: JudgePrompt, rule_explanation: str | None
+    ) -> Verdict | Confirmation:
+        """Two independent reviews. Both confirm: the first answer, at the lower confidence.
+        They disagree: the confirming answer at DISAGREED_CONFIDENCE, marked judge_disagreed.
+        Both reject: the first answer (a rejection)."""
+        minimum = self.config.judge.confirm_min_confidence
+        answers = [
+            self._confirm(text, prompt, rule_explanation, review=n + 1) for n in range(REVIEWS)
+        ]
+        confirmed = [a for a in answers if a.verdict and _clamp(a.confidence) >= minimum]
+        if not confirmed:
+            return answers[0]
+        if len(confirmed) == len(answers):
+            lowest = min(_clamp(a.confidence) for a in answers)
+            return answers[0].model_copy(update={"confidence": lowest})
+        disagreed = confirmed[0].model_copy(
+            update={"confidence": min(_clamp(confirmed[0].confidence), DISAGREED_CONFIDENCE)}
+        )
+        disagreed._disagreed = True
+        return disagreed
 
     def judge_text(
         self,
@@ -464,7 +511,7 @@ class Judge:
                 continue
             if stop is not None and stop.is_set():
                 continue
-            results[prompt.id] = self._confirm(text, prompt, rule_explanation)
+            results[prompt.id] = self._confirm_twice(text, prompt, rule_explanation)
         return results
 
     def run(
@@ -524,7 +571,7 @@ class Judge:
                     elif (
                         isinstance(v, Verdict)
                         and v.verdict
-                        and _clamp(v.confidence) >= jc.confirm_min_confidence
+                        and (v.judge_disagreed or _clamp(v.confidence) >= jc.confirm_min_confidence)
                     ):
                         judged.append(self._finding(task.window, prompt, v))
 
@@ -542,7 +589,20 @@ class Judge:
                 outcome.findings.append(f)
                 continue
             v = verdicts[f.id]
-            if v is None or not v.verdict or _clamp(v.confidence) < jc.confirm_min_confidence:
+            if v is None or not v.verdict:
+                continue
+            if v.judge_disagreed:  # reviewed, but the two reviews disagreed: kept at Low
+                outcome.findings.append(
+                    f.model_copy(
+                        update={
+                            "needs_confirmation": False,
+                            "judge_disagreed": True,
+                            "confidence": round(_clamp(v.confidence), 2),
+                        }
+                    )
+                )
+                continue
+            if _clamp(v.confidence) < jc.confirm_min_confidence:
                 continue
             outcome.findings.append(
                 f.model_copy(
@@ -604,6 +664,7 @@ class Judge:
             confidence=round(_clamp(v.confidence), 2),
             node=node,
             role=role,
+            judge_disagreed=v.judge_disagreed,
         )
 
 

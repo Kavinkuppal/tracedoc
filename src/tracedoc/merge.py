@@ -103,6 +103,7 @@ def _related(f: Finding) -> Related:
         severity=f.severity,
         confidence=f.confidence,
         explanation=f.explanation,
+        judge_disagreed=f.judge_disagreed,
     )
 
 

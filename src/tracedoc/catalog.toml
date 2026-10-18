@@ -98,7 +98,7 @@ section4 = "4. Check catalog"
 section2_main = "Findings with high or medium confidence"
 section2_main_intro = "These are the findings summary.pdf is built from, grouped into problems in ranking order. Each problem is explained once, with its fix, then shown in one worked example with the full evidence, then listed run by run."
 section2_low = "Low-confidence findings"
-section2_low_intro = "Rule candidates the AI judge did not review, and AI judge findings it was less sure about. They never appear in summary.pdf."
+section2_low_intro = "Rule candidates the AI judge did not review, AI judge findings it was less sure about, and findings its two reviews disagreed on (marked \"judge disagreed\"). They never appear in summary.pdf."
 group_heading = "{title} · {agent} · {runs}"
 example_heading = "Worked example: {id} · {title}"
 affected_title = "Every affected run ({runs})"
@@ -185,6 +185,8 @@ low = "Low"
 rule = "found by rule"
 judge = "found by AI judge"
 rule_confirmed = "found by rule, confirmed by AI judge"
+judge_disagreed = "found by AI judge, judge disagreed"
+rule_disagreed = "found by rule, judge disagreed"
 
 [outcome]
 completed = "Answered"
@@ -242,14 +244,14 @@ serious = "A serious problem is a finding with high severity: the run failed, ga
 finding_title = "How findings are found"
 finding = [
   "Rules: fixed checks that read the traces, with no model involved. A rule finding is certain about what happened; whether it hurts depends on your system.",
-  "AI judge: for problems no rule can see, a fast model first screens a few steps around each candidate, and a stronger model confirms or rejects what it flags. Judges run at temperature 0 and every verdict is cached, so the same traces give the same report.",
+  "AI judge: for problems no rule can see, a fast model first screens a few steps around each candidate, and a stronger model confirms or rejects what it flags, twice and independently: a finding is kept when both reviews confirm it. Judges run at temperature 0 and every verdict is cached, so the same traces give the same report.",
   "The AI judge writes only three short parts of each of its findings (what happened, what to change, and one quote from the trace), each with a length limit. Everything else in the report is fixed text or computed from the traces.",
 ]
 confidence_title = "Confidence"
 confidence = [
   "High: found by a rule, or confirmed by the AI judge with confidence of 0.8 or more.",
   "Medium: confirmed by the AI judge with confidence from 0.6 to 0.8.",
-  "Low: confirmed with less confidence, or a rule candidate the AI judge did not review. Low-confidence findings appear only in this document, never on page 1 of summary.pdf.",
+  "Low: confirmed with less confidence, confirmed by one of the AI judge's two reviews but not the other (\"judge disagreed\"), or a rule candidate the AI judge did not review. Low-confidence findings appear only in this document, never on page 1 of summary.pdf.",
 ]
 ranking_title = "How problems are ranked"
 ranking = "Problems are ranked by severity (serious first), then by the number of runs affected, then by the cost of those runs, then alphabetically by check. The same inputs always give the same order."

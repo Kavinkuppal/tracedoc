@@ -124,6 +124,29 @@ def test_different_steps_agents_runs_and_cost_findings_stay_apart() -> None:
     assert all(not f.related for f in kept)
 
 
+def test_a_related_finding_keeps_its_judge_disagreed_mark() -> None:
+    from tracedoc.report.view import build_view
+    from tracedoc.schema import Report
+
+    run = load_fixture("nested_agents")
+    (empty,) = EmptyAnswer(Config()).run([run])
+    split = empty.model_copy(
+        update={
+            "check_id": "verification.premature_finish",
+            "method": "judge",
+            "confidence": 0.5,
+            "judge_disagreed": True,
+        }
+    )
+    (merged,) = merge_duplicates([empty, split], [run])
+    assert merged.check_id == "design.empty_answer" and merged.related[0].judge_disagreed
+    from tracedoc.group import group_findings
+
+    view = build_view(Report(groups=group_findings([merged], [run])), [run])
+    (line,) = view.findings[0].related
+    assert line.startswith("Run finished before the task was done (found by AI judge, judge ")
+
+
 def test_the_same_check_twice_at_one_step_is_one_finding_not_related() -> None:
     run = load_fixture("nested_agents")
     (empty,) = EmptyAnswer(Config()).run([run])

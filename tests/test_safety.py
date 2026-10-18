@@ -127,7 +127,7 @@ def test_judge_fix_that_acts_without_asking_is_sent_back(tmp_path) -> None:
     judge, window = _judge(confirm)
     (answer,) = judge.judge_text(window, list(judge.judges.values())).values()
     assert answer.what_to_change == SAFE_FIX
-    assert len(prompts) == 2
+    assert len(prompts) == 4  # two reviews, each sent back once
     assert re.search(r"tells an agent to 'Book' without the user's confirmation", prompts[1])
 
 

@@ -6,7 +6,8 @@ renderers only lay this out; they never decide what to say.
 
 Definitions used throughout (also explained in details.pdf, section 1):
 - Confidence: rule findings are High; AI judge findings and judge-confirmed rule candidates
-  are High at 0.8 or more, Medium at 0.6 or more, Low below; unconfirmed candidates are Low.
+  are High at 0.8 or more, Medium at 0.6 or more, Low below; unconfirmed candidates, and
+  findings the judge's two reviews disagreed on, are Low.
 - Serious problem: a high-severity finding with High or Medium confidence.
 - Problem (agent table): a high- or medium-severity finding with High or Medium confidence.
 - Fix cards (page 1): up to three problems in ranking order that are serious or moderate; a
@@ -55,7 +56,7 @@ EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
 
 def confidence_level(f: Finding) -> Level:
-    if f.needs_confirmation:
+    if f.needs_confirmation or f.judge_disagreed:
         return "low"
     if f.method == "rule" and not f.confirmed_by_judge:
         return "high"
@@ -86,6 +87,8 @@ def fix_card_worthy(problem: ProblemView, system_cost: float | None) -> bool:
 
 
 def method_label(f: Finding) -> str:
+    if f.judge_disagreed:
+        return text("method", f"{f.method}_disagreed")
     key = "rule_confirmed" if f.confirmed_by_judge else f.method
     return text("method", key)
 
@@ -530,7 +533,7 @@ def _finding_view(
             label(
                 "related_line",
                 title=check_title(r.check_id),
-                method=text("method", r.method),
+                method=text("method", f"{r.method}_disagreed" if r.judge_disagreed else r.method),
                 text=_sentence(r.explanation),
             )
             for r in f.related
