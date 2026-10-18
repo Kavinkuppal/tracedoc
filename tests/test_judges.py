@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 from collections import Counter
+from pathlib import Path
 
 import pytest
 
@@ -342,6 +343,33 @@ def test_premature_finish_allows_clarification_after_mismatched_tool_data() -> N
         "did not\n  match the request" in prompt.confirm
         or "did not match the request" in prompt.confirm
     )
+
+
+def test_premature_finish_allows_asking_for_missing_information_or_confirmation() -> None:
+    prompt = judge_prompts()["verification.premature_finish"]
+    assert prompt.version >= 4
+    text = " ".join(prompt.confirm.split())
+    assert "ask the user for information that is genuinely missing from the request" in text
+    assert "travel dates, a destination" in text
+    assert "asking for it again IS a premature finish" in text
+    assert "ask the user to confirm before an action with real-world effects" in text
+    assert "confirmation before booking, buying, sending or deleting" in prompt.triage
+
+
+def test_premature_finish_labels_cover_asking_for_what_is_needed() -> None:
+    import json
+
+    labels = Path(__file__).parents[1] / "evals" / "labels" / "verification.premature_finish.jsonl"
+    examples = {e["note"]: e["label"] for e in map(json.loads, labels.read_text().splitlines())}
+    for note in (
+        "asks for the missing travel dates",
+        "asks for the missing destination",
+        "asks for confirmation before booking",
+        "asks for confirmation before a purchase",
+    ):
+        assert examples[note] is False, note
+    assert examples["asks for dates the user already gave"] is True
+    assert examples["searches but never books or asks, then stops"] is True
 
 
 def test_plan_counts_what_the_caps_leave_unreviewed() -> None:

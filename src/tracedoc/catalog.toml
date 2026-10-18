@@ -443,7 +443,7 @@ why = "The user doesn't get what they asked for, and the run spends effort on so
 [checks."verification.premature_finish"]
 title = "Run finished before the task was done"
 how = "judge"
-looks_for = "Runs that ended while part of the request was not done, a required step was skipped, or the answer promised something that never happened. Stopping to ask the user about mismatched tool results is not counted."
+looks_for = "Runs that ended while part of the request was not done, a required step was skipped, or the answer promised something that never happened. Stopping to ask the user about mismatched tool results, for information that is missing and needed (dates, a destination), or for confirmation before booking, buying, sending or deleting is not counted."
 why = "The user believes the task is done when it isn't."
 
 # ---------------------------------------------------------------------------------------------

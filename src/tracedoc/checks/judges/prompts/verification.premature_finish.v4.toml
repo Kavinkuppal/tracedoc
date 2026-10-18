@@ -1,0 +1,28 @@
+id = "verification.premature_finish"
+version = 4
+group = "verification"
+default_severity = "high"
+scope = ["run"]
+triage = "Did the run end before the user's request was actually completed, without a good reason to stop? Stopping to ask the user for information that is missing and needed, or for confirmation before booking, buying, sending or deleting, is a good reason."
+confirm = """
+Decide whether the run finished prematurely: it ended (a final answer, or routing to the end)
+while part of the user's request was not done, a required step was skipped, or the answer says
+it will do something it never did.
+
+Name the unfinished part of the request.
+
+Do not flag:
+- runs that end with an honest explanation of why the task cannot be completed (for example, a
+  tool is unavailable);
+- runs that stop to ask the user a question or for a decision because the tool results did not
+  match the request (for example, the user asked for one route and the search returned a
+  different one). Asking for clarification there is correct behavior, not a premature finish;
+- runs that stop to ask the user for information that is genuinely missing from the request
+  and needed to go on: travel dates, a destination, which of several accounts or items, a
+  quantity. Check the user's request and the steps first: if the request or an earlier step
+  already gives that information, asking for it again IS a premature finish;
+- runs that stop to ask the user to confirm before an action with real-world effects (booking,
+  buying, paying, sending a message or email, deleting or changing data). Asking first is
+  correct behavior, not a premature finish, even when the request said to do it;
+- answers that are short but complete.
+"""
