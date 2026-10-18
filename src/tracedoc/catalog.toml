@@ -371,6 +371,22 @@ what_to_change = "Add a checking step: a critic agent after {agent}, or an instr
 what_happened = "{agent}'s final answer repeats facts from tool results ({facts}), and the run's checking agent, {critic}, did not run after the last tool result."
 what_to_change = "Route {agent}'s final answer through {critic}, which already exists in this system, after the last tool call and before finishing."
 
+[checks."verification.contradicted_result"]
+title = "Answer contradicts what the tools returned"
+how = "rule"
+looks_for = "Final answers that state flight numbers, routes, dates, times, IDs or numbers that no tool result, the user's request or the agents' prompts contain. Numbers computed from the tools' numbers, and rounded ones, are not counted."
+why = "The answer looks authoritative but is made up or misread, so the user acts on facts that aren't true."
+
+[checks."verification.contradicted_result".contradicts]
+what_happened = "{agent}'s final answer states {facts}, which no tool returned; the tools returned {returned}."
+what_to_change = "Add to {agent}'s prompt: \"State flight numbers, dates, prices and IDs exactly as the tool results give them, and say so when a tool didn't return something.\" Or add a step that checks each fact in the answer against the tool results."
+what_to_change_in_place = "{agent}'s prompt already says to use only what the tools returned, so enforce it: add a step after {agent} that checks each fact in its answer against the tool results."
+
+[checks."verification.contradicted_result".not_returned]
+what_happened = "{agent}'s final answer states {facts}, which no tool result contains."
+what_to_change = "Add to {agent}'s prompt: \"State flight numbers, dates, prices and IDs exactly as the tool results give them, and say so when a tool didn't return something.\" Or add a step that checks each fact in the answer against the tool results."
+what_to_change_in_place = "{agent}'s prompt already says to use only what the tools returned, so enforce it: add a step after {agent} that checks each fact in its answer against the tool results."
+
 [checks."cost.token_hotspot"]
 title = "One agent used most of the tokens"
 how = "rule"

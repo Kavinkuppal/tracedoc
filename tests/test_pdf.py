@@ -466,4 +466,4 @@ def test_fixture_report_renders(tmp_path: Path) -> None:
     files = write_reports(analyze(runs, Config()), runs, tmp_path, name="Fixture agents")
     page1 = _text(files.summary)[0]
     assert "Fixture agents" in page1
-    assert "9 runs" in page1
+    assert "10 runs" in page1

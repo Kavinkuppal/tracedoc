@@ -1,16 +1,16 @@
 {
  "01_scorecard": {
-  "completion_rate": 0.6667,
+  "completion_rate": 0.7,
   "findings_by_severity": {
-   "high": 5,
+   "high": 6,
    "low": 1,
-   "medium": 4
+   "medium": 5
   },
   "median_cost": null,
-  "median_latency_s": 0.0082,
+  "median_latency_s": 0.0083,
   "median_steps": 5.0,
-  "runs": 9,
-  "tokens": 2895,
+  "runs": 10,
+  "tokens": 3058,
   "total_cost": null
  },
  "02_top_fixes": [
@@ -38,12 +38,12 @@
  ],
  "03_failure_frequency": [
   {
-   "check": "design.loop",
-   "runs": 2,
+   "check": "tools.unused_output",
+   "runs": 3,
    "severity": "medium"
   },
   {
-   "check": "tools.unused_output",
+   "check": "design.loop",
    "runs": 2,
    "severity": "medium"
   },
@@ -73,6 +73,11 @@
    "severity": "high"
   },
   {
+   "check": "verification.contradicted_result",
+   "runs": 1,
+   "severity": "high"
+  },
+  {
    "check": "verification.unchecked_result",
    "runs": 1,
    "severity": "low"
@@ -83,8 +88,14 @@
    [
     "customer_support",
     "tools.unused_output",
-    1,
+    2,
     1.0
+   ],
+   [
+    "customer_support",
+    "verification.contradicted_result",
+    1,
+    0.5
    ],
    [
     "other",
@@ -142,13 +153,14 @@
    ]
   ],
   "checks": [
-   "design.loop",
    "tools.unused_output",
+   "design.loop",
    "design.empty_answer",
    "design.no_stop",
    "design.run_error",
    "framework.langgraph_supervisor.include_agent_name",
    "tools.errors_retries",
+   "verification.contradicted_result",
    "verification.unchecked_result"
   ],
   "tasks": [
@@ -160,7 +172,7 @@
  },
  "05_status_by_task": {
   "customer_support": {
-   "completed": 1,
+   "completed": 2,
    "error": 0,
    "interrupted": 0,
    "no_answer": 0,
@@ -202,6 +214,11 @@
    ],
    [
     "__start__",
+    "flight_agent",
+    1
+   ],
+   [
+    "__start__",
     "flight_assistant",
     1
    ],
@@ -239,6 +256,16 @@
     "critic",
     "__end__",
     1
+   ],
+   [
+    "flight_agent",
+    "__end__",
+    1
+   ],
+   [
+    "flight_agent",
+    "flight_agent",
+    2
    ],
    [
     "flight_assistant",
@@ -363,6 +390,11 @@
     0.0
    ],
    [
+    "flight_agent",
+    3,
+    1.0
+   ],
+   [
     "flight_assistant",
     2,
     1.0
@@ -483,70 +515,77 @@
    "cost": 0.0,
    "cost_share": null,
    "node": "researcher",
-   "token_share": 0.2974,
+   "token_share": 0.2816,
    "tokens": 861
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "supervisor",
-   "token_share": 0.2411,
+   "token_share": 0.2283,
    "tokens": 698
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "writer",
-   "token_share": 0.153,
+   "token_share": 0.1449,
    "tokens": 443
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "agent",
-   "token_share": 0.1223,
+   "token_share": 0.1158,
    "tokens": 354
   },
   {
    "cost": 0.0,
    "cost_share": null,
+   "node": "flight_agent",
+   "token_share": 0.0533,
+   "tokens": 163
+  },
+  {
+   "cost": 0.0,
+   "cost_share": null,
    "node": "critic",
-   "token_share": 0.0415,
+   "token_share": 0.0392,
    "tokens": 120
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "research_expert",
-   "token_share": 0.0397,
+   "token_share": 0.0376,
    "tokens": 115
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "research_agent",
-   "token_share": 0.0311,
+   "token_share": 0.0294,
    "tokens": 90
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "support_agent",
-   "token_share": 0.0294,
+   "token_share": 0.0278,
    "tokens": 85
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "analyst",
-   "token_share": 0.0235,
+   "token_share": 0.0222,
    "tokens": 68
   },
   {
    "cost": 0.0,
    "cost_share": null,
    "node": "flight_assistant",
-   "token_share": 0.0211,
+   "token_share": 0.0199,
    "tokens": 61
   },
   {
@@ -559,8 +598,8 @@
  ],
  "09_context_growth": {
   "median": [
-   24.0,
-   47.0,
+   26.0,
+   52.0,
    64.5,
    93.0,
    71.0,
@@ -587,7 +626,7 @@
   ],
   [
    3,
-   2
+   3
   ],
   [
    5,
@@ -621,6 +660,11 @@
    "critic",
    5,
    1
+  ],
+  [
+   "flight_agent",
+   5,
+   3
   ],
   [
    "flight_assistant",
@@ -859,6 +903,22 @@
    "flight_assistant",
    "book_flight",
    true
+  ],
+  [
+   "tools.unused_output",
+   "medium",
+   9,
+   "flight_agent",
+   "search_flights",
+   true
+  ],
+  [
+   "verification.contradicted_result",
+   "high",
+   9,
+   "flight_agent",
+   "flight_agent",
+   false
   ],
   [
    "verification.unchecked_result",

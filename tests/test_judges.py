@@ -174,8 +174,13 @@ def test_plan_caps_windows_per_signature_and_is_deterministic() -> None:
         for t in plan.tasks
         if t.confirmation and t.confirmation.id == "tools.unused_output"
     )
-    assert len(unused) == 2  # two fixtures leave a tool result unused, at different agents
-    assert set(unused.values()) == {2}
+    signatures = {
+        (f.node, f.key)
+        for f in findings
+        if f.check_id == "tools.unused_output" and f.needs_confirmation
+    }
+    assert set(unused) == signatures and len(signatures) > 1  # several agents leave one unused
+    assert set(unused.values()) == {2}  # each capped at 2 of the 30 copies
     again = judge.plan(runs, findings)
     assert [t.window.key for t in plan.tasks] == [t.window.key for t in again.tasks]
 

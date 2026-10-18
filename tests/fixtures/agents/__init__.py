@@ -14,6 +14,7 @@ from langchain_core.callbacks import BaseCallbackHandler
 
 from . import (
     healthy,
+    made_up_flight,
     nested_agents,
     pipeline_dropped_caveat,
     researcher_repeat_search,
@@ -34,6 +35,7 @@ AGENTS: dict[str, ModuleType] = {
     "nested_agents": nested_agents,
     "swarm_parallel_handoff": swarm_parallel_handoff,
     "supervisor_agent_name": supervisor_agent_name,
+    "made_up_flight": made_up_flight,
 }
 
 DEFAULT_RECURSION_LIMIT = 25

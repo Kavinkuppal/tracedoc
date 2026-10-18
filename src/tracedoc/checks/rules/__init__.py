@@ -1,6 +1,7 @@
 """Rule-based checks. Importing this package registers them."""
 
 from . import (
+    contradicted_result,
     empty_answer,
     framework,
     latency,
@@ -14,6 +15,7 @@ from . import (
 )
 
 __all__ = [
+    "contradicted_result",
     "empty_answer",
     "framework",
     "latency",

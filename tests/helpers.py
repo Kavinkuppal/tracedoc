@@ -28,7 +28,7 @@ def load_fixture(name: str, source: str = "capture", config: Config | None = Non
 
 def reports_in(out: Path) -> list[dict]:
     """The report.json files an analysis wrote: the one in `out`, or, when the traces came from
-    several systems, one per system sub-folder (the fixtures are nine systems)."""
+    several systems, one per system sub-folder (the fixtures are ten systems)."""
     import json
 
     paths = (

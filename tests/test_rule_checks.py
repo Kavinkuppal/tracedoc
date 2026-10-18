@@ -24,6 +24,7 @@ RULE_CHECKS = {
     "tools.errors_retries",
     "tools.unused_output",
     "verification.unchecked_result",
+    "verification.contradicted_result",
     "cost.token_hotspot",
     "cost.latency_outlier",
 }
@@ -49,6 +50,7 @@ def test_registry_holds_all_rule_checks() -> None:
 
 def test_fixture_bugs_are_rule_detectable() -> None:
     assert set(RULE_BUGS) == {
+        "made_up_flight",
         "nested_agents",
         "researcher_repeat_search",
         "supervisor_agent_name",

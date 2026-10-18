@@ -30,6 +30,7 @@ SPECIFICITY: dict[str, int] = {
     "design.loop": 3,
     "tools.errors_retries": 3,
     "tools.unused_output": 3,
+    "verification.contradicted_result": 3,
     # The symptom at the step.
     "design.empty_answer": 2,
     "design.run_error": 2,

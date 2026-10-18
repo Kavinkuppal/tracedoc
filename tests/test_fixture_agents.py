@@ -57,6 +57,7 @@ def test_every_agent_declares_its_bug() -> None:
         "design.empty_answer",
         "design.run_error",
         "framework.langgraph_supervisor.include_agent_name",
+        "verification.contradicted_result",
         None,
     }
 
