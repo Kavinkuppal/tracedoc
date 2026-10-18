@@ -155,6 +155,8 @@ def _example(f: FindingView, s: Styles, pages: dict[str, int]) -> list[Flowable]
         rows.append(("f_error", f.error))
     if f.quote:
         rows.append(("f_quote", f"“{f.quote}”"))
+    if f.related:
+        rows.append(("f_related", [_p(line, s.small) for line in f.related]))
     rows.append(("f_id", f"{f.id} · {label('f_ref')} {f.reference}"))
     return [
         Anchor(f.id, pages),
@@ -214,6 +216,8 @@ def _problem(story: Story, p: ProblemView, total: int, s: Styles, pages: dict[st
         ("p_why", p.why),
         ("f_change", p.what_to_change),
     ]
+    if p.related:
+        rows.append(("p_related", [_p(line, s.small) for line in p.related]))
     if p.other_changes:
         rows.append(
             (

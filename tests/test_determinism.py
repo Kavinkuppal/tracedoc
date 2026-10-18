@@ -379,7 +379,7 @@ def test_named_agent_is_shown_at_its_own_last_step_not_a_handoff() -> None:
 
 
 def test_where_shows_the_agents_own_call_for_judge_findings() -> None:
-    from tracedoc.report.view import _anchor
+    from tracedoc.merge import anchor_step as _anchor
 
     run = load_fixture("supervisor_no_end")
     handoff = run.steps_of("handoff")[0]

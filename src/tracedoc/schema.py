@@ -115,6 +115,18 @@ class Impact(BaseModel):
     latency_s: float = 0.0
 
 
+class Related(BaseModel):
+    """Another check's finding at the same agent and step of the same run, merged into this one
+    (see merge.py): the same problem, seen from another side."""
+
+    id: str
+    check_id: str
+    method: Method
+    severity: Severity
+    confidence: float
+    explanation: str
+
+
 class Finding(BaseModel):
     check_id: str
     group: Group
@@ -141,6 +153,8 @@ class Finding(BaseModel):
     """For AI judge findings: prompt instruction, tool, graph edge, or setting."""
     confirmed_by_judge: bool = False
     """A rule candidate the AI judge confirmed (its confidence is then the judge's)."""
+    related: list[Related] = Field(default_factory=list)
+    """Findings of other checks at the same agent and step, merged into this one."""
 
     @computed_field  # type: ignore[prop-decorator]
     @property

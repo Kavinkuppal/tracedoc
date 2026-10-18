@@ -32,6 +32,7 @@ from ..checks.rules.empty_answer import lost_answer
 from ..checks.rules.run_error import is_control_flow, without_traceback
 from ..checks.util import is_handoff_tool
 from ..group import SEVERITY_RANK, group_findings
+from ..merge import anchor_step, shown_step
 from ..messages import payload_text, reply_text
 from ..schema import Finding, FindingGroup, Report, Run, Step
 
@@ -208,6 +209,9 @@ class FindingView:
     what_to_change: str
     change_kind: str
     reference: str
+    related: list[str] = field(default_factory=list)
+    """Findings of other checks at the same agent and step, merged into this one: one line
+    each (title, how it was found, what it said)."""
 
     @property
     def where(self) -> str:
@@ -249,6 +253,9 @@ class ProblemView:
     other_changes: list[OtherChange] = field(default_factory=list)
     affected: list[AffectedRun] = field(default_factory=list)
     """One row per affected run, in run order."""
+    related: list[str] = field(default_factory=list)
+    """Other checks that fired at the same agent and step in these runs, merged into this
+    problem: one line each, with the number of runs."""
 
     @property
     def representative(self) -> FindingView:
@@ -413,10 +420,8 @@ def _step_label(run: Run | None, step_id: str | None) -> str:
     by_id = {s.id: s for s in run.steps}
     step = by_id.get(step_id)
     if step is not None and step.kind == "node":  # name the first model or tool call inside it
-        inner = [s for s in run.steps if s.parent_id == step.id and s.kind in ("llm", "tool")]
-        if inner:
-            step = inner[0]
-        else:
+        step = shown_step(run, step)
+        if step.kind == "node":
             k = [s.id for s in run.steps_of("node")].index(step.id) + 1
             return fill(steps_text["step"], k=k)
     if step is None:
@@ -437,23 +442,6 @@ def _step_label(run: Run | None, step_id: str | None) -> str:
 
 def _step_text(step: Step) -> str:
     return squash(payload_text(step.input if step.kind == "handoff" else step.output))
-
-
-def _anchor(f: Finding, run: Run) -> Step | None:
-    """The step a finding is shown at: its first cited step at the finding's own agent, else
-    its first cited step. (A finding can cite another agent's step as the cause, for example
-    the reply that handed off too early; "Where" and "Agent's output" are the agent's own.)"""
-    by_id = {s.id: s for s in run.steps}
-    cited = [by_id[i] for i in f.evidence_step_ids if i in by_id]
-    if f.method == "judge":
-        # The judge cites steps in any order: show the agent's last cited model or tool call
-        # (where the problem shows), not a handoff to it or an earlier step it was given.
-        position = {s.id: i for i, s in enumerate(run.steps)}
-        own = sorted((s for s in cited if s.node == f.node), key=lambda s: position[s.id])
-        acts = [s for s in own if s.kind != "handoff"] or own
-        if acts:
-            return acts[-1]
-    return next((s for s in cited if s.node == f.node), cited[0] if cited else None)
 
 
 def _lost_answer(f: Finding, run: Run | None, anchor: Step | None) -> str | None:
@@ -506,7 +494,7 @@ def _finding_view(
 ) -> FindingView:
     entry = check_entry(f.check_id)
     level = confidence_level(f)
-    anchor = _anchor(f, run) if run is not None else None
+    anchor = anchor_step(f, run) if run is not None else None
     rid = run_ids.get(f.run_id, f.run_id)
     template = "finding_what_happened_judge" if f.method == "judge" else "finding_what_happened"
     output = ""
@@ -535,6 +523,15 @@ def _finding_view(
         what_to_change=_sentence(f.suggested_fix),
         change_kind=label("change_kind", kind=f.change_type) if f.change_type else "",
         reference=f.id,
+        related=[
+            label(
+                "related_line",
+                title=check_title(r.check_id),
+                method=text("method", r.method),
+                text=_sentence(r.explanation),
+            )
+            for r in f.related
+        ],
     )
 
 
@@ -582,6 +579,18 @@ def _other_changes(views: list[FindingView]) -> list[OtherChange]:
     return [OtherChange(text, tuple(found)) for text, found in ids.items()]
 
 
+def _related_summary(views: list[FindingView]) -> list[str]:
+    runs: dict[str, set[str]] = defaultdict(set)
+    for v in views:
+        for r in v.finding.related:
+            runs[r.check_id].add(v.finding.run_id)
+    ordered = sorted(runs.items(), key=lambda kv: (-len(kv[1]), check_title(kv[0])))
+    return [
+        label("related_summary", title=check_title(c), runs=units("runs", len(r)))
+        for c, r in ordered
+    ]
+
+
 def _problems(
     findings: list[Finding],
     runs: list[Run],
@@ -610,6 +619,7 @@ def _problems(
                 why=entry["why"],
                 other_changes=_other_changes(views),
                 affected=_affected(views, run_index),
+                related=_related_summary(views),
             )
         )
     return problems

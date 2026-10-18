@@ -26,6 +26,7 @@ from .ingest.langsmith import fetch_project, read_export
 from .llm.classify import role_classifier, task_classifier
 from .llm.client import LLMClient
 from .llm.cost import Spend, price_of
+from .merge import merge_duplicates
 from .normalize import normalize
 from .schema import Finding, Report, Run
 
@@ -217,7 +218,10 @@ def build_report(
     outcome: JudgeOutcome | None,
     spend: Spend | None,
 ) -> Report:
-    findings = outcome.findings if outcome else prepared.rule_findings
+    # Checks that fired at the same agent and step of a run are one problem: one finding.
+    findings = merge_duplicates(
+        outcome.findings if outcome else prepared.rule_findings, prepared.runs
+    )
     groups = group_findings(findings, prepared.runs)
     llm = config.llm
     return Report(
