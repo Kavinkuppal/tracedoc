@@ -1,4 +1,10 @@
-"""design.no_stop: the run never reaches a clear end."""
+"""design.no_stop: the run took too many steps.
+
+Serious when the run has no final answer: it hit LangGraph's recursion limit, or took at least
+the configured number of steps (thresholds.step_limit) and ended without one. A run that took
+that many steps but finished with an answer gets only a minor finding: it took unusually many
+steps, nothing more.
+"""
 
 from __future__ import annotations
 
@@ -21,6 +27,13 @@ class NoStop(Check):
             hit_steps = run.totals.step_count >= self.t.step_limit
             if not (hit_recursion or hit_steps):
                 continue
+            answered = run.status == "completed" and bool(run.final_answer.strip())
+            if hit_recursion:
+                variant, severity = "recursion", self.default_severity
+            elif answered:
+                variant, severity = "finished", "low"  # long, but the user got an answer
+            else:
+                variant, severity = "step_limit", self.default_severity
             nodes = run.steps_of("node")
             counts: dict[str, int] = {}
             for s in nodes:
@@ -38,7 +51,8 @@ class NoStop(Check):
                         " -> ".join(str(s.node) for s in nodes[-8:]),
                         *(run.error.splitlines()[:1] if run.error else []),
                     ],
-                    variant="recursion" if hit_recursion else "step_limit",
+                    variant=variant,
+                    severity=severity,
                     facts={
                         "agent": busiest or "the agent",
                         "count": counts.get(busiest or "", 0),

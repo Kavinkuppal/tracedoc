@@ -324,10 +324,10 @@ what_happened = "the agents went round {cycle} {count} times with no change in t
 what_to_change = "Add an exit condition to the graph edge out of {agent}: end the run when a cycle produced nothing new."
 
 [checks."design.no_stop"]
-title = "Run never reached an answer"
+title = "Run took too many steps"
 how = "rule"
-looks_for = "Runs that hit LangGraph's recursion limit, or took at least the configured maximum number of steps."
-why = "The run used its whole step budget and the user got no answer."
+looks_for = "Runs that hit LangGraph's recursion limit, or took at least the configured number of steps (25 by default). Serious when the run ended without a final answer; minor when it finished with one."
+why = "Every extra step costs time and money, and a run stopped at the limit gives the user no answer."
 
 [checks."design.no_stop".recursion]
 what_happened = "the run hit the step limit without a final answer; {agent} ran most often ({count} times)."
@@ -336,6 +336,11 @@ what_to_change = "Give {agent} an explicit finish rule in its prompt and a graph
 [checks."design.no_stop".step_limit]
 what_happened = "the run took {steps} steps (limit {limit}) without a final answer; {agent} ran most often ({count} times)."
 what_to_change = "Give {agent} an explicit finish rule in its prompt and a graph edge to the end, and lower the recursion_limit setting so stuck runs fail fast."
+
+# The run finished with an answer: only a minor finding.
+[checks."design.no_stop".finished]
+what_happened = "the run finished, but took unusually many steps: {steps} (the threshold is {limit}); {agent} ran most often ({count} times)."
+what_to_change = "Give {agent} a clear rule for when it has enough to answer, and cap how many times it can repeat a call in one run."
 
 [checks."tools.errors_retries"]
 title = "Tool failed and was retried the same way"

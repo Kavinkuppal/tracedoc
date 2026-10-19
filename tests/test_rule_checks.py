@@ -112,10 +112,46 @@ def test_no_stop_on_recursion_limit_and_step_limit() -> None:
     (f,) = [f for f in _findings("supervisor_no_end") if f.check_id == "design.no_stop"]
     assert f.severity == "high"
     assert f.node == "supervisor"
+    assert "without a final answer" in f.explanation
     config = Config(thresholds=Thresholds(step_limit=7))
-    assert "design.no_stop" in {
-        f.check_id for f in _findings("researcher_repeat_search", config=config)
-    }
+    (long,) = [
+        f
+        for f in _findings("researcher_repeat_search", config=config)
+        if f.check_id == "design.no_stop"
+    ]
+    assert long.severity == "low"  # it finished with an answer, just in many steps
+    assert "without a final answer" not in long.explanation
+
+
+def _long_run(answer: str, steps: int = 30):
+    """A completed run of `steps` agent steps whose last reply is `answer`."""
+    specs = []
+    for i in range(steps):
+        node = "researcher" if i % 3 else "supervisor"
+        reply = answer if i == steps - 1 else "..."
+        specs += [step("node", node), step("llm", node, output=ai(reply))]
+    return build_run("long", specs, final_answer=answer)
+
+
+def test_a_finished_long_run_only_took_unusually_many_steps() -> None:
+    """A run over the step limit that finished with an answer never says it had none."""
+    from tracedoc.catalog import check_title
+    from tracedoc.checks.rules.no_stop import NoStop
+
+    (f,) = NoStop(Config()).run([_long_run("The release notes are ready: three fixes.")])
+    assert f.severity == "low"  # minor: never on page 1
+    assert "without a final answer" not in f.explanation
+    assert f.explanation.startswith("the run finished, but took unusually many steps: 30")
+    assert check_title("design.no_stop") == "Run took too many steps"
+
+
+def test_a_long_run_without_an_answer_is_still_serious() -> None:
+    from tracedoc.checks.rules.no_stop import NoStop
+
+    (f,) = NoStop(Config()).run([_long_run("")])
+    assert f.severity == "high"
+    assert "without a final answer" in f.explanation
+    assert NoStop(Config()).run([_long_run("done", steps=24)]) == []  # under the limit
 
 
 def test_supervisor_cycle_detected_as_loop() -> None:
