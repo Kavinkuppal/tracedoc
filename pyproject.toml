@@ -8,7 +8,8 @@ dynamic = ["version"]
 description = "Diagnose LangGraph agent traces: what went right, what went wrong, and what to fix first."
 readme = "README.md"
 requires-python = ">=3.10"
-# TODO: license (MIT or Apache 2.0), founders to decide
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 dependencies = [
     "typer>=0.12",
     "pydantic>=2.6",
@@ -35,6 +36,10 @@ dev = [
     "markdown-it-py>=3",
     "pypdf>=5",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Kavinkuppal/tracedoc"
+Issues = "https://github.com/Kavinkuppal/tracedoc/issues"
 
 [project.scripts]
 tracedoc = "tracedoc.cli:app"

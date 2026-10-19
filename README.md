@@ -263,7 +263,7 @@ disabled = ["cost.latency_outlier"]
 
 ## License
 
-TODO: the license (MIT or Apache 2.0) has not been decided yet. Until it is, no license is granted. Third-party components are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): PDF reports embed the Inter font (SIL Open Font License 1.1) and are drawn with ReportLab (BSD); HTML reports include Apache ECharts (Apache License 2.0).
+tracedoc is released under the MIT license ([LICENSE](LICENSE)). Third-party components and their licenses are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Development
 
