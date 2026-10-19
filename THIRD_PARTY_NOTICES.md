@@ -1,28 +1,48 @@
 # Third-party notices
 
-## Apache ECharts
+tracedoc bundles two third-party components. Everything else it uses is installed by pip as a
+dependency and keeps its own license.
 
-`src/tracedoc/report/vendor/echarts.min.js` is Apache ECharts (version in
-`src/tracedoc/report/vendor/ECHARTS_VERSION`), inlined into every HTML report.
+## Bundled
 
-- License: Apache License 2.0, full text in `src/tracedoc/report/vendor/ECHARTS_LICENSE.txt`
-- Notice: `src/tracedoc/report/vendor/ECHARTS_NOTICE.txt`
-  (Apache ECharts, Copyright 2017-2026 The Apache Software Foundation. This product includes
-  software developed at The Apache Software Foundation, https://www.apache.org/.)
-- ECharts embeds parts of d3.js under the BSD 3-Clause license:
-  `src/tracedoc/report/vendor/ECHARTS_LICENSE-d3.txt`
+### Inter (fonts)
 
-Generated reports credit Apache ECharts and its license in their footer.
+`src/tracedoc/report/fonts/Inter-Regular.ttf` and `Inter-SemiBold.ttf` are the static
+TrueType fonts of Inter, version 4.1 (`src/tracedoc/report/fonts/INTER_VERSION`), from
+https://github.com/rsms/inter. Copyright (c) 2016 The Inter Project Authors. They are embedded
+(subset) in every PDF report.
 
-## Inter
+- License: SIL Open Font License 1.1, full text in `src/tracedoc/report/fonts/Inter-OFL.txt`.
 
-`src/tracedoc/report/fonts/Inter-*.ttf` are the static TrueType fonts of Inter (version in
-`src/tracedoc/report/fonts/INTER_VERSION`), from https://github.com/rsms/inter, Copyright (c)
-2016 The Inter Project Authors. They are embedded (subset) in every PDF report.
+### Apache ECharts (JavaScript)
 
-- License: SIL Open Font License 1.1, full text in `src/tracedoc/report/fonts/Inter-OFL.txt`
+`src/tracedoc/report/vendor/echarts.min.js` is Apache ECharts, version 6.1.0
+(`src/tracedoc/report/vendor/ECHARTS_VERSION`), inlined into the optional HTML report
+(`tracedoc analyze --html`).
 
-## ReportLab
+- License: Apache License 2.0, full text in `src/tracedoc/report/vendor/ECHARTS_LICENSE.txt`.
+- Notice (`src/tracedoc/report/vendor/ECHARTS_NOTICE.txt`): Apache ECharts, Copyright
+  2017-2026 The Apache Software Foundation. This product includes software developed at The
+  Apache Software Foundation (https://www.apache.org/).
+- ECharts includes parts of d3.js under the BSD 3-Clause license:
+  `src/tracedoc/report/vendor/ECHARTS_LICENSE-d3.txt`.
 
-The PDF reports are drawn with ReportLab (https://www.reportlab.com/opensource/), installed as
-a dependency, not bundled. License: BSD.
+HTML reports credit Apache ECharts and its license in their footer.
+
+## Dependencies (installed by pip, not bundled)
+
+| Package | Used for | License |
+|---|---|---|
+| typer | the command line | MIT |
+| pydantic | the data model and config validation | MIT |
+| jinja2 | the HTML report template | BSD |
+| platformdirs | where config and cache files live | MIT |
+| anthropic | Anthropic models for the AI judge | MIT |
+| openai | OpenAI and OpenAI-compatible models for the AI judge | Apache 2.0 |
+| langchain-core | `TraceCapture`, the LangChain callback that records traces | MIT |
+| reportlab | the PDF reports | BSD |
+| tomli (Python 3.10 only) | reading TOML config | MIT |
+| langsmith (optional extra) | reading traces from LangSmith | MIT |
+
+Licenses as declared in each package's metadata; the package's own license file is
+authoritative.

@@ -1,0 +1,45 @@
+name: Bug report
+description: tracedoc crashed, gave a wrong number, or did something it shouldn't.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+
+        - Please don't paste API keys, and don't attach whole traces: they can hold your users' messages. The smallest excerpt that shows the problem, with private parts replaced, is enough.
+        - If tracedoc flagged something that wasn't a problem, use the **False finding** form instead.
+        - Security problems go to the private form described in SECURITY.md, not here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Include any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: The exact command you ran.
+      placeholder: tracedoc analyze ./traces --no-judge
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: tracedoc version
+      description: The output of `tracedoc --version`.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Python, operating system and LangGraph version
+      placeholder: Python 3.12, macOS 15, langgraph 1.0
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: Trace excerpt (optional)
+      description: The smallest part of a trace that shows the problem, with private data removed.

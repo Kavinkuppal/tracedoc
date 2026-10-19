@@ -1,0 +1,63 @@
+name: False finding
+description: tracedoc flagged something that wasn't a problem.
+labels: ["false finding"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks: false findings are how tracedoc's checks get better.
+
+        Please don't paste API keys, and don't attach whole traces: they can hold your users' messages. Copy only what's needed, with private parts replaced.
+
+        You can also record your vote locally, with no upload: `tracedoc feedback <finding ID> down`.
+  - type: input
+    id: check
+    attributes:
+      label: Finding
+      description: The finding's title as the report shows it, and its ID (in details.pdf, for example F3).
+      placeholder: Agent ignored its instructions (F3)
+    validations:
+      required: true
+  - type: dropdown
+    id: method
+    attributes:
+      label: How it was found
+      description: The report says "found by rule" or "found by AI judge" next to each finding.
+      options:
+        - By a rule
+        - By the AI judge
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: said
+    attributes:
+      label: What tracedoc said
+      description: Copy the finding from details.pdf or report.json, with what happened, the evidence and the suggested change.
+    validations:
+      required: true
+  - type: textarea
+    id: why-not
+    attributes:
+      label: Why it isn't a problem
+      description: What actually happened in the run, and why that was fine.
+    validations:
+      required: true
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: Trace excerpt (optional)
+      description: The part of the trace the finding points at, with private data removed.
+  - type: input
+    id: version
+    attributes:
+      label: tracedoc version
+      description: The output of `tracedoc --version`.
+    validations:
+      required: true
+  - type: input
+    id: models
+    attributes:
+      label: Models used by the AI judge (if it was used)
+      description: The report lists them; the defaults are shown here.
+      placeholder: claude-haiku-4-5-20251001 (triage), claude-sonnet-5-5 (confirmation)
