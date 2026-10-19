@@ -1,4 +1,4 @@
-"""Phase 3: judge planning, windows, two-stage judging, gating, and cost."""
+"""AI judge: planning, windows, two-stage judging, gating, and cost."""
 
 from __future__ import annotations
 

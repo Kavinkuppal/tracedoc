@@ -1,4 +1,4 @@
-"""Phase 5 (server): validation, HTTPS-only, rate limits, deletion, no IPs, and end to end."""
+"""The data-sharing server: validation, HTTPS only, rate limits, deletion, no IPs, end to end."""
 
 from __future__ import annotations
 

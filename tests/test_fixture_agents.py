@@ -1,4 +1,4 @@
-"""Phase 0: fixture agents run offline, fast, deterministically, and exhibit their bug."""
+"""Fixture agents run offline, fast, deterministically, and exhibit their bug."""
 
 from __future__ import annotations
 

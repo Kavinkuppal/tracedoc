@@ -1,4 +1,4 @@
-"""Phase 2: rule checks and signals."""
+"""Rule checks and signals."""
 
 from __future__ import annotations
 

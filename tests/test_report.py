@@ -1,4 +1,4 @@
-"""Phase 4: report data, HTML, Markdown, JSON, and feedback."""
+"""Report data, HTML, Markdown, JSON, and feedback."""
 
 from __future__ import annotations
 

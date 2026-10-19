@@ -130,12 +130,6 @@ def system_folders(names: Sequence[str]) -> dict[str, str]:
     return folders
 
 
-def load_traces(
-    paths: Path | Sequence[Path] | None, source: SourceName = "capture", project: str | None = None
-) -> list[RawTrace]:
-    return collect_traces(paths, source, project).traces
-
-
 def normalize_all(
     traces: list[RawTrace],
     config: Config,

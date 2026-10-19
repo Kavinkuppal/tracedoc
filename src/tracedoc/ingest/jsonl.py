@@ -124,11 +124,3 @@ def is_capture_file(path: Path) -> bool:
     except (OSError, UnicodeDecodeError, ValueError):
         return False
     return isinstance(header, dict) and header.get("format") == FORMAT
-
-
-def iter_capture_files(path: Path) -> Iterator[Path]:
-    yield from iter_files(path, (".jsonl",))
-
-
-def read_captures(path: Path) -> list[RawTrace]:
-    return [read_capture_file(p) for p in iter_capture_files(path) if is_capture_file(p)]

@@ -1,4 +1,4 @@
-"""Phase 5 (client): the payload allow-list, the marker-string test, consent, and the flag."""
+"""Data sharing, client side: the payload allow-list, the marker test, consent, and the flag."""
 
 from __future__ import annotations
 
