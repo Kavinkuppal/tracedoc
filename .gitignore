@@ -42,6 +42,7 @@ langsmith-export*.json
 !tests/fixtures/traces/**/*.jsonl
 !evals/labels/*.jsonl
 !tests/fixtures/task_types*.jsonl
+!examples/**/*.jsonl
 
 # OS and editor
 .DS_Store

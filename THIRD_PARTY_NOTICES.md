@@ -29,6 +29,17 @@ https://github.com/rsms/inter. Copyright (c) 2016 The Inter Project Authors. The
 
 HTML reports credit Apache ECharts and its license in their footer.
 
+## In the repository, not in the package
+
+### LangChain's supervisor example (demo traces)
+
+`examples/langgraph-supervisor/` holds traces of, and reports on, the Quickstart example of
+langgraph-supervisor-py (https://github.com/langchain-ai/langgraph-supervisor-py). The traces
+contain the example's prompts and the output of its fake tools. Copyright (c) 2025 LangChain,
+Inc.
+
+- License: MIT, full text in `examples/langgraph-supervisor/LICENSE-langgraph-supervisor-py.txt`.
+
 ## Dependencies (installed by pip, not bundled)
 
 | Package | Used for | License |
