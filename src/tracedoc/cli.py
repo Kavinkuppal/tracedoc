@@ -334,6 +334,9 @@ def _interactive() -> bool:
     return sys.stdin.isatty()
 
 
+NOT_ENABLED = "Data sharing is not yet enabled in this version of tracedoc, so nothing is sent"
+
+
 def _share_after_report(config, findings: list, runs: list) -> None:  # noqa: ANN001
     """Save the would-be payload for `share --preview`; ask and upload only when enabled."""
     state = load_state()  # creates the random install ID on first run
@@ -374,15 +377,18 @@ def _share_after_report(config, findings: list, runs: list) -> None:  # noqa: AN
 
 @app.command()
 def share(
-    preview: bool = typer.Option(False, "--preview", help="Print the exact payload."),
-    on: bool = typer.Option(False, "--on", help="Opt in to sharing."),
+    preview: bool = typer.Option(
+        False, "--preview", help="Print the exact payload that sharing would send."
+    ),
+    on: bool = typer.Option(False, "--on", help="Opt in to sharing (not available yet)."),
     off: bool = typer.Option(False, "--off", help="Stop sharing (revoke consent)."),
     delete: bool = typer.Option(
-        False, "--delete", help="Delete everything shared from this install."
+        False, "--delete", help="Delete everything shared from this install (not available yet)."
     ),
     config_path: Path | None = typer.Option(None, "--config", help="Extra config TOML."),
 ) -> None:
-    """Preview, opt in to, revoke, or delete anonymized statistics sharing."""
+    """Anonymized statistics sharing: NOT YET ENABLED in this version, so nothing is sent.
+    --preview shows exactly what would be sent."""
     if sum((preview, on, off, delete)) != 1:
         raise _fail(ValueError("use exactly one of --preview, --on, --off, --delete"))
     try:
@@ -394,15 +400,20 @@ def share(
         path = last_payload_path()
         if not path.is_file():
             raise _fail(ValueError("nothing to preview yet; run `tracedoc analyze` first"))
+        if not config.share.enabled:
+            typer.echo(f"{NOT_ENABLED}. This is what would be sent:", err=True)
         sys.stdout.buffer.write(path.read_bytes())  # the exact bytes an upload sends
         sys.stdout.buffer.flush()
         return
     if off:
         record_choice(state, "no")
-        typer.echo("Sharing is off. Nothing more will be sent.")
+        if config.share.enabled:
+            typer.echo("Sharing is off. Nothing more will be sent.")
+        else:
+            typer.echo(f"Sharing is off. {NOT_ENABLED}.")
         return
     if not config.share.enabled:
-        raise _fail(ShareError("data sharing is not enabled in this version"))
+        raise _fail(ShareError(f"{NOT_ENABLED[0].lower()}{NOT_ENABLED[1:]}"))
     if on:
         typer.echo(TERMS)
         if typer.confirm("Share anonymized statistics?", default=False):

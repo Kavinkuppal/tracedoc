@@ -295,13 +295,29 @@ def test_share_on_and_delete_refused_while_flag_off() -> None:
     for flag in ("--on", "--delete"):
         result = runner.invoke(cli.app, ["share", flag])
         assert result.exit_code == 2
-        assert result.stderr.strip() == "Error: data sharing is not enabled in this version"
+        assert result.stderr.strip() == (
+            "Error: data sharing is not yet enabled in this version of tracedoc, so nothing is sent"
+        )
 
 
 def test_share_off_always_works() -> None:
     result = runner.invoke(cli.app, ["share", "--off"])
     assert result.exit_code == 0
     assert consent.load_state().choice == "no"
+    assert "not yet enabled" in result.stdout
+
+
+def test_share_says_it_is_not_enabled_yet(tmp_path: Path) -> None:
+    help_text = " ".join(runner.invoke(cli.app, ["share", "--help"]).stdout.split())
+    assert "NOT YET ENABLED in this version, so nothing is sent" in help_text
+    runner.invoke(cli.app, ["analyze", CAPTURES, "--no-judge", "--out", str(tmp_path)])
+    preview = runner.invoke(cli.app, ["share", "--preview"])
+    assert "not yet enabled" in preview.stderr  # the payload itself stays on stdout, unchanged
+    assert preview.stdout_bytes == last_payload_path().read_bytes()
+
+
+def test_terms_are_marked_as_a_draft() -> None:
+    assert consent.TERMS.startswith("DRAFT: these terms are not in effect.")
 
 
 def test_share_needs_exactly_one_option() -> None:

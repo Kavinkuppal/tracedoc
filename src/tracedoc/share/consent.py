@@ -20,8 +20,12 @@ from typing import Any, Literal
 
 from ..config import config_dir
 
-TERMS_VERSION = 1
+TERMS_VERSION = 2
+"""2: marked as a draft. Changing the terms means a new version, so tracedoc asks again."""
 TERMS = """\
+DRAFT: these terms are not in effect. Data sharing is not enabled in this version of tracedoc,
+and the terms have not had a legal review.
+
 tracedoc can share anonymized statistics about your analyses to help improve its checks.
 
 What would be sent: the task type, framework and version, which public models were used per
