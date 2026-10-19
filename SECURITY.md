@@ -4,8 +4,8 @@
 
 Please don't report security problems in a public issue. Report them privately through
 GitHub: on the repository's **Security** tab, choose **Report a vulnerability**, or go
-straight to https://github.com/Kavinkuppal/tracedoc/security/advisories/new. Only the
-maintainers can see the report.
+straight to https://github.com/Kavinkuppal/tracedoc/security/advisories/new. Only I, the
+maintainer, can see the report.
 
 Please include:
 
@@ -16,8 +16,8 @@ Please include:
 Don't send real API keys or private trace data. If a key was exposed, revoke it with its
 provider first.
 
-We will reply to your report and keep you informed while we fix it. Please give us a chance
-to release a fix before you disclose the problem publicly.
+I will reply to your report and keep you informed while I fix it. Please give me a chance to
+release a fix before you disclose the problem publicly.
 
 ## What counts
 

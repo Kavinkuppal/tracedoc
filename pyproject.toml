@@ -8,6 +8,7 @@ dynamic = ["version"]
 description = "Diagnose LangGraph agent traces: what went right, what went wrong, and what to fix first."
 readme = "README.md"
 requires-python = ">=3.10"
+authors = [{ name = "Kavin Uppal" }]
 license = "MIT"
 license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 dependencies = [

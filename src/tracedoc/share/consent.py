@@ -1,6 +1,6 @@
 """Consent and the install ID, stored as share.json in the user config directory.
 
-DRAFT TERMS: `TERMS` below is a plain-language summary written by engineering. It has not been
+DRAFT TERMS: `TERMS` below is a plain-language summary, not legal text. It has not been
 reviewed by a lawyer. Data sharing stays behind the `share.enabled` flag (off) until it is.
 Changing the terms means bumping `TERMS_VERSION`, which makes tracedoc ask again.
 """
